@@ -18,13 +18,33 @@ import {
 export namespace Components {
   interface OgButton {
     /**
+    * Sets the shape style for the Button to blank.
+    */
+    'blank': boolean;
+    /**
     * Determines, whether the control is disabled or not
     */
     'disabled': boolean;
     /**
+    * Sets the shadow level of the Button.
+    */
+    'flat': boolean;
+    /**
     * The label of the button
     */
     'label': string;
+    /**
+    * Sets the fill style for the Button to outline.
+    */
+    'outline': boolean;
+    /**
+    * Sets the shadow level of the Button.
+    */
+    'raised': boolean;
+    /**
+    * Sets the shape style for the Button to round.
+    */
+    'round': boolean;
   }
   interface OgCalendar {
     'dateDecorator': OgDateDecorator;
@@ -647,9 +667,17 @@ declare global {
 declare namespace LocalJSX {
   interface OgButton extends JSXBase.HTMLAttributes<HTMLOgButtonElement> {
     /**
+    * Sets the shape style for the Button to blank.
+    */
+    'blank'?: boolean;
+    /**
     * Determines, whether the control is disabled or not
     */
     'disabled'?: boolean;
+    /**
+    * Sets the shadow level of the Button.
+    */
+    'flat'?: boolean;
     /**
     * The label of the button
     */
@@ -658,6 +686,18 @@ declare namespace LocalJSX {
     * Event is being emitted when value changes.
     */
     'onClicked'?: (event: CustomEvent<any>) => void;
+    /**
+    * Sets the fill style for the Button to outline.
+    */
+    'outline'?: boolean;
+    /**
+    * Sets the shadow level of the Button.
+    */
+    'raised'?: boolean;
+    /**
+    * Sets the shape style for the Button to round.
+    */
+    'round'?: boolean;
   }
   interface OgCalendar extends JSXBase.HTMLAttributes<HTMLOgCalendarElement> {
     'dateDecorator'?: OgDateDecorator;
