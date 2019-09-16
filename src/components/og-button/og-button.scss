@@ -2,150 +2,252 @@
 // CSS CUSTOM PROPERTIES
 // =============================================================================
 
-/**
- * @prop --og-button-Background: Main background color of the button
- * @prop --og-button-Background--active: Background color when the button is clicked
- * @prop --og-button-Background--disabled: Background color when the button is disabled
- * @prop --og-button-Background--hover: Background color when the button is hovered
- * @prop --og-button-BorderRadius: Border radius of the button
- * @prop --og-button-Color: Text color of the button label
- * @prop --og-button-Color--active: Text color when the button is clicked
- * @prop --og-button-Color--disabled: Text color when the button is disabled
- * @prop --og-button-Color--hover: Text color when the button is hovered
- */
-
 // -----------------------------------------------------------------------------
-// Base
+// Component Wrapper
 // -----------------------------------------------------------------------------
 
 :host {
-  // All Component Variables
-  // Map Variables to Properties
-  --Display: inline-block;
-  --Width: auto;
-  --MaxWidth: inherit;
-  --Height: auto;
-  --MaxHeight: inherit;
-  --Padding: var(--PADDING, 0.75rem 1.5rem);    // TODO: use --OG-PADDING
 
-  --BorderWidth: 1px;
-  --BorderStyle: solid;
-  --BorderColor: transparent;
+    // BASE
+    // ---
+    // Variables that are used on different places inside this component.
 
-  --og-button-BorderRadius:         var( --OG-BORDER-RADIUS, #{$og-border-radius});
+    /**
+     * @prop --og-color-main:
+     * Main color of the background, used for the colored parts of the Button.
+     * E.g. used for Background in Solid Buttons,
+     * or Text and Overlay in Blank Buttons.
+     */
+    --og-color-main: var(--OG-COLOR-ONE--100, #{$og-color-one});
 
-  --og-button-Background:           var(--OG-COLOR-SECONDARY--100--20, #{$og-color-secondary--100--20});
-  --og-button-Background--hover:    var(--OG-COLOR-SECONDARY--100--30, #{$og-color-secondary--100--30});
-  --og-button-Background--active:   var(--OG-COLOR-SECONDARY--100--10, #{$og-color-secondary--100--10});
-  --og-button-Background--disabled: var(--OG-COLOR-SECONDARY--100--07, #{$og-color-secondary--100--07});
+    /**
+     * @prop --og-color-main--conter:
+     * Conter Color to Main Color to guarantee good contrast.
+     * E.g. used for text on Main Color.
+     */
+    --og-color-main--conter: var(--OG-COLOR-ONE--CONTER, #{$og-color-one--conter});
 
-  --og-button-Color:                var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-  --og-button-Color--hover:         var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-  --og-button-Color--active:        var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-  --og-button-Color--disabled:      var(--OG-COLOR-SHADE--100--30, #{$og-color-shade--100--30});
+    /**
+     * @prop --og-color-main--boost:
+     * Boost Color for Main Color to increase the contrast to text.
+     * E.g. used for Overlay on Solid Buttons.
+     */
+    --og-color-main--boost: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
 
-  --og-button-FontWeight: var(--OG-FONT-WEIGHT--MEDIUM, 500);
-
-  --BoxShadow: var(--og-button-BoxShadow);
-  --FontFamily: var(--og-button-FontFamily, inherit);
-  --FontSize: var(--og-button-FontSize, inherit);
-  --Outline: none;
-  --TextTransform: uppercase;
-
-  display: var(--Display);
-  width: var(--Width);
-  min-width: var(--MinWidth);
-  max-width: var(--MaxWidth);
-  height: var(--Height);
-  max-height: var(--maxHeight);
-
-  font-family: var(--FontFamily);
-  font-size: var(--FontSize);
-  font-weight: var(--og-button-FontWeight, normal);
-
-  user-select: none;
-
-  box-sizing: border-box;
-  *, *::before, *::after { box-sizing: inherit; }
-}
+    /**
+     * @prop --og-color-main--disabled:
+     * Color variant for a disabled Button state.
+     * E.g. greys out all the colored parts.
+     */
+    --og-color-main--disabled: var(--OG-COLOR-SHADE--20, #{$og-color-shade--40});
 
 
-:host([data-context~='workflow']) {
-    --og-button-Background: var(--OG-COLOR-PRIMARY--100, #{$og-color-primary--100});
-    --og-button-Background--hover: var(--OG-COLOR-PRIMARY--120, #{$og-color-primary--120});
-    --og-button-Background--active: var(--OG-COLOR-PRIMARY--80, #{$og-color-primary--80});
-    --og-button-Background--disabled: var(--OG-COLOR-PRIMARY--100--30, #{$og-color-primary--100--30});
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
 
-    --og-button-Color: var(--OG-COLOR-SHADE--0, #{$og-color-shade--0});
-    --og-button-Color--hover: var(--OG-COLOR-SHADE--0, #{$og-color-shade--0});
-    --og-button-Color--active: var(--OG-COLOR-SHADE--0, #{$og-color-shade--0});
-    --og-button-Color--disabled: var(--OG-COLOR-SHADE--0--30, #{$og-color-shade--0--30});
-}
-
-// 'Link' version
-:host([data-context~="link"]) {
+    /**
+     * @prop --og-button-Background:
+     * Main background color of the button
+     */
     --og-button-Background: transparent;
-    --og-button-Background--hover: var(--OG-COLOR-SHADE--100--30, #{$og-color-shade--100--30});
-    --og-button-Background--active: var(--OG-COLOR-SHADE--100--10, #{$og-color-shade--100--10});
-    --og-button-Background--disabled: transparent;
 
-    --og-button-Color: var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-    --og-button-Color--hover: var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-    --og-button-Color--active: var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-    --og-button-Color--disabled: var(--OG-COLOR-SHADE--100--30, #{$og-color-shade--100--30});
+    /**
+     * @prop --og-button-BorderColor:
+     * Main border color of the button
+     */
+    --og-button-BorderColor: transparent;
+
+    /**
+     * @prop --og-button-BorderStyle:
+     * Main border style of the button
+     */
+    --og-button-BorderStyle: solid;
+
+    /**
+     * @prop --og-button-BorderWidth:
+     * Main border Width of the button
+     */
+    --og-button-BorderWidth: 1px;
+
+    /**
+     * @prop --og-button-BorderRadius:
+     * Main border radius of the button
+     */
+    --og-button-BorderRadius: 0.25rem;
+
+    /**
+     * @prop --og-button-BoxShadow:
+     * Initial BoxShadow of the button
+     */
+    --og-button-BoxShadow: none;
+
+    /**
+     * @prop --og-button-BoxShadow--raised:
+     * BoxShadow of the button when it's raised
+     */
+    --og-button-BoxShadow--raised:
+        0 0 0.125rem 0 var(--OG-COLOR-SHADOW, #{$og-color-shadow}),
+        0 0.125rem 0.25rem 0 var(--OG-COLOR-SHADOW, #{$og-color-shadow});
+
+    /**
+     * @prop --og-button-Color:
+     * Text color of the button label
+     */
+    --og-button-Color: var(--og-color-main);
+
+    /**
+     * @prop --ob-button-Opacity:
+     * Opacity of the Button.
+     */
+    --og-button-Opacity: 1;
+
+    /**
+     * @prop --ob-button-Opacity--disabled:
+     * Opacity of the button when it's disabled.
+     */
+    --og-button-Opacity--disabled: 0.32;
+
+    /**
+     * @prop --og-button__text-TextTransform:
+     * Text variant of the button label
+     */
+    --og-button__text-TextTransform: uppercase;
+
+    /**
+     * @prop --og-button__text-Padding:
+     * Inner Space of the button label. Affects button measures.
+     */
+    --og-button__text-Padding: calc(0.875rem - var(--og-button-BorderWidth)) 1.5rem;
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover and :active state of the button.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--SHADE, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-BorderRadius:
+     * Overlay Border Radius. In order to obtain the same radius as the button.
+     */
+    --og-overlay-BorderRadius: var(--og-button-BorderRadius);
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Inital Overlay opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay opacity on :hover state of the button.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay opacity on :active state of the button.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
+
+    box-sizing: border-box;
+    display: inline-block;
+    user-select: none;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+:host(.is-solid) {
+    --og-button-Background: var(--og-color-main);
+    --og-button-Color: var(--og-color-main--conter);
+}
+
+:host(.is-blank) {
+    --og-overlay-Background: var(--og-color-main);
+}
+
+:host(.is-round) {
+    --og-button-BorderRadius: 10rem; // A large value simply works…
+}
+
+:host(.is-outlined) {
+    --og-button-BorderColor: var(--og-color-main);
+    --og-overlay-Background: var(--og-color-main);
+}
+
+:host(.is-raised:not(.is-disabled)) {
+    --og-button-BoxShadow: var(--og-button-BoxShadow--raised);
+}
+
+:host(.is-disabled) {
+    --og-color-main: var(--og-color-main--disabled);
+    --og-button-Opacity: var(--og-button-Opacity--disabled);
+    pointer-events: none;
 }
 
 // Native <button> element
 .og-button {
-  display: block;
-  width: 100%;
-  max-width: inherit;
-  height: 100%;
-  max-height: inherit;
-  padding: var(--Padding);
-
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-
-  background: var(--og-button-Background);
-  border: var(--BorderWidth) var(--BorderStyle) var(--BorderColor);
-
-
-  border-radius: var(--og-button-BorderRadius);
-  color: var(--og-button-Color);
-
-  text-transform: var(--TextTransform);
-
-  // Transitions
-  transition-duration: 150ms;
-  transition-property: background-color;
-  transition-timing-function: ease-in-out;
-
-  // 'Focus' state
-  &:focus {
-    outline: none;
-  }
-
-  // 'Hover' state
-  &:hover {
-    --og-button-Background: var(--og-button-Background--hover);
-    --og-button-Color: var(--og-button-Color--hover);
+    background: var(--og-button-Background);
+    border-color: var(--og-button-BorderColor);
+    border-style: var(--og-button-BorderStyle);
+    border-width: var(--og-button-BorderWidth);
+    border-radius: var(--og-button-BorderRadius);
+    box-shadow: var(--og-button-BoxShadow);
+    color: var(--og-button-Color);
     cursor: pointer;
-    transition-duration: 300ms;
-  }
+    display: block;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    height: 100%;
+    line-height: 1;
+    margin: 0;
+    max-height: inherit;
+    max-width: inherit;
+    outline: none;
+    opacity: var(--og-button-Opacity);
+    padding: 0;
+    position: relative;
+    width: 100%;
 
-  // 'Active' state
-  &:active {
-    --og-button-Background: var(--og-button-Background--active);
-    --og-button-Color: var(--og-button-Color--active);
-    transition-duration: 300ms;
-  }
+    &::after {
+        background: var(--og-overlay-Background);
+        border-radius: var(--og-overlay-BorderRadius);
+        content: "";
+        opacity: var(--og-overlay-Opacity);
+        pointer-events: none;
+        transition-property: opacity;
+        transition-duration: 150ms;
+        transition-timing-function: ease-in-out;
+        z-index: 1;
 
-  // 'Disabled' state
-  &:disabled {
-    --og-button-Background: var(--og-button-Background--disabled);
-    --og-button-Color: var(--og-button-Color--disabled);
-    cursor: default;
-  }
+        position: absolute;
+        top: calc(var(--og-button-BorderWidth) * -1);
+        left: calc(var(--og-button-BorderWidth) * -1);
+        right: calc(var(--og-button-BorderWidth) * -1);
+        bottom: calc(var(--og-button-BorderWidth) * -1);
+    }
+
+    // 'Hover' state
+    &:hover {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
+    }
+
+    // 'Active' state
+    &:active {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--active);
+    }
+
+}
+
+// Button Label
+.og-button__text {
+    padding: var(--og-button__text-Padding);
+    position: relative;
+    text-transform: var(--og-button__text-TextTransform);
+    z-index: 2;
 }
