@@ -18,7 +18,7 @@
      * E.g. used for Background in Solid Buttons,
      * or Text and Overlay in Blank Buttons.
      */
-    --og-color-main: var(--OG-COLOR-ONE--100, #{$og-color-one});
+    --og-color-main: var(--OG-COLOR-ONE, #{$og-color-one});
 
     /**
      * @prop --og-color-main--conter:
@@ -39,7 +39,7 @@
      * Color variant for a disabled Button state.
      * E.g. greys out all the colored parts.
      */
-    --og-color-main--disabled: var(--OG-COLOR-SHADE--20, #{$og-color-shade--40});
+    --og-color-main--disabled: var(--OG-COLOR-SHADE--40, #{$og-color-shade--40});
 
 
     // PROPERTIES
@@ -97,13 +97,13 @@
     --og-button-Color: var(--og-color-main);
 
     /**
-     * @prop --ob-button-Opacity:
+     * @prop --og-button-Opacity:
      * Opacity of the Button.
      */
     --og-button-Opacity: 1;
 
     /**
-     * @prop --ob-button-Opacity--disabled:
+     * @prop --og-button-Opacity--disabled:
      * Opacity of the button when it's disabled.
      */
     --og-button-Opacity--disabled: 0.32;
