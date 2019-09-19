@@ -1,109 +1,268 @@
 // =============================================================================
 // ORGENIC TOGGLE SWITCH
 // =============================================================================
-
-/**
- * @prop --og-toggle-switch__indicator-Background: Background of the toggle switch icon (shorthand)
- * @prop --og-toggle-switch__indicator-Background--active: Background of the toggle switch icon when active (shorthand)
- * @prop --og-toggle-switch__indicator-Background--hover: Background of the toggle switch icon when hovered (shorthand)
- * @prop --og-toggle-switch__indicator-Height: Width of the toggle switch icon
- * @prop --og-toggle-switch__indicator-Left: Left postion of the toggle switch icon
- * @prop --og-toggle-switch__indicator-Top: Top position of the toggle switch icon
- * @prop --og-toggle-switch__indicator-TranslateX: X position of the active toggle switch icon
- * @prop --og-toggle-switch__indicator-Width: Width of the toggle switch icon
- * @prop --og-toggle-switch__toggle-Background: Main background of the toggle switch (shorthand)
- * @prop --og-toggle-switch__toggle-Background--active: Main background of the toggle switch when active (shorthand)
- * @prop --og-toggle-switch__toggle-Background--hover: Main background of the toggle switch when hovered (shorthand)
- * @prop --og-toggle-switch__toggle-BorderColor: Border color of the toggle switch
- * @prop --og-toggle-switch__toggle-BorderWidth: Border width of the toggle switch
- * @prop --og-toggle-switch__toggle-Height: Height of the toggle switch (box model: border-box)
- * @prop --og-toggle-switch__toggle-Padding: Padding of the toggle switch
- * @prop --og-toggle-switch__toggle-Width: Width of the toggle switch (box model: border-box)
- */
-
 :host {
-    --og-toggle-switch__toggle-Width: 4rem;
-    --og-toggle-switch__toggle-Height: 2rem;
-    --og-toggle-switch__toggle-BorderWidth: 0px;
 
-    --og-toggle-switch__toggle-Background: var(--OG-COLOR-SECONDARY--100--20, #{$og-color-secondary--100--20});
-    --og-toggle-switch__toggle-Background--hover: var(--OG-COLOR-SECONDARY--100--30, #{$og-color-secondary--100--30});
-    --og-toggle-switch__toggle-Background--active: var(--OG-COLOR-PRIMARY--100, #{$og-color-primary--100});
+    // BASE
+    // ---
+    // Variables that are used on different places inside this component.
 
-    --og-toggle-switch__toggle-BorderColor: none;
-    --og-toggle-switch__toggle-Padding: calc((var(--og-toggle-switch__toggle-Height) - var(--og-toggle-switch__indicator-Height)) / 2 - var(--og-toggle-switch__toggle-BorderWidth));
+    /**
+     * @prop --og-color-main:
+     * Main color used for the colored parts of the Button.
+     */
+    --og-color-main: var(--OG-COLOR-SHADE--50, #{$og-color-shade--50});
 
-    --og-toggle-switch__indicator-Background: var(--OG-COLOR-SECONDARY--0, #{$og-color-secondary--0});
-    --og-toggle-switch__indicator-Background--hover: var(--OG-COLOR-SECONDARY--0, #{$og-color-secondary--0});
-    --og-toggle-switch__indicator-Background--active: var(--OG-COLOR-SECONDARY--0, #{$og-color-secondary--0});
-    --og-toggle-switch__indicator-BorderRadius: 2px;
-    --og-toggle-switch__indicator-Width: 1.375rem;
-    --og-toggle-switch__indicator-Height: 1.375rem;
-    --og-toggle-switch__indicator-Top: var(--og-toggle-switch__toggle-Padding);
-    --og-toggle-switch__indicator-Left: var(--og-toggle-switch__toggle-Padding);
-    --og-toggle-switch__indicator-TranslateX: calc(var(--og-toggle-switch__toggle-Width) - var(--og-toggle-switch__indicator-Width) - ((var(--og-toggle-switch__toggle-Padding) + var(--og-toggle-switch__toggle-BorderWidth)) * 2));
+    /**
+     * @prop --og-color-main--active:
+     * Variant on Main Color when Toggle Switch is active.
+     */
+    --og-color-main--active: var(--OG-COLOR-ONE, #{$og-color-one});
 
-    display: inline-block;
+    /**
+     * @prop --og-color-main--conter:
+     * Conter Color to Main Color to guarantee good contrast.
+     */
+    --og-color-main--conter: var(--OG-COLOR-ONE--CONTER, #{$og-color-one--conter});
+
+    /**
+     * @prop --og-color-main--disabled:
+     * Variant on Main Color when Toggle Switch is disabled.
+     */
+    --og-color-main--disabled: var(--OG-COLOR-SHADE--40, #{$og-color-shade--40});
+
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    /**
+     * @prop --og-toggle-Background:
+     * Background of the Toggle Switch.
+     */
+    --og-toggle-Background: var(--og-color-main);
+
+    /**
+     * @prop --og-toggle-BorderRadius:
+     * Border Radius of the Toggle Switch.
+     */
+    --og-toggle-BorderRadius: 1.25rem;
+
+    /**
+     * @prop --og-toggle-Opacity:
+     * Opacity of the Toggle Switch.
+     */
+    --og-toggle-Opacity: #{$og-opacity--on};
+
+    /**
+     * @prop --og-toggle-Opacity--disabled:
+     * Opacity of the Toggle Switch when it's disabled.
+     */
+    --og-toggle-Opacity--disabled: #{$og-opacity--disabled};
+
+    /**
+     * @prop --og-toggle-Width:
+     * Width of the Toggle Switch.
+     */
+    --og-toggle-Width: 3rem;
+
+    /**
+     * @prop --og-toggle-Height:
+     * Height of the Toggle Switch.
+     */
+    --og-toggle-Height: 1.5rem;
+
+
+    // Component's 'Knob' global Variables
+
+    /**
+     * @prop --og-knob-offset:
+     * Space between the Knob and the Toggle Background.
+     */
+    --og-knob-offset: 0.125rem;
+
+    /**
+     * @prop --og-knob-size:
+     * Shorthand value for width and height of the Knob.
+     */
+    --og-knob-size: 1.25rem;
+
+    // Component's 'Knob' property Variables
+
+    /**
+     * @prop --og-knob-Background:
+     * Background of the Knob.
+     */
+    --og-knob-Background: var(--og-color-main--conter);
+
+    /**
+     * @prop --og-knob-Background:
+     * Border Radius of the Knob.
+     */
+    --og-knob-BorderRadius: 1.5rem;
+
+    /**
+     * @prop --og-knob-BoxShadow:
+     * Shadow of the Knob.
+     */
+    --og-knob-BoxShadow: 0 0.125rem 0.25rem 0 var(--og--theme-shadow-color, #{$og-color-shadow});
+
+    /**
+     * @prop --og-knob-Width:
+     * Width of the Knob.
+     */
+    --og-knob-Width: var(--og-knob-size);
+
+    /**
+     * @prop --og-knob-Height:
+     * Height of the Knob.
+     */
+    --og-knob-Height: var(--og-knob-size);
+
+    /**
+     * @prop --og-knob-Left:
+     * Left position of the Knob.
+     */
+    --og-knob-Left: var(--og-knob-offset);
+
+    /**
+     * @prop --og-knob-Left--active:
+     * Left position of the Knob when the Toggle Switch is active.
+     */
+    --og-knob-Left--active: calc(var(--og-toggle-Width) - var(--og-knob-Width) - var(--og-knob-offset));
+
+    /**
+     * @prop --og-knob-Top:
+     * Top position of the Knob.
+     */
+    --og-knob-Top: calc((var(--og-toggle-Height) / 2) - (var(--og-knob-Height) / 2));
+
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover and :active state of the button.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-BorderRadius:
+     * Overlay Border Radius.
+     */
+    --og-overlay-BorderRadius: 10rem;
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Inital Overlay opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay opacity on :hover state of the Toggle Switch.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay opacity on :active state of the Toggle Switch.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
+
     box-sizing: border-box;
+    display: inline-block;
     user-select: none;
-    line-height: 0;
+}
 
-    *, *::before, *::after { box-sizing: inherit; }
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+:host(.is-checked) {
+    --og-color-main: var(--og-color-main--active);
+    --og-knob-Left: var(--og-knob-Left--active);
+    --og-overlay-Background: var(--og-color-main);
+}
+
+:host(.is-disabled) {
+    --og-color-main: var(--og-color-main--disabled);
+    --og-knob-BoxShadow: none;
+    --og-toggle-Opacity: var(--og-toggle-Opacity--disabled);
+    pointer-events: none;
+}
+
+:host(:hover) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
+}
+
+:host(:active) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--active);
 }
 
 .og-toggle-switch__input {
+    border: 0 none transparent;
+    height: 0;
+    clip-path: inset(100% 100% 0 0);
+    margin: 0;
+    outline: 0;
+    overflow: hidden;
+    padding: 0;
     position: absolute;
     width: 0;
-    height: 0;
-    border: 0;
-    clip: rect(0,0,0,0);
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    outline: 0;
-
-    &:checked + .og-toggle-switch__toggle::after {
-        transform: translateX(var(--og-toggle-switch__indicator-TranslateX));
-    }
-
-    &:checked + .og-toggle-switch__toggle {
-        --og-toggle-switch__toggle-Background: var(--og-toggle-switch__toggle-Background--active);
-        --og-toggle-switch__indicator-Background: var(--og-toggle-switch__indicator-Background--active);
-    }
-
-    &:disabled + .og-toggle-switch__toggle {
-        opacity: .5;
-        cursor: default;
-    }
 }
 
 .og-toggle-switch__toggle {
-    outline: 0;
+    background: var(--og-toggle-Background);
+    border-radius: var(--og-toggle-BorderRadius);
+    cursor: pointer;
     display: inline-block;
-    width: var(--og-toggle-switch__toggle-Width);
-    height: var(--og-toggle-switch__toggle-Height);
-    background: var(--og-toggle-switch__toggle-Background);
-    border: var(--og-toggle-switch__toggle-BorderWidth) solid var(--og-toggle-switch__toggle-BorderColor);
-    border-radius: .1875rem;
+    height: var(--og-toggle-Height);
+    opacity: var(--og-toggle-Opacity);
+    outline: none;
     position: relative;
     transition: background 150ms ease-in-out;
-    cursor: pointer;
+    width: var(--og-toggle-Width);
+    z-index: 1;
+}
 
-    &::after {
-        position: absolute;
+.og-toggle-switch__toggle__knob {
+    display: block;
+    height: var(--og-knob-Height);
+    left: var(--og-knob-Left);
+    position: absolute;
+    top: var(--og-knob-Top);
+    transition: all 150ms ease-in-out;
+    width: var(--og-knob-Width);
+
+    // The actual Knob background.
+    // Needs his own layer so we can place the Indicator behind it.
+    &::before {
+        background: var(--og-knob-Background);
+        border-radius: var(--og-knob-BorderRadius);
+        bottom: 0;
+        box-shadow: var(--og-knob-BoxShadow);
         content: "";
-        border-radius: var(--og-toggle-switch__indicator-BorderRadius);
-        left: var(--og-toggle-switch__indicator-Left);
-        top: var(--og-toggle-switch__indicator-Top);
-        width: var(--og-toggle-switch__indicator-Width);
-        height: var(--og-toggle-switch__indicator-Height);
-
-        background: var(--og-toggle-switch__indicator-Background);
-        transition: all 300ms ease-in-out;
+        display: block;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: all 150ms ease-in-out;
+        z-index: 3;
     }
 
-    &:hover {
-        --og-toggle-switch__toggle-Background: var(--og-toggle-switch__toggle-Background--hover);
-        --og-toggle-switch__indicator-Background: var(--og-toggle-switch__indicator-Background--hover);
+    // State Indicator for :hover, :active
+    &::after {
+        content: "";
+        background: var(--og-overlay-Background);
+        border-radius: var(--og-overlay-BorderRadius);
+        bottom: -1rem;
+        left: -1rem;
+        opacity: var(--og-overlay-Opacity);
+        pointer-events: none;
+        position: absolute;
+        right: -1rem;
+        top: -1rem;
+        z-index: 2;
     }
 }
