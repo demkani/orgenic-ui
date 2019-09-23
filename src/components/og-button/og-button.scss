@@ -10,11 +10,11 @@
 
     // BASE
     // ---
-    // Variables that are used on different places inside this component.
+    // Variables that are used in different places inside this component.
 
     /**
      * @prop --og-color-main:
-     * Main color of the background, used for the colored parts of the Button.
+     * Main color. Used for the colored parts of the Button.
      * E.g. used for Background in Solid Buttons,
      * or Text and Overlay in Blank Buttons.
      */
@@ -124,7 +124,7 @@
      * @prop --og-overlay-Background:
      * Overlay Background used for :hover and :active state of the button.
      */
-    --og-overlay-Background: var(--OG-COLOR-ONE--SHADE, #{$og-color-one--boost});
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
 
     /**
      * @prop --og-overlay-BorderRadius:
