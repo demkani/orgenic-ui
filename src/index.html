@@ -26,9 +26,6 @@
                 font-size: 16px;
                 font-family: Roboto;
                 font-weight: var(--OG-FONT-WEIGHT, 400);
-                display: flex;
-                justify-content: center;
-                user-select: none;
                 padding: 32px 0 32px 0;
                 margin: 0;
             }
@@ -121,13 +118,16 @@
                 box-shadow: inset 0 -1px 0 0 var(--OG-COLOR-SHADE--50);
                 transition: all 0.3s ease;
             }
+
             .og-theme--dark a {
                 color: rgba(255, 255, 255, .7);
             }
+
             a:hover {
                 color: var(--OG-COLOR-PRIMARY--100);
                 box-shadow: inset 0 -2px 0 0 var(--OG-COLOR-SHADE--50);
             }
+
             a:after {
                 content: '';
                 display: var(--og-input__indicator-Display);
@@ -139,6 +139,7 @@
                 background-color: var(--OG-COLOR-PRIMARY--100);
                 transition: all 0.3s ease;
             }
+
             a:hover:after {
                 width: 100%;
                 height: 2px;
@@ -156,7 +157,7 @@
     </head>
 
     <body>
-        <div style="width: 100%; max-width: 800px;">
+        <div style="width: 100%; max-width: 800px; margin: auto">
             <h1>ORGENIC UI</h1>
             <!--
             Theme Switch

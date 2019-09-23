@@ -1,3 +1,5 @@
+@import "./opacity.variable.scss";
+
 // =============================================================================
 // BASIC VARIABLES : COLOR
 // =============================================================================
@@ -22,6 +24,16 @@ $og-color-one--boost: hsla(205, 100%, 8%, 1);
 
 // SHADOWS
 $og-color-shadow: hsla(200, 10%, 7%, .3);
+
+// APP COLORS
+// Front Color
+// e.g. for default text or icon color
+$og-color-front: hsla(200, 8%, 7%, $og-opacity--front);
+
+// APP COLORS
+// Front Color
+// e.g. for default text or icon color
+$og-color-subtle: hsla(200, 8%, 7%, $og-opacity--subtle);
 
 
 
