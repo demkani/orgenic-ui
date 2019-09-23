@@ -3,18 +3,19 @@
  * @license MIT
  * See LICENSE file at https://github.com/orgenic/orgenic-ui/blob/master/LICENSE
  **/
-
 import {
-  h,
   Component,
+  h,
+  Element,
+  Event,
+  Host,
+  State,
   Prop,
   EventEmitter,
-  Event,
-  State,
-  Element,
   Listen,
-  Host
-} from '@stencil/core';
+  Watch
+} from "@stencil/core";
+import { ElementMeasures } from "./og-combobox.interface";
 
 @Component({
   tag: 'og-combobox',
@@ -22,26 +23,42 @@ import {
   shadow: true
 })
 export class OgCombobox {
-  @Element()
-  public el: HTMLElement;
+  @Element() hostElement: HTMLElement;
 
-  /**
-   * Optional placeholder if no value is selected.
-   */
+  @State() isFocused: boolean;
+  @State() reopen: boolean;
+  @State() selectMeasures: DOMRect;
+  @State() optionsMeasures: ElementMeasures;
+
+  /** Controls the open state of the Option List  */
+  @Prop({ mutable: true, reflectToAttr: true }) optionsOpened: boolean;
+
+  /** An array of items to choose from */
+  @Prop() items: any[];
+
+  /** Placeholder when input is empty */
+  @Prop() placeholder?: string;
+
+  /** Optional label text */
+  @Prop() label?: string;
+
+  /** Maximum Height of the Options List */
+  @Prop() maxHeight?: number;
+
+  /** Optional message text */
+  @Prop() message?: string;
+
+  /** Alternate Icon */
   @Prop()
-  public placeholder?: string;
+  icon?= `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.15 96.15">
+    <path fill="var(--og-combobox__icon-Fill, currentColor)" d="M.56 20.97l45.95 57.6c.76.96 2.37.96 3.13 0l45.96-57.6a2.86 2.86 0 0 0 .22-3.05 2 2 0 0 0-1.76-1.06H2.09a2 2 0 0 0-1.76 1.06 2.87 2.87 0 0 0 .23 3.05z"/>
+  </svg>`;
 
-  /**
-   * The selected value of the combobox
-   */
-  @Prop({ mutable: true, reflectToAttr: true })
-  public value: string;
+  /** The initial value. Can be updated at runtime */
+  @Prop({ mutable: true, reflectToAttr: true }) value: string;
 
-  /**
-   * An array of items to choose from
-   */
-  @Prop()
-  public items: any[];
+  /** Controls the disabled state. */
+  @Prop() disabled: boolean;
 
   /**
    * Set the property for the items to define as label. Default: "label"
@@ -56,93 +73,112 @@ export class OgCombobox {
   public itemValueProperty: string = 'value';
 
   /**
-   * Determines, whether the control is disabled or not
-   */
-  @Prop()
-  public disabled: boolean;
-
-  /**
    * Event is being emitted when value changes.
    */
-  @Event()
-  public itemSelected: EventEmitter<any>;
+  @Event() itemSelected: EventEmitter<string>;
 
-  /**
-   * Event is being emitted when input gets focus..
-   */
-  @Event()
-  public focusGained: EventEmitter<FocusEvent>;
+  @Watch("optionsOpened")
+  watchOptionsOpened(value: boolean) {
 
-  /**
-   * Event is being emitted when focus gets lost.
-   */
-  @Event()
-  public focusLost: EventEmitter<FocusEvent>;
-
-  @State()
-  public dropdownActive: boolean = false;
-
-  public indicatorElement: HTMLElement;
-  public flyoutList: HTMLElement;
-
-  @Listen('scroll', { target: 'window' })
-  public handleWindowScroll() {
-    // close flyout on scroll events
-    this.dropdownActive = false;
-    this.focusLost.emit();
-
-  }
-
-  @Listen('scroll', { target: 'body' })
-  public handleBodyScroll() {
-    // close flyout on scroll events
-    this.dropdownActive = false;
-    this.focusLost.emit();
-  }
-
-  @Listen('click', { target: 'body' })
-  public handleBodyClick(ev) {
-    if (!this.dropdownActive || this.el === ev.target) {
-      return;
+    if (value === true) {
+      this.updateSelectMeasures();
     }
-    if (this.dropdownActive) {
-      this.dropdownActive = false;
-      ev.cancelBubble = true;
-      this.focusLost.emit();
+    if (value === false) {
+      this.selectButtonElement.focus();
+    }
+    this.repositionOptionsInDom();
+  }
+
+  @Listen("scroll", { target: "window" })
+  listenToWindowScroll() {
+    if (!!this.optionsOpened || !!this.reopen) {
+      this.updateSelectMeasures();
     }
   }
+
+  @Listen("resize", { target: "window" })
+  listenToWindowResize() {
+    if (!!this.optionsOpened || !!this.reopen) {
+      this.updateSelectMeasures();
+    }
+  }
+
 
   public componentDidLoad() {
-    this.flyoutList.addEventListener('wheel', (_ev) => {
-      if (this.flyoutList.scrollTop === 0 && _ev.deltaY < 0) {
-        _ev.cancelBubble = true;
-        _ev.preventDefault();
-      }
-      if (this.flyoutList.scrollTop + this.flyoutList.offsetHeight === this.flyoutList.scrollHeight && _ev.deltaY > 0) {
-        _ev.cancelBubble = true;
-        _ev.preventDefault();
-      }
-    });
+    this.updateSelectMeasures();
   }
 
-  public buttonClicked() {
-    if (!this.disabled) {
-      this.dropdownActive = !this.dropdownActive;
-      if (this.dropdownActive) {
-        this.focusGained.emit();
-      } else {
-        this.focusLost.emit();
+  private get selectButtonElement(): HTMLElement {
+    return this.hostElement.shadowRoot.querySelector("#select");
+  }
+
+  private updateSelectMeasures() {
+    this.selectMeasures = this.selectButtonElement.getBoundingClientRect() as DOMRect;
+
+    /**
+     * If the Select Button is out of view, we hide the opened List.
+     */
+    if (!!this.optionsOpened) {
+      if (
+        this.selectMeasures.top <= -16 ||
+        this.selectMeasures.top >= window.innerHeight
+      ) {
+        this.optionsOpened = false;
+        this.reopen = true;
+      }
+    }
+
+    /**
+     * If the 'reopen' Option is set we show the List when the Select Button
+     * returns into the view.
+     */
+    if (!!this.reopen) {
+      if (
+        this.selectMeasures.top > 0 &&
+        this.selectMeasures.top < window.innerHeight
+      ) {
+        this.optionsOpened = true;
+        this.reopen = false;
       }
     }
   }
 
-  public listItemSelected(item) {
-    if (!this.disabled) {
-      this.dropdownActive = false;
-      this.value = item[this.itemValueProperty] + '';
-      this.itemSelected.emit(item);
-      this.focusLost.emit();
+  private generateUid() {
+    return (
+      Math.random()
+        .toString(36)
+        .substring(2, 15) +
+      Math.random()
+        .toString(36)
+        .substring(2, 15)
+    );
+  }
+
+  private uniqueId = this.generateUid();
+
+  private handleSelectKeyDown(event: KeyboardEvent) {
+    if ((event.code === "Space") && !this.disabled) {
+      event.preventDefault();
+      this.optionsOpened = !this.optionsOpened;
     }
+  }
+
+  private handleSelectFocus(focus: boolean) {
+    if (!this.disabled) {
+      this.updateSelectMeasures();
+      this.isFocused = focus;
+    }
+  }
+
+  private handleSelectClick() {
+    if (!this.disabled) {
+        this.optionsOpened = !this.optionsOpened;
+    }
+  }
+
+  private handleChange(event) {
+    this.value = event.target.value;
+    this.itemSelected.emit(this.value);
   }
 
   private getSelectedItemLabel(): string {
@@ -150,7 +186,7 @@ export class OgCombobox {
       return '';
     }
     const item = this.items.find(
-      item => item[this.itemValueProperty] + '' === this.value
+      item => item[this.itemValueProperty] === this.value
     );
     if (!item) {
       return '';
@@ -162,124 +198,77 @@ export class OgCombobox {
     return Array.isArray(this.items);
   }
 
-  private isDropdownActive(): boolean {
-    return this.dropdownActive && !this.disabled;
-  }
-
   /**
-   * behaviour:
-   *   * combobox flyout shows 7 items
-   *   * if it does not fit on screen, scale down flyout
-   *   * if flyout would be smaller than 4 items, show flyout above combobox
+   * Attach the Option List to <body> so it can't be cut off by
+   * overflow:hidden settings in any parent element.
    */
-  public getFlyoutCss() {
-    if (!this.indicatorElement) {
-      return {};
-    }
-    let flyoutTop = (this.indicatorElement.getBoundingClientRect().top + this.indicatorElement.offsetHeight);
-
-    let flyoutHeight = 0;
-    let itemHeight = 0;
-    // get item height
-    const item = this.flyoutList.querySelector('li');
-    if (!item) {
-      // no items available => return
-      return {};
-    }
-
-    const itemStyle = window.getComputedStyle(item);
-    itemHeight = parseInt(itemStyle.paddingTop) + parseInt(itemStyle.paddingBottom) + parseInt(itemStyle.lineHeight);
-    flyoutHeight = itemHeight * this.items.length;
-
-    // get space on screen below combobox
-    const spaceBelow = window.innerHeight - flyoutTop - parseInt(itemStyle.paddingBottom);
-    // calculate maximum and minimum flyout sizes (for 4 - 7 items)
-    const maxHeight = itemHeight * Math.min(7, this.items.length);
-    const minHeight = itemHeight * Math.min(4, this.items.length);
-    // calculate real flyout size to fit below combobox
-    flyoutHeight = Math.min(spaceBelow, Math.min(maxHeight, flyoutHeight));
-    // if flyout size is below min size, then show flyout above combobox
-    if (flyoutHeight < minHeight) {
-      flyoutHeight = maxHeight;
-      flyoutTop = this.el.getBoundingClientRect().top - flyoutHeight;
-    }
-
-    return {
-      top: flyoutTop + 'px',
-      width: window.getComputedStyle(this.flyoutList.parentElement).width,
-      height: flyoutHeight + 'px'
+  private repositionOptionsInDom() {
+    const listInside = this.hostElement.shadowRoot.querySelector('#options');
+    if (listInside) {
+      document.body.appendChild(listInside);
+      return
     }
   }
 
-  public render(): HTMLElement {
+  render() {
+
     return (
-      <Host class={{
-        'is-focused': this.dropdownActive,
-        'og-form-item__editor': true
-      }}>
-        <div
-          class="og-combobox__header"
-          onClick={() => this.buttonClicked()}
-        >
-          <input
-            type="text"
-            class="og-combobox__input"
-            readonly="true"
-            value={this.getSelectedItemLabel()}
-            placeholder={this.placeholder}
-            disabled={this.disabled}
-          />
-          <div class="og-combobox__button">
-            <svg
-              class={
-                'og-combobox__button__arrow' +
-                              (this.isDropdownActive() ? ' og-combobox__button__arrow--collapsed' : '')
-              }
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 24 12"
-              preserveAspectRatio="none"
+      <Host
+        class={{
+          "is-focused": this.isFocused,
+          "is-disabled": this.disabled,
+          "is-opened": this.optionsOpened,
+          "has-content": !!this.value
+        }}
+      >
+        <div class="og-combobox">
+          <div class="og-combobox__main">
+            <div
+              role="button"
+              tabindex={this.disabled ? "-1" : "0"}
+              id="select"
+              class="og-combobox__box"
+              onFocus={() => this.handleSelectFocus(true)}
+              onBlur={() => this.handleSelectFocus(false)}
+              onClick={() => this.handleSelectClick()}
+              onKeyDown={event => this.handleSelectKeyDown(event)}
             >
-              <polyline
-                class="og-combobox__button__arrow__line"
-                points="0,0 12,12 24,0"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecaps="round"
-                stroke-linejoin="round"
+              {this.label && (
+                <span class="og-combobox__label">{this.label}</span>
+              )}
+              <input
+                type="text"
+                id={this.uniqueId}
+                class="og-combobox__input"
+                value={this.getSelectedItemLabel()}
+                disabled={this.disabled}
+                onInput={event => this.handleChange(event)}
+                placeholder={this.placeholder}
+                tabindex="-1"
+                readonly
               />
-            </svg>
-          </div>
-          <div class="og-combobox__indicator" ref={(el) => this.indicatorElement = el} />
-        </div>
-        <div class="og-combobox__flyout">
-          <ul
-            class={
-              'og-combobox__flyout__list' +
-                          (this.isDropdownActive() ? ' og-combobox__flyout__list--visible' : '')
-            }
-            style={ this.getFlyoutCss() }
-            ref={(el) => this.flyoutList = el}
-          >
-            {!this.hasValidItems() ? (
-              <li>No options available</li>
-            ) : (
-              this.items.map((item): HTMLElement => (
-                <li
-                  class={
-                    'og-combobox__flyout__list__item' +
-                                      (item[this.itemValueProperty] == this.value ? ' og-combobox__flyout__list__item--active' : '' )
-                  }
-                  onClick={() => this.listItemSelected(item)}
-                >
-                  {item[this.itemLabelProperty]}
-                </li>
-              ))
+              <div class="og-combobox__indicator"></div>
+              <div class="og-combobox__icon" innerHTML={this.icon}></div>
+            </div>
+            {this.message && (
+              <span class="og-combobox__message">{this.message}</span>
             )}
-          </ul>
+          </div>
         </div>
+        <og-combobox-list
+          id="options"
+          items={this.items}
+          maxHeight={this.maxHeight}
+          optionsOpened={this.optionsOpened}
+          itemValueProperty={this.itemValueProperty}
+          itemLabelProperty={this.itemLabelProperty}
+          positionSource={this.selectMeasures}
+          reopen={this.reopen}
+          value={this.value}
+          onItemSelected={(event) => this.value = event.detail}
+          onOptionsClosed={() => this.optionsOpened = false}
+        >
+        </og-combobox-list>
       </Host>
     );
   }

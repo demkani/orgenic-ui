@@ -78,9 +78,13 @@ export namespace Components {
   }
   interface OgCombobox {
     /**
-    * Determines, whether the control is disabled or not
+    * Controls the disabled state.
     */
     'disabled': boolean;
+    /**
+    * Alternate Icon
+    */
+    'icon'?: string;
     /**
     * Set the property for the items to define as label. Default: "label"
     */
@@ -94,11 +98,61 @@ export namespace Components {
     */
     'items': any[];
     /**
-    * Optional placeholder if no value is selected.
+    * Optional label text
+    */
+    'label'?: string;
+    /**
+    * Maximum Height of the Options List
+    */
+    'maxHeight'?: number;
+    /**
+    * Optional message text
+    */
+    'message'?: string;
+    /**
+    * Controls the open state of the Option List
+    */
+    'optionsOpened': boolean;
+    /**
+    * Placeholder when input is empty
     */
     'placeholder'?: string;
     /**
-    * The selected value of the combobox
+    * The initial value. Can be updated at runtime
+    */
+    'value': string;
+  }
+  interface OgComboboxList {
+    /**
+    * Set the property for the items to define as label. Default: "label"
+    */
+    'itemLabelProperty': string;
+    /**
+    * Set the property for the items to define as value. Default: "value"
+    */
+    'itemValueProperty': string;
+    /**
+    * Placeholder when input is empty
+    */
+    'items': any[];
+    /**
+    * Maximum Height of the Options List
+    */
+    'maxHeight'?: number;
+    /**
+    * Controls the open state of the options
+    */
+    'optionsOpened': boolean;
+    /**
+    * Set the property for the items to define as value. Default: "value"
+    */
+    'positionSource': DOMRect;
+    /**
+    * …
+    */
+    'reopen'?: boolean;
+    /**
+    * The initial value. Can be updated at runtime
     */
     'value': string;
   }
@@ -474,6 +528,32 @@ export namespace Components {
     */
     'value': boolean;
   }
+  interface XogCombobox {
+    /**
+    * Determines, whether the control is disabled or not
+    */
+    'disabled': boolean;
+    /**
+    * Set the property for the items to define as label. Default: "label"
+    */
+    'itemLabelProperty': string;
+    /**
+    * Set the property for the items to define as value. Default: "value"
+    */
+    'itemValueProperty': string;
+    /**
+    * An array of items to choose from
+    */
+    'items': any[];
+    /**
+    * Optional placeholder if no value is selected.
+    */
+    'placeholder'?: string;
+    /**
+    * The selected value of the combobox
+    */
+    'value': string;
+  }
 }
 
 declare global {
@@ -507,6 +587,12 @@ declare global {
   var HTMLOgComboboxElement: {
     prototype: HTMLOgComboboxElement;
     new (): HTMLOgComboboxElement;
+  };
+
+  interface HTMLOgComboboxListElement extends Components.OgComboboxList, HTMLStencilElement {}
+  var HTMLOgComboboxListElement: {
+    prototype: HTMLOgComboboxListElement;
+    new (): HTMLOgComboboxListElement;
   };
 
   interface HTMLOgConfirmDialogElement extends Components.OgConfirmDialog, HTMLStencilElement {}
@@ -634,12 +720,19 @@ declare global {
     prototype: HTMLOgToggleSwitchElement;
     new (): HTMLOgToggleSwitchElement;
   };
+
+  interface HTMLXogComboboxElement extends Components.XogCombobox, HTMLStencilElement {}
+  var HTMLXogComboboxElement: {
+    prototype: HTMLXogComboboxElement;
+    new (): HTMLXogComboboxElement;
+  };
   interface HTMLElementTagNameMap {
     'og-button': HTMLOgButtonElement;
     'og-calendar': HTMLOgCalendarElement;
     'og-card': HTMLOgCardElement;
     'og-checkbox': HTMLOgCheckboxElement;
     'og-combobox': HTMLOgComboboxElement;
+    'og-combobox-list': HTMLOgComboboxListElement;
     'og-confirm-dialog': HTMLOgConfirmDialogElement;
     'og-datatable': HTMLOgDatatableElement;
     'og-datepicker': HTMLOgDatepickerElement;
@@ -661,6 +754,7 @@ declare global {
     'og-text-input': HTMLOgTextInputElement;
     'og-textarea': HTMLOgTextareaElement;
     'og-toggle-switch': HTMLOgToggleSwitchElement;
+    'xog-combobox': HTMLXogComboboxElement;
   }
 }
 
@@ -737,9 +831,13 @@ declare namespace LocalJSX {
   }
   interface OgCombobox extends JSXBase.HTMLAttributes<HTMLOgComboboxElement> {
     /**
-    * Determines, whether the control is disabled or not
+    * Controls the disabled state.
     */
     'disabled'?: boolean;
+    /**
+    * Alternate Icon
+    */
+    'icon'?: string;
     /**
     * Set the property for the items to define as label. Default: "label"
     */
@@ -753,23 +851,73 @@ declare namespace LocalJSX {
     */
     'items'?: any[];
     /**
-    * Event is being emitted when input gets focus..
+    * Optional label text
     */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
+    'label'?: string;
     /**
-    * Event is being emitted when focus gets lost.
+    * Maximum Height of the Options List
     */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
+    'maxHeight'?: number;
+    /**
+    * Optional message text
+    */
+    'message'?: string;
     /**
     * Event is being emitted when value changes.
     */
-    'onItemSelected'?: (event: CustomEvent<any>) => void;
+    'onItemSelected'?: (event: CustomEvent<string>) => void;
     /**
-    * Optional placeholder if no value is selected.
+    * Controls the open state of the Option List
+    */
+    'optionsOpened'?: boolean;
+    /**
+    * Placeholder when input is empty
     */
     'placeholder'?: string;
     /**
-    * The selected value of the combobox
+    * The initial value. Can be updated at runtime
+    */
+    'value'?: string;
+  }
+  interface OgComboboxList extends JSXBase.HTMLAttributes<HTMLOgComboboxListElement> {
+    /**
+    * Set the property for the items to define as label. Default: "label"
+    */
+    'itemLabelProperty'?: string;
+    /**
+    * Set the property for the items to define as value. Default: "value"
+    */
+    'itemValueProperty'?: string;
+    /**
+    * Placeholder when input is empty
+    */
+    'items'?: any[];
+    /**
+    * Maximum Height of the Options List
+    */
+    'maxHeight'?: number;
+    /**
+    * Event is being emitted when value changes.
+    */
+    'onItemSelected'?: (event: CustomEvent<string>) => void;
+    /**
+    * Event is being emitted when value changes.
+    */
+    'onOptionsClosed'?: (event: CustomEvent<boolean>) => void;
+    /**
+    * Controls the open state of the options
+    */
+    'optionsOpened'?: boolean;
+    /**
+    * Set the property for the items to define as value. Default: "value"
+    */
+    'positionSource'?: DOMRect;
+    /**
+    * …
+    */
+    'reopen'?: boolean;
+    /**
+    * The initial value. Can be updated at runtime
     */
     'value'?: string;
   }
@@ -1222,6 +1370,44 @@ declare namespace LocalJSX {
     */
     'value'?: boolean;
   }
+  interface XogCombobox extends JSXBase.HTMLAttributes<HTMLXogComboboxElement> {
+    /**
+    * Determines, whether the control is disabled or not
+    */
+    'disabled'?: boolean;
+    /**
+    * Set the property for the items to define as label. Default: "label"
+    */
+    'itemLabelProperty'?: string;
+    /**
+    * Set the property for the items to define as value. Default: "value"
+    */
+    'itemValueProperty'?: string;
+    /**
+    * An array of items to choose from
+    */
+    'items'?: any[];
+    /**
+    * Event is being emitted when input gets focus..
+    */
+    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
+    /**
+    * Event is being emitted when focus gets lost.
+    */
+    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
+    /**
+    * Event is being emitted when value changes.
+    */
+    'onItemSelected'?: (event: CustomEvent<any>) => void;
+    /**
+    * Optional placeholder if no value is selected.
+    */
+    'placeholder'?: string;
+    /**
+    * The selected value of the combobox
+    */
+    'value'?: string;
+  }
 
   interface IntrinsicElements {
     'og-button': OgButton;
@@ -1229,6 +1415,7 @@ declare namespace LocalJSX {
     'og-card': OgCard;
     'og-checkbox': OgCheckbox;
     'og-combobox': OgCombobox;
+    'og-combobox-list': OgComboboxList;
     'og-confirm-dialog': OgConfirmDialog;
     'og-datatable': OgDatatable;
     'og-datepicker': OgDatepicker;
@@ -1250,6 +1437,7 @@ declare namespace LocalJSX {
     'og-text-input': OgTextInput;
     'og-textarea': OgTextarea;
     'og-toggle-switch': OgToggleSwitch;
+    'xog-combobox': XogCombobox;
   }
 }
 

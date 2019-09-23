@@ -1,0 +1,174 @@
+:host {
+
+    // BASE
+    // ---
+    // Variables that are used in different places inside this component.
+
+    /**
+     * @prop --og-TransitionDuration:
+     * Overall Transition Duration.
+     */
+    --og-TransitionDuration: 200ms;
+
+
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    /**
+     * @prop --og-Background:
+     * Background color of the Component.
+     */
+    --og-Background: var(--OG-COLOR-SHADE--0, #{$og-color-shade--0});
+
+    /**
+     * @prop --og-list-Margin:
+     * Margin of the List.
+     */
+    --og-list-Margin: 0;
+
+    /**
+     * @prop --og-list-Padding:
+     * Padding of the List.
+     */
+    --og-list-Padding: 0.5rem 0;
+
+    /**
+     * @prop --og-item-Color:
+     * Text Color of the List Item.
+     */
+    --og-item-Color: var(--OG-FRONT-COLOR, #{$og-color-front});
+
+    /**
+     * @prop --og-item-Color:
+     * Text Color of the List Item when it's selected.
+     */
+    --og-item-Color--selected: var(--OG-COLOR-ONE, #{$og-color-one});
+
+    /**
+     * @prop --og-item-Padding:
+     * Padding of the List Item.
+     */
+    --og-item-Padding: 1rem;
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover and :focus state of the List Item.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-Background--selected:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the List Item when it's selected.
+     */
+    --og-overlay-Background--selected: var(--OG-COLOR-ONE, #{$og-color-one});
+
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Initial Overlay Opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay Opacity on :active state of the button.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay Opacity on :hover state of the button.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--focus:
+     * Overlay Opacity on :focus state of the button.
+     */
+    --og-overlay-Opacity--focus: var(--OG-OPACITY--FOCUS, #{$og-opacity--focus});
+
+    /**
+     * @prop --og-overlay-Opacity--selected:
+     * Overlay Opacity when the List Item is selected.
+     */
+    --og-overlay-Opacity--selected: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
+
+
+
+    background: var(--og-Background);
+    border-radius: 3px;
+    box-shadow: 0 4px 16px hsla(0deg, 0%, 0%, 0.3);
+    display: block;
+    opacity: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    pointer-events: none;
+    transition:
+        // We delay everything but the opacity so we asure that the List is
+        // invisible bevore we set the new z-index or change the measures.
+        all 1ms var(--og-TransitionDuration),
+        opacity var(--og-TransitionDuration) ease-in-out 1ms
+    ;
+    z-index: -1;
+}
+
+:host(.is-open) {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity var(--og-TransitionDuration) ease-in-out 1ms;
+    z-index: 9999;
+}
+
+.og-combobox-options__list {
+    list-style-type: none;
+    margin: var(--og-list-Margin);
+    padding: var(--og-list-Padding);
+}
+
+.og-combobox-options__list__item {
+    color: var(--og-item-Color);
+    background: var(--og-item-Background);
+    outline: 0;
+    padding: var(--og-item-Padding);
+    position: relative;
+
+    // Overlay for state visualization
+    &::after {
+        content: "";
+        background: var(--og-overlay-Background);
+        bottom: 0;
+        left: 0;
+        opacity: var(--og-overlay-Opacity);
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+    }
+
+    // Selectd state for the List Item
+    &.is-selected {
+        --og-item-Color: var(--og-item-Color--selected);
+        --og-overlay-Background: var(--og-overlay-Background--selected);
+        --og-overlay-Opacity: var(--og-overlay-Opacity--selected);
+    }
+
+    &:focus {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--focus);
+    }
+
+    &:hover {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
+    }
+
+    &:active {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--active);
+    }
+}
+
+.item__text {
+    position: relative;
+    z-index: 2;
+}
