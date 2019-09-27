@@ -458,6 +458,10 @@ export namespace Components {
     */
     'name': string;
     /**
+    * Moves the label to the other side of the radio control
+    */
+    'opposite': boolean;
+    /**
     * The value of the radio button that is set to the parent group if radio button is selected
     */
     'value': string;
@@ -527,32 +531,6 @@ export namespace Components {
     * The value of the toggle-switch
     */
     'value': boolean;
-  }
-  interface XogCombobox {
-    /**
-    * Determines, whether the control is disabled or not
-    */
-    'disabled': boolean;
-    /**
-    * Set the property for the items to define as label. Default: "label"
-    */
-    'itemLabelProperty': string;
-    /**
-    * Set the property for the items to define as value. Default: "value"
-    */
-    'itemValueProperty': string;
-    /**
-    * An array of items to choose from
-    */
-    'items': any[];
-    /**
-    * Optional placeholder if no value is selected.
-    */
-    'placeholder'?: string;
-    /**
-    * The selected value of the combobox
-    */
-    'value': string;
   }
 }
 
@@ -720,12 +698,6 @@ declare global {
     prototype: HTMLOgToggleSwitchElement;
     new (): HTMLOgToggleSwitchElement;
   };
-
-  interface HTMLXogComboboxElement extends Components.XogCombobox, HTMLStencilElement {}
-  var HTMLXogComboboxElement: {
-    prototype: HTMLXogComboboxElement;
-    new (): HTMLXogComboboxElement;
-  };
   interface HTMLElementTagNameMap {
     'og-button': HTMLOgButtonElement;
     'og-calendar': HTMLOgCalendarElement;
@@ -754,7 +726,6 @@ declare global {
     'og-text-input': HTMLOgTextInputElement;
     'og-textarea': HTMLOgTextareaElement;
     'og-toggle-switch': HTMLOgToggleSwitchElement;
-    'xog-combobox': HTMLXogComboboxElement;
   }
 }
 
@@ -1268,6 +1239,10 @@ declare namespace LocalJSX {
     'name'?: string;
     'onChanged'?: (event: CustomEvent<MouseEvent>) => void;
     /**
+    * Moves the label to the other side of the radio control
+    */
+    'opposite'?: boolean;
+    /**
     * The value of the radio button that is set to the parent group if radio button is selected
     */
     'value'?: string;
@@ -1370,44 +1345,6 @@ declare namespace LocalJSX {
     */
     'value'?: boolean;
   }
-  interface XogCombobox extends JSXBase.HTMLAttributes<HTMLXogComboboxElement> {
-    /**
-    * Determines, whether the control is disabled or not
-    */
-    'disabled'?: boolean;
-    /**
-    * Set the property for the items to define as label. Default: "label"
-    */
-    'itemLabelProperty'?: string;
-    /**
-    * Set the property for the items to define as value. Default: "value"
-    */
-    'itemValueProperty'?: string;
-    /**
-    * An array of items to choose from
-    */
-    'items'?: any[];
-    /**
-    * Event is being emitted when input gets focus..
-    */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when focus gets lost.
-    */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when value changes.
-    */
-    'onItemSelected'?: (event: CustomEvent<any>) => void;
-    /**
-    * Optional placeholder if no value is selected.
-    */
-    'placeholder'?: string;
-    /**
-    * The selected value of the combobox
-    */
-    'value'?: string;
-  }
 
   interface IntrinsicElements {
     'og-button': OgButton;
@@ -1437,7 +1374,6 @@ declare namespace LocalJSX {
     'og-text-input': OgTextInput;
     'og-textarea': OgTextarea;
     'og-toggle-switch': OgToggleSwitch;
-    'xog-combobox': XogCombobox;
   }
 }
 
