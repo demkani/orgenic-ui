@@ -1,69 +1,294 @@
-.og-radio-button__input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border: 0;
-    clip: rect(0,0,0,0);
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    outline: 0;
+////////////////////////////////////////////////////////////////////////////////
+//
+// og-RADIO-BUTTON
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// =============================================================================
+// CSS CUSTOM PROPERTIES
+// =============================================================================
+:host {
+    // BASE
+    // ---
+    // Variables that are used on different places inside this component.
+
+    /**
+     * @prop --og-color-main:
+     * Main color. Used for the colored parts of the Combobox.
+     * E.g. Label, Icon and Indicator when the Combobox is focused or opened.
+     */
+    --og-color-main: var(--OG-COLOR-ONE, #{$og-color-one});
+    // --og-color-subtle: var(--OG-COLOR-SHADE--100--50, #{$og-color-shade--100--50});
+
+
+    /**
+     * @prop --og-color-subtle:
+     * Subtle Color. Used for subtle colored parts of the Combobox.
+    * E.g. label and indicator when combobox is inactive.
+     */
+    --og-color-subtle: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
+
+
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    /**
+     * @prop --og-radio-button-Opacity:
+     * Opacity of the whole Radio Button.
+     */
+    --og-radio-button-Opacity: var(--OG-OPACITY--ON, #{$og-opacity--on});
+
+    /**
+     * @prop --og-radio-button-Opacity--disabled:
+     * Opacity of the whole Radio Button when it's disabled.
+     */
+    --og-radio-button-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
+
+    /**
+     * @prop --og-box-Background:
+     * Initial Background Color of the Control Box (outer Circle)
+     */
+    --og-box-Background: transparent;
+
+    /**
+     * @prop --og-box-BorderWidth:
+     * Border Width of the Control Box (outer Circle)
+     */
+    --og-box-BorderWidth: .125rem;
+
+    /**
+     * @prop --og-box-BorderColor:
+     * Border Color of the Control Box (outer Circle)
+     */
+    --og-box-BorderColor: var(--og-color-subtle);
+
+    /**
+     * @prop --og-box-BorderStyle:
+     * Border Style of the Control Box (outer Circle)
+     */
+    --og-box-BorderStyle: solid;
+
+    /**
+     * @prop --og-box-Border:
+     * Shorthand for Border Settings of the Control Box (outer Circle)
+     */
+    --og-box-Border: var(--og-box-BorderWidth) var(--og-box-BorderStyle) var(--og-box-BorderColor);
+
+    /**
+     * @prop --og-box-Opacity--disabled:
+     * Opacity of the Combobox when it's disabled.
+     */
+    --og-box-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
+
+    /**
+     * @prop --og-box-Width:
+     * Width of the Control Box (outer Circle)
+     */
+    --og-box-Width: 1.5rem;
+
+    /**
+     * @prop --og-box-height:
+     * Height of the Control Box (outer Circle)
+     */
+    --og-box-Height: var(--og-box-Width);
+
+    /**
+     * @prop --og-box-Background:
+     * Initial Background Color of the Control Indicator (inner Circle)
+     */
+    --og-indicator-Background: transparent;
+
+    /**
+     * @prop --og-indicator-Background:
+     * Background Color of the Control Indicator (inner Circle) when
+     * the Radio Button is selected.
+     */
+    --og-indicator-Background--selected: var(--og-color-main);
+
+    /**
+     * @prop --og-indicator-Width:
+     * Width of the Control Indicator (inner Circle)
+     */
+    --og-indicator-Width: 0.625rem;
+
+    /**
+     * @prop --og-indicator-Height:
+     * Height of the Control Indicator (inner Circle)
+     */
+    --og-indicator-Height: var(--og-indicator-Width);
+
+    /**
+     * @prop --og-label-Color:
+     * Font Color of the Label
+     */
+    --og-label-Color: inherit;
+
+    /**
+     * @prop --og-label-LineHeight:
+     * LineHeight of the Label
+     */
+    --og-label-LineHeight: 1.25;
+
+    /**
+     * @prop --og-label-space:
+     * Space between the Label and the Control.
+     */
+    --og-label-space: .5rem;
+
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover and :focus state of the List Item.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-Background--selected:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the List Item when it's selected.
+     */
+    --og-overlay-Background--selected: var(--OG-COLOR-ONE, #{$og-color-one});
+
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Initial Overlay Opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay Opacity on :active state of the button.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay Opacity on :hover state of the button.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--focus:
+     * Overlay Opacity on :focus state of the button.
+     */
+    --og-overlay-Opacity--focus: var(--OG-OPACITY--FOCUS, #{$og-opacity--focus});
+
+    /**
+     * @prop --og-overlay-Opacity--selected:
+     * Overlay Opacity when the List Item is selected.
+     */
+    --og-overlay-Opacity--selected: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
+
+    box-sizing: border-box;
+    display: inline-block;
+    user-select: none;
+    // vertical-align: middle;
 }
 
-.og-radio-button__input:disabled + .og-radio-button__label {
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+
+:host(.is-checked) {
+    --og-color-subtle: var(--og-color-main);
+    --og-indicator-Background: var(--og-indicator-Background--selected);
+    --og-overlay-Background: var(--og-overlay-Background--selected);
+}
+
+:host(.is-disabled) {
+    --og-radio-button-Opacity: var(--og-radio-button-Opacity--disabled);
     cursor: default;
-    opacity: .5
+    pointer-events: none;
+}
+
+:host(.is-focused) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--focus);
+}
+
+:host(:hover) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
+}
+
+:host(:active) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--selected);
+}
+
+// -----------------------------------------------------------------------------
+// Base
+// -----------------------------------------------------------------------------
+
+.og-radio-button {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    max-width: 100%;
+    opacity: var(--og-radio-button-Opacity);
+}
+
+.og-radio-button__input {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 0;
+    margin: 0;
+    outline: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 0;
 }
 
 .og-radio-button__label {
+    color: var(--og-label-Color);
     display: block;
+    flex: none;
+    line-height: var(--og-label-LineHeight);
+    overflow: hidden;
+    padding-right: var(--og-label-space);
+    pointer-events: none;
     position: relative;
-    user-select: none;
-    min-width: var(--og-radio-button-Width);
-    min-height: var(--og-radio-button-Height);
-    cursor: pointer;
-    box-sizing: inherit;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-
-    &::after,
-    &::before {
-        box-sizing: inherit;
-        position: absolute;
-        content: "";
-        display: block;
-        top: 0;
-        left: 0;
-        transition: all 150ms ease-in-out;
+    .og-radio-button__control + & {
+        padding-right: 0;
+        padding-left: var(--og-label-space);
     }
+}
 
-    &::before {
-        width: var(--og-radio-button-Width);
-        height: var(--og-radio-button-Height);
-        background: var(--og-radio-button-Background);
-        border: var(--og-radio-button-BorderWidth) solid var(--og-radio-button-BorderColor);
-        border-radius: var(--og-radio-button-BorderRadius);
-        left: var(--og-radio-button-Left);
-        top: var(--og-radio-button-Top);
-        z-index: 1;
-    }
+.og-radio-button__control {
+    background: var(--og-box-Background);
+    border: var(--og-box-Border);
+    border-radius: 10rem;
+    display: flex;
+    height: var(--og-box-Height);
+    position: relative;
+    width: var(--og-box-Width);
 
     &::after {
-        background: var(--og-radio-button__icon-Background);
-        width: var(--og-radio-button__icon-Width);
-        height: var(--og-radio-button__icon-Height);
-        border: solid var(--og-radio-button__icon-BorderColor);
-        border-width: var(--og-radio-button__icon-BorderWidth);
-        border-radius: var(--og-radio-button__icon-BorderRadius);
-        left: var(--og-radio-button__icon-Left);
-        top: var(--og-radio-button__icon-Top);
-        z-index: 2;
+        content: "";
+        background: var(--og-overlay-Background);
+        border-radius: 10rem;
+        opacity: var(--og-overlay-Opacity);
+        position: absolute;
+        top: -1rem;
+        left: -1rem;
+        right: -1rem;
+        bottom: -1rem;
+        pointer-events: none;
+        z-index: 1;
     }
 }
 
-
-.og-radio-button__label__content {
-    display: block;
-    margin-left: 1.875rem;
-    margin-right: .5rem;
+.og-radio-button__box__indicator {
+    background: var(--og-indicator-Background);
+    border-radius: 10rem;
+    display: inline-block;
+    height: var(--og-indicator-Height);
+    margin: auto;
+    width: var(--og-indicator-Width);
 }
-
