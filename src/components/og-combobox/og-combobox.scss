@@ -26,7 +26,7 @@
      * Subtle Color. Used for subtle colored parts of the Combobox.
     * E.g. label and indicator when combobox is inactive.
      */
-    --og-color-subtle: var(--OG-COLOR-SHADE--100--50, #{$og-color-shade--100--50});
+    --og-color-subtle: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
 
     /**
      * @prop --og-color-front:
