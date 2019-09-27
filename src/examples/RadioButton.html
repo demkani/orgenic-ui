@@ -29,7 +29,7 @@ og-radio-button-group
 </og-card>
 <script>
     const groups = document.querySelectorAll('og-radio-button-group');
-    groups[0].addEventListener('changed', event => {
+    groups[0].addEventListener('valueChanged', event => {
         console.log('group option selected', event.target.value);
     });
 
