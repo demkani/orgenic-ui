@@ -5,17 +5,16 @@ og-radio-button-group
     <form>
         <div class="example">
             <og-radio-button-group name="bg1" selected-value="r">
-                <og-radio-button label="Angular" value="ng"></og-radio-button>
+                <og-radio-button label="Angular" value="ng" opposite></og-radio-button>
                 <og-radio-button label="React" value="r"></og-radio-button>
                 <og-radio-button label="Vue" value="v"></og-radio-button>
             </og-radio-button-group>
         </div>
         <div class="example">
-
             <og-radio-button-group name="bg2" selected-value="ng">
-                <og-radio-button label="Angular" value="ng"></og-radio-button>
-                <og-radio-button label="React Disabled" value="r" disabled></og-radio-button>
-                <og-radio-button label="Vue" value="v"></og-radio-button>
+                <og-radio-button label="Angular" value="ng" style="--og-box-Width: 2rem;"></og-radio-button>
+                <og-radio-button label="React Disabled" value="r" disabled  style="--og-box-Width: 2rem;" opposite></og-radio-button>
+                <og-radio-button label="Vue" value="v" style="--og-box-Width: 2rem;"></og-radio-button>
             </og-radio-button-group>
 
         </div>
