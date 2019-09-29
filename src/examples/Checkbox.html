@@ -7,6 +7,14 @@ og-checkbox
         <og-checkbox label="Disabled Checkbox" checked disabled></og-checkbox>
         <og-checkbox label="Disabled Checkbox" disabled></og-checkbox>
     </div>
+    <div>
+        <og-checkbox id="og-checkgroup-parent" label="Group Checkbox"></og-checkbox>
+        <div style="padding-left: 2rem">
+            <og-checkbox class="og-checkgroup-child" label="Checkbox #1" ></og-checkbox> <br>
+            <og-checkbox class="og-checkgroup-child" label="Checkbox #2" ></og-checkbox> <br>
+            <og-checkbox class="og-checkgroup-child" label="Checkbox #3" checked></og-checkbox>
+        </div>
+    </div>
 </og-card>
 <script>
     const checkboxes = document.querySelectorAll('og-checkbox');
@@ -15,4 +23,54 @@ og-checkbox
             console.log('Checkbox Active', e.detail);
         });
     });
+
+    const groupParent = document.querySelector('#og-checkgroup-parent');
+    const groupChildren = Array.from(document.querySelectorAll('.og-checkgroup-child'));
+    const groupChildrenControl = [];
+
+    function updateGroupParent() {
+        const checkedChildren = groupChildren.filter(
+            (child) => child.checked === true
+        )
+        if (checkedChildren.length === 0) {
+            groupParent.checked = false;
+            groupParent.indeterminate = false;
+            return;
+        }
+
+        if (checkedChildren.length > 0 && checkedChildren.length < groupChildren.length) {
+            groupParent.checked = false;
+            groupParent.indeterminate = true;
+            return;
+        }
+
+        if (checkedChildren.length === groupChildren.length) {
+            groupParent.checked = true;
+            groupParent.indeterminate = false;
+            return;
+        }
+    }
+
+    groupParent.addEventListener('changed', (e) => {
+        console.log('PARENT WAS CHANGED', e.detail);
+        groupChildren.forEach(
+            (child) => {
+                child.checked = e.detail;
+            }
+        )
+    });
+
+    groupChildren.forEach(
+        (child, index) => {
+            groupChildrenControl[index] = child.checked;
+            child.addEventListener('changed', (e) => {
+                groupChildrenControl[index] = e.target;
+                updateGroupParent();
+                console.log('CHILDREN', child.checked, groupChildrenControl);
+            });
+        }
+    )
+
+    document.onload = updateGroupParent();
+
 </script>

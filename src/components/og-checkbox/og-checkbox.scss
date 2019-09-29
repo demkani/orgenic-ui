@@ -1,141 +1,389 @@
-/**
- * @prop --og-checkbox-Background: Main background color of the checkbox
- * @prop --og-checkbox-Background--checked: Background color when the checkbox is checked
- * @prop --og-checkbox-Background--disabled: Background color when the checkbox is disabled
- * @prop --og-checkbox-Background--hover: Background color when the checkbox is hovered
- * @prop --og-checkbox-BorderColor: Main border color of the checkbox
- * @prop --og-checkbox-BorderColor--checked: Border color when the checkbox is checked
- * @prop --og-checkbox-BorderColor--hover: Border color when the checkbox is hovered
- * @prop --og-checkbox-BorderWidth: Main border width of the checkbox
- * @prop --og-checkbox-Height: Height of the checkbox (box model: border-box)
- * @prop --og-checkbox-Width: Width of the checkbox (box model: border-box)
- * @prop --og-checkbox-Left: Left position of the checkbox
- * @prop --og-checkbox-Top: Top position of the checkbox
- * @prop --og-checkbox__icon-Height: Height of the checkbox icon
- * @prop --og-checkbox__icon-Left: Left position of the checkbox icon
- * @prop --og-checkbox__icon-Top: Top position of the checkbox icon
- * @prop --og-checkbox__icon-Width: Width of the checkbox icon
- * @prop --og-checkbox__icon-BorderColor: Border color of the checkbox icon
- * @prop --og-checkbox__icon-BorderColor--checked: Border color when the checkbox icon is checked
- * @prop --og-checkbox__icon-BorderColor--hover: Border color when the checkbox icon is hovered
- * @prop --og-checkbox__icon-BorderWidth: Border width of the checkbox icon
- * @prop --og-checkbox__label__content-Margin: Margin of the checkbox label
- */
+////////////////////////////////////////////////////////////////////////////////
+//
+// OG-CHECKBOX
+//
+////////////////////////////////////////////////////////////////////////////////
+
 
 :host {
-    --og-checkbox-Width: 1.5rem;
-    --og-checkbox-Height: var(--og-checkbox-Width);
-    --og-checkbox-Background: var(--OG-COLOR-PRIMARY--0--50, #{$og-color-primary--0--50});
-    --og-checkbox-Background--hover: var(--OG-COLOR-PRIMARY--100--20, #{$og-color-primary--100--20});
-    --og-checkbox-Background--checked: var(--OG-COLOR-PRIMARY--100, #{$og-color-primary--100});
-    --og-checkbox-Background--disabled: var(--OG-COLOR-PRIMARY--100--30, #{$og-color-primary--100--30});
-    --og-checkbox-Top: -0.125rem;
-    --og-checkbox-Left: 0;
+    // BASE
+    // ---
+    // Variables that are used in different places inside this component.
 
-    --og-checkbox-BorderColor: var(--OG-COLOR-SHADE--50, #{$og-color-shade--50});
-    --og-checkbox-BorderColor--hover: var(--OG-COLOR-SHADE--50, #{$og-color-shade--50});
-    --og-checkbox-BorderColor--checked: var(--OG-COLOR-SHADE--50, #{$og-color-shade--50});
-    --og-checkbox__label__content-Margin: .125rem .5rem 0 1.875rem;
-    --og-checkbox__icon-Width: calc(var(--og-checkbox-Width) * .22);
-    --og-checkbox__icon-Height: calc(var(--og-checkbox-Height) * .45);
-    --og-checkbox__icon-Left: .65rem;
-    --og-checkbox__icon-Top: .15rem;
-    --og-checkbox__icon-BorderWidth: 0 .125rem .125rem 0;
-    --og-checkbox__icon-BorderColor: transparent;
-    --og-checkbox__icon-BorderColor--hover: transparent;
-    --og-checkbox__icon-BorderColor--checked: var(--OG-COLOR-SHADE--0,  #{$og-color-shade--0});
+    /**
+     * @prop --og-color-main:
+     * Main Color. Used for the colored parts of the Checkbox.
+     * E.g. the Border and Background when the Checkbox is checked.
+     */
+    --og-color-main: var(--OG-COLOR-ONE, #{$og-color-one});
+    // --og-color-subtle: var(--OG-COLOR-SHADE--100--50, #{$og-color-shade--100--50});
 
-    --og-checkbox-BorderWidth: .0625rem;
+    /**
+     * @prop --og-color-subtle:
+     * Subtle Color. Used for subtle colored parts of the unchecked Checkbox.
+     * E.g. the Border when the Checkbox is checked or the Background when
+     * the Checkbox is disabled.
+     */
+    --og-color-subtle: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
 
-    display: inline-block;
+    /**
+     * @prop --og-color-main--conter:
+     * Main Conter Color. Used for parts placed on Main Color.
+     * E.g. the Check Icon.
+     */
+    --og-color-main--conter: var(--OG-COLOR-ONE--CONTER, #{$og-color-one--conter});
+
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    /**
+     * @prop --og-checkbox-Opacity:
+     * Opacity of the whole Checkbox.
+     */
+    --og-checkbox-Opacity: var(--OG-OPACITY--ON, #{$og-opacity--on});
+
+    /**
+     * @prop --og-checkbox-Opacity--disabled:
+     * Opacity of the whole Checkbox when it's disabled.
+     */
+    --og-checkbox-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
+
+    /**
+     * @prop --og-control-Background:
+     * Background Color of the Control Box (outer Rectangle).
+     */
+    --og-control-Background: transparent;
+
+    /**
+     * @prop --og-control-BorderColor:
+     * Border Color of the Control Box (outer Rectangle).
+     */
+    --og-control-BorderColor: var(--og-color-subtle);
+
+    /**
+     * @prop --og-control-BorderStyle:
+     * Border Style of the Control Box (outer Rectangle).
+     */
+    --og-control-BorderStyle: solid;
+
+    /**
+     * @prop --og-control-BorderWidth:
+     * Border Width of the Control Box (outer Rectangle).
+     */
+    --og-control-BorderWidth: 0.125rem;
+
+    /**
+     * @prop --og-control-BorderRadius:
+     * Border Radius of the Control Box (outer Rectangle).
+     */
+    --og-control-BorderRadius: 0.125rem;
+
+    /**
+     * @prop --og-control-Width:
+     * Width of the Control Box (outer Rectangle).
+     */
+    --og-control-Width: 1.375rem;
+
+    /**
+     * @prop --og-control-height:
+     * Height of the Control Box (outer Rectangle).
+     */
+    --og-control-Height: var(--og-control-Width);
+
+    /**
+     * @prop --og-control-Background:
+     * Background Color of the Control Indicator (inner Rectangle).
+     */
+    --og-indicator-Background: transparent;
+
+    /**
+     * @prop --og-indicator-Background--selected:
+     * Background Color of the Control Indicator (inner Rectangle) when
+     * the Checkbox is selected.
+     */
+    --og-indicator-Background--selected: var(--og-color-main);
+
+    /**
+     * @prop --og-control-BorderRadius:
+     * Border Radius of the Control Indicator (inner Rectangle).
+     */
+    --og-indicator-BorderRadius: 0;
+
+    /**
+     * @prop --og-indicator-Width:
+     * Width of the Control Indicator (inner Rectangle).
+     */
+    --og-indicator-Width: calc(var(--og-control-Width) - var(--og-control-BorderWidth) * 2);
+
+    /**
+     * @prop --og-indicator-Height:
+     * Height of the Control Indicator (inner Rectangle).
+     */
+    --og-indicator-Height: var(--og-indicator-Width);
+
+    /**
+     * @prop --og-icon-Width:
+     * Width of the Check Icon.
+     */
+    --og-icon-Width: 0.45rem;
+
+    /**
+     * @prop --og-icon-Height:
+     * Height of the Check Icon.
+     */
+    --og-icon-Height: 0;
+
+    /**
+     * @prop --og-icon-Height:
+     * Height of the Check Icon when the Checkbox is selected.
+     */
+    --og-icon-Height--selected: calc(var(--og-icon-Width) * 1.6);
+
+    /**
+     * @prop --og-icon-BorderWidth:
+     * Border Width of the Check Icon.
+     */
+    --og-icon-BorderWidth: 0.125rem;
+
+    /**
+     * @prop --og-icon-BorderColor:
+     * Border Color of the Check Icon.
+     */
+    --og-icon-BorderColor: transparent;
+
+    /**
+     * @prop --og-icon-BorderColor--selected:
+     * Border Color of the Check Icon when the Checkbox is selected.
+     */
+    --og-icon-BorderColor--selected: var(--og-color-main--conter);
+
+    /**
+     * @prop --og-icon-rotation:
+     * Rotation of the Check Icon.
+     */
+    --og-icon-rotation: 0deg;
+
+    /**
+     * @prop --og-icon-rotation--selected:
+     * Rotation of the Check Icon when the Checkbox is selected.
+     */
+    --og-icon-rotation--selected: 45deg;
+
+    /**
+     * @prop --og-label-Color:
+     * Font Color of the Label.
+     */
+    --og-label-Color: var(--OG-COLOR-FRONT, #{$og-color-front});
+
+    /**
+     * @prop --og-label-LineHeight:
+     * Line Height of the Label.
+     */
+    --og-label-LineHeight: 1.25;
+
+    /**
+     * @prop --og-label-space:
+     * Space between the Label and the Control.
+     */
+    --og-label-space: 0.5rem;
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the Checkbox.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-Background--selected:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the Checkbox when it's selected.
+     */
+    --og-overlay-Background--selected: var(--OG-COLOR-ONE, #{$og-color-one});
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Overlay Opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay Opacity on :active state of the Checkbox.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay Opacity on :hover state of the Checkbox.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--focus:
+     * Overlay Opacity on :focus state of the Checkbox.
+     */
+    --og-overlay-Opacity--focus: var(--OG-OPACITY--FOCUS, #{$og-opacity--focus});
+
+    /**
+     * @prop --og-overlay-Opacity--selected:
+     * Overlay Opacity when the Checkbox is selected.
+     */
+    --og-overlay-Opacity--selected: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
+
     box-sizing: border-box;
-    *, *::before, *::after { box-sizing: inherit; }
+    display: inline-block;
+    user-select: none;
 }
 
-:host(:not(.og-checkbox--disabled):hover) {
-    --og-checkbox-Background: var(--og-checkbox-Background--hover);
-    --og-checkbox-BorderColor: var(--og-checkbox-BorderColor--hover);
-    --og-checkbox__icon-BorderColor: var(--og-checkbox__icon-BorderColor--hover);
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
-:host(.og-checkbox--checked) {
-    --og-checkbox-Background: var(--og-checkbox-Background--checked);
-    --og-checkbox-BorderColor: var(--og-checkbox-BorderColor--checked);
-    --og-checkbox__icon-BorderColor: var(--og-checkbox__icon-BorderColor--checked);
+:host(.is-disabled) {
+    --og-checkbox-Opacity: var(--og-checkbox-Opacity--disabled);
+    --og-color-main: var(--og-color-subtle);
+    cursor: default;
+    pointer-events: none;
 }
 
-:host(.og-checkbox--checked:not(.og-checkbox--disabled):hover) {
-    --og-checkbox-Background: var(--og-checkbox-Background--checked);
-    --og-checkbox-BorderColor: var(--og-checkbox-BorderColor--checked);
-    --og-checkbox__icon-BorderColor: var(--og-checkbox__icon-BorderColor--checked);
+:host(.is-checked) {
+    --og-icon-rotation: var(--og-icon-rotation--selected);
+    --og-icon-Height: var(--og-icon-Height--selected);
 }
 
-:host(.has-wrapped-label)  .og-checkbox__label__content {
-    max-width: calc(100% - 1.875rem);
-    overflow-wrap: break-word;
-    word-wrap: break-word;
+:host(.is-checked),
+:host(.is-indeterminate) {
+    --og-indicator-Background: var(--og-indicator-Background--selected);
+    --og-icon-BorderColor: var(--og-icon-BorderColor--selected);
+    --og-overlay-Background: var(--og-overlay-Background--selected);
 }
 
+:host(.is-checked:not(.is-disabled)),
+:host(.is-indeterminate:not(.is-disabled)) {
+    --og-color-subtle: var(--og-color-main);
+}
+
+
+
+:host(.is-focused) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--focus);
+}
+
+:host(:hover) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
+}
+
+:host(:active) {
+    --og-overlay-Opacity: var(--og-overlay-Opacity--selected);
+}
+
+// -----------------------------------------------------------------------------
+// Base
+// -----------------------------------------------------------------------------
+
+.og-checkbox {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    max-width: 100%;
+    opacity: var(--og-checkbox-Opacity);
+}
 
 .og-checkbox__input {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 0;
+    margin: 0;
+    outline: 0;
+    overflow: hidden;
+    padding: 0;
     position: absolute;
     width: 0;
-    height: 0;
-    border: 0;
-    clip: rect(0,0,0,0);
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    outline: 0;
-}
-
-.og-checkbox__input:disabled+.og-checkbox__label {
-    cursor: default;
-    opacity: .5
 }
 
 .og-checkbox__label {
+    color: var(--og-label-Color);
     display: block;
+    flex: none;
+    line-height: var(--og-label-LineHeight);
+    overflow: hidden;
+    padding-right: var(--og-label-space);
+    pointer-events: none;
     position: relative;
-    user-select: none;
-    min-width: var(--og-checkbox-Width);
-    min-height: var(--og-checkbox-Height);
-    cursor: pointer;
+    text-overflow: ellipsis;
     white-space: nowrap;
 
-    &::after,
-    &::before {
-        position: absolute;
-        content: "";
-        display: block;
-        transition: all 150ms ease-in-out;
-    }
-
-    &::before {
-        width: var(--og-checkbox-Width);
-        height: var(--og-checkbox-Height);
-        background: var(--og-checkbox-Background);
-        border: var(--og-checkbox-BorderWidth) solid var(--og-checkbox-BorderColor);
-        border-radius: .1875rem;
-        left: var(--og-checkbox-Left);
-        top: var(--og-checkbox-Top);
-        z-index: 1;
-    }
-
-    &::after {
-        width: var(--og-checkbox__icon-Width);
-        height: var(--og-checkbox__icon-Height);
-        border: solid var(--og-checkbox__icon-BorderColor);
-        border-width: var(--og-checkbox__icon-BorderWidth);
-        transform: rotate(45deg);
-        left: var(--og-checkbox__icon-Left);
-        top: var(--og-checkbox__icon-Top);
-        z-index: 2;
+    .og-checkbox__control + & {
+        padding-right: 0;
+        padding-left: var(--og-label-space);
     }
 }
 
+.og-checkbox__control {
+    background: var(--og-control-Background);
+    border-color: var(--og-control-BorderColor);
+    border-radius: var(--og-control-BorderRadius);
+    border-style: var(--og-control-BorderStyle);
+    border-width: var(--og-control-BorderWidth);
+    display: flex;
+    height: var(--og-control-Height);
+    position: relative;
+    width: var(--og-control-Width);
 
-.og-checkbox__label__content {
-    display: block;
-    margin: var(--og-checkbox__label__content-Margin);
+    &::after {
+        content: "";
+        background: var(--og-overlay-Background);
+        border-radius: 10rem;
+        opacity: var(--og-overlay-Opacity);
+        position: absolute;
+        top: -1rem;
+        left: -1rem;
+        right: -1rem;
+        bottom: -1rem;
+        pointer-events: none;
+        z-index: 1;
+    }
+}
+
+.og-checkbox__indicator {
+    background: var(--og-indicator-Background);
+    border-radius: var(--og-indicator-BorderRadius);
+    display: inline-block;
+    height: var(--og-indicator-Height);
+    margin: auto;
+    position: relative;
+    transition: all 150ms ease-in-out;
+    width: var(--og-indicator-Width);
+}
+
+.og-checkbox__icon {
+    // background: rgba(255,0,0, .5);
+    bottom: 0;
+    content: "";
+    display: flex;
+    left: 0;
+    position: absolute;
+    right: 0;
+    transition: all 150ms ease-in-out;
+    top: 0;
+    transform: rotate(var(--og-icon-rotation));
+    transform-origin: 62.5% 50%;
+    z-index: 2;
+
+    &::before {
+        margin: auto;
+        // position: absolute;
+        content: "";
+        display: block;
+        transition: all 150ms ease-in-out;
+        width: var(--og-icon-Width);
+        height: var(--og-icon-Height);
+        border: solid var(--og-icon-BorderColor);
+        border-width: 0 var(--og-icon-BorderWidth) var(--og-icon-BorderWidth) 0;
+        z-index: 2;
+    }
 }

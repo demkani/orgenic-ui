@@ -72,9 +72,17 @@ export namespace Components {
     */
     'disabled': boolean;
     /**
+    * Moves the label to the other side of the checkbox
+    */
+    'indeterminate': boolean;
+    /**
     * The label of the checkbox
     */
     'label': string;
+    /**
+    * Moves the label to the other side of the checkbox
+    */
+    'opposite': boolean;
   }
   interface OgCombobox {
     /**
@@ -792,6 +800,10 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
+    * Moves the label to the other side of the checkbox
+    */
+    'indeterminate'?: boolean;
+    /**
     * The label of the checkbox
     */
     'label'?: string;
@@ -799,6 +811,10 @@ declare namespace LocalJSX {
     * Event is being emitted when value changes.
     */
     'onChanged'?: (event: CustomEvent<MouseEvent>) => void;
+    /**
+    * Moves the label to the other side of the checkbox
+    */
+    'opposite'?: boolean;
   }
   interface OgCombobox extends JSXBase.HTMLAttributes<HTMLOgComboboxElement> {
     /**
