@@ -46,55 +46,55 @@
     --og-radio-button-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
 
     /**
-     * @prop --og-box-Background:
+     * @prop --og-control-Background:
      * Initial Background Color of the Control Box (outer Circle)
      */
-    --og-box-Background: transparent;
+    --og-control-Background: transparent;
 
     /**
-     * @prop --og-box-BorderWidth:
+     * @prop --og-control-BorderWidth:
      * Border Width of the Control Box (outer Circle)
      */
-    --og-box-BorderWidth: .125rem;
+    --og-control-BorderWidth: .125rem;
 
     /**
-     * @prop --og-box-BorderColor:
+     * @prop --og-control-BorderColor:
      * Border Color of the Control Box (outer Circle)
      */
-    --og-box-BorderColor: var(--og-color-subtle);
+    --og-control-BorderColor: var(--og-color-subtle);
 
     /**
-     * @prop --og-box-BorderStyle:
+     * @prop --og-control-BorderStyle:
      * Border Style of the Control Box (outer Circle)
      */
-    --og-box-BorderStyle: solid;
+    --og-control-BorderStyle: solid;
 
     /**
-     * @prop --og-box-Border:
+     * @prop --og-control-Border:
      * Shorthand for Border Settings of the Control Box (outer Circle)
      */
-    --og-box-Border: var(--og-box-BorderWidth) var(--og-box-BorderStyle) var(--og-box-BorderColor);
+    --og-control-Border: var(--og-control-BorderWidth) var(--og-control-BorderStyle) var(--og-control-BorderColor);
 
     /**
-     * @prop --og-box-Opacity--disabled:
+     * @prop --og-control-Opacity--disabled:
      * Opacity of the Combobox when it's disabled.
      */
-    --og-box-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
+    --og-control-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
 
     /**
-     * @prop --og-box-Width:
+     * @prop --og-control-Width:
      * Width of the Control Box (outer Circle)
      */
-    --og-box-Width: 1.5rem;
+    --og-control-Width: 1.375rem;
 
     /**
-     * @prop --og-box-height:
+     * @prop --og-control-height:
      * Height of the Control Box (outer Circle)
      */
-    --og-box-Height: var(--og-box-Width);
+    --og-control-Height: var(--og-control-Width);
 
     /**
-     * @prop --og-box-Background:
+     * @prop --og-control-Background:
      * Initial Background Color of the Control Indicator (inner Circle)
      */
     --og-indicator-Background: transparent;
@@ -261,13 +261,13 @@
 }
 
 .og-radio-button__control {
-    background: var(--og-box-Background);
-    border: var(--og-box-Border);
+    background: var(--og-control-Background);
+    border: var(--og-control-Border);
     border-radius: 10rem;
     display: flex;
-    height: var(--og-box-Height);
+    height: var(--og-control-Height);
     position: relative;
-    width: var(--og-box-Width);
+    width: var(--og-control-Width);
 
     &::after {
         content: "";
