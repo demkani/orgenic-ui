@@ -1,27 +1,28 @@
 <!--
 og-number-input
 -->
-<og-card name="Number Input">
-    <div class="example example--column">
+<og-card>
+    <og-card-header>Number Input</og-card-header>
+    <og-card-body class="example example--column">
         <div>
-            <label for="numberInput#1">Default Number Input</label>
-            <og-number-input id="numberInput#1"></og-number-input>
+            <label for="numberInput1">Default Number Input</label>
+            <og-number-input id="numberInput1"></og-number-input>
         </div>
         <div>
-            <label for="numberInput#2">Number Input with placeholder</label>
-            <og-number-input id="numberInput#2" placeholder="Insert value here"></og-number-input>
+            <label for="numberInput2">Number Input with placeholder</label>
+            <og-number-input id="numberInput2" placeholder="Insert value here"></og-number-input>
         </div>
         <div>
-            <label for="numberInput#3">Number Input (min/max/step: 200/226/0.5)</label>
-            <og-number-input id="numberInput#3" placeholder="Insert name here" value="218" min="200" max="226"
+            <label for="numberInput3">Number Input (min/max/step: 200/226/0.5)</label>
+            <og-number-input id="numberInput3" placeholder="Insert name here" value="218" min="200" max="226"
                 step="0.5"></og-number-input>
         </div>
         <div>
-            <label for="numberInput#4">Disabled Number Input</label>
-            <og-number-input id="numberInput#4" placeholder="Insert name here" value="2020" disabled>
+            <label for="numberInput4">Disabled Number Input</label>
+            <og-number-input id="numberInput4" placeholder="Insert name here" value="2020" disabled>
             </og-number-input>
         </div>
-    </div>
+    </og-card-body>
 </og-card>
 <script>
     const numberInputs = document.querySelectorAll('og-number-input');

@@ -1,24 +1,23 @@
 <!--
 og-button
 -->
-<og-card name="Buttons">
-    <div class="example">
+<og-card>
+    <og-card-header>Buttons</og-card-header>
+    <og-card-body>
         <og-button class="demo-button" label="Default"></og-button>
         <og-button class="demo-button" label="Flat" flat></og-button>
         <og-button class="demo-button" label="Blank" blank></og-button>
         <og-button class="demo-button" label="Blank" blank disabled></og-button>
         <og-button class="demo-button" label="Disabled" disabled></og-button>
-    </div>
-    <div class="example">
+        <br>
         <og-button class="demo-button" label="Outline" outline></og-button>
         <og-button class="demo-button" label="Disabled" outline disabled></og-button>
-    </div>
-    <div class="example">
+        <br>
         <og-button class="demo-button" label="Round" round></og-button>
         <og-button class="demo-button" label="Flat" round flat></og-button>
         <og-button class="demo-button" label="Blank" round blank></og-button>
         <og-button class="demo-button" label="Disabled" round disabled></og-button>
-    </div>
+    </og-card-body>
 </og-card>
 <script>
     const buttons = document.querySelectorAll(".demo-button");

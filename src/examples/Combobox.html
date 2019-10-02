@@ -1,8 +1,9 @@
 <!--
 og-combobox
 -->
-<og-card name="Combobox">
-    <div>
+<og-card id="demo-combobox">
+    <og-card-header>Combobox</og-card-header>
+    <og-card-body>
         <p>Empty value</p>
         <og-combobox id="combobox_empty"></og-combobox>
 
@@ -38,9 +39,7 @@ og-combobox
 
         <p>Preselected value with placeholder text [disabled]</p>
         <og-combobox id="combobox_preselected_placeholder_disabled" value="3" placeholder="Please select a value" disabled></og-combobox>
-
-
-    </div>
+    </og-card-body>
 </og-card>
 <script>
     const values = [];
@@ -48,7 +47,7 @@ og-combobox
         values.push({ label:'Value ' + i, value: i.toString()});
     }
 
-    const examples = document.querySelector('[name="Combobox"]').querySelectorAll('og-combobox')
+    const examples = document.querySelector('#demo-combobox').querySelectorAll('og-combobox')
 
     examples.forEach(
         (item) => {

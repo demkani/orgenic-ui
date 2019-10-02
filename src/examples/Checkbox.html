@@ -1,20 +1,21 @@
 <!--
 og-checkbox
 -->
-<og-card name="Checkbox">
-    <div class="example">
+<og-card>
+    <og-card-header>Checkbox</og-card-header>
+    <og-card-body>
         <og-checkbox label="Default Checkbox"></og-checkbox>
         <og-checkbox label="Disabled Checkbox" checked disabled></og-checkbox>
         <og-checkbox label="Disabled Checkbox" disabled></og-checkbox>
-    </div>
-    <div>
-        <og-checkbox id="og-checkgroup-parent" label="Group Checkbox"></og-checkbox>
-        <div style="padding-left: 2rem">
-            <og-checkbox class="og-checkgroup-child" label="Checkbox #1" ></og-checkbox> <br>
-            <og-checkbox class="og-checkgroup-child" label="Checkbox #2" ></og-checkbox> <br>
-            <og-checkbox class="og-checkgroup-child" label="Checkbox #3" checked></og-checkbox>
-        </div>
-    </div>
+        <div>
+            <og-checkbox id="og-checkgroup-parent" label="Group Checkbox"></og-checkbox>
+            <div style="padding-left: 2rem">
+                    <og-checkbox class="og-checkgroup-child" label="Checkbox #1" ></og-checkbox> <br>
+                    <og-checkbox class="og-checkgroup-child" label="Checkbox #2" ></og-checkbox> <br>
+                    <og-checkbox class="og-checkgroup-child" label="Checkbox #3" checked></og-checkbox>
+                </div>
+            </div>
+    </og-card-body>
 </og-card>
 <script>
     const checkboxes = document.querySelectorAll('og-checkbox');

@@ -162,16 +162,19 @@
             <!--
             Theme Switch
             -->
-            <og-card name="Switch Theme">
-                <div>
+            <og-card>
+                <og-card-header>
+                    Switch Theme
+                </og-card-header>
+                <og-card-body>
                     It's possible to change ORGENIC UI themes at application runtime without reloading.
                     <br /><br />
                     <b>Choose your favourite theme!</b>
-                </div>
-                <div slot="footer">
+                </og-card-body>
+                <og-card-footer>
                     <og-button id="theme_light" label="Light"></og-button>
                     <og-button id="theme_dark" label="Dark"></og-button>
-                </div>
+                </og-card-footer>
             </og-card>
             <script>
                 document.querySelector('#theme_light').addEventListener('clicked', () => {
@@ -183,25 +186,28 @@
             </script>
 
             <og-card name="Components">
-                <a href="layout-container" data-navigo>Layout Container</a>
-                <a href="datepicker" data-navigo>Datepicker</a>
-                <a href="calendar" data-navigo>Calendar</a>
-                <a href="dialog" data-navigo>Dialog</a>
-                <a href="typography" data-navigo>Typography</a>
-                <a href="expander" data-navigo>Expander</a>
-                <a href="datatable" data-navigo>Datatable</a>
-                <a href="form-item" data-navigo>Form Item</a>
-                <a href="input/text" data-navigo>Text Input</a>
-                <a href="input/textarea" data-navigo>Textarea</a>
-                <a href="input/number" data-navigo>Number Input</a>
-                <a href="input/password" data-navigo>Password Input</a>
-                <a href="radio-button" data-navigo>Radio Buttons</a>
-                <a href="tabs" data-navigo>Tabs</a>
-                <a href="checkbox" data-navigo>Checkbox</a>
-                <a href="toggle-switch" data-navigo>Toggle Switch</a>
-                <a href="button" data-navigo>Button</a>
-                <a href="list" data-navigo>List</a>
-                <a href="combobox" data-navigo>Combobox</a>
+                <og-card-header>Components</og-card-header>
+                <og-card-body>
+                    <a href="button" data-navigo>Button</a>
+                    <a href="calendar" data-navigo>Calendar</a>
+                    <a href="checkbox" data-navigo>Checkbox</a>
+                    <a href="combobox" data-navigo>Combobox</a>
+                    <a href="datatable" data-navigo>Datatable</a>
+                    <a href="datepicker" data-navigo>Datepicker</a>
+                    <a href="dialog" data-navigo>Dialog</a>
+                    <a href="expander" data-navigo>Expander</a>
+                    <a href="form-item" data-navigo>Form Item</a>
+                    <a href="input/text" data-navigo>Text Input</a>
+                    <a href="input/textarea" data-navigo>Textarea</a>
+                    <a href="input/number" data-navigo>Number Input</a>
+                    <a href="input/password" data-navigo>Password Input</a>
+                    <a href="layout-container" data-navigo>Layout Container</a>
+                    <a href="list" data-navigo>List</a>
+                    <a href="radio-button" data-navigo>Radio Buttons</a>
+                    <a href="tabs" data-navigo>Tabs</a>
+                    <a href="toggle-switch" data-navigo>Toggle Switch</a>
+                    <a href="typography" data-navigo>Typography</a>
+                </og-card-body>
             </og-card>
 
             <div id="router-outlet"></div>

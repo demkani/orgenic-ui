@@ -1,8 +1,9 @@
 <!--
 og-dialog
 -->
-<og-card name="Dialog">
-    <div>
+<og-card>
+    <og-card-header>Dialog</og-card-header>
+    <og-card-body>
         <og-dialog name="Custom Dialog" id="customDialog">
             <div>Custom Dialog Content</div>
             <div slot="footer">
@@ -18,7 +19,7 @@ og-dialog
         <og-button label="Open Custom Dialog" id="openCustomDialog"></og-button>
         <og-button label="Open Confirm Dialog" id="openConfirmDialog"></og-button>
         <og-button label="Open Success Dialog" id="openSuccessDialog"></og-button>
-    </div>
+    </og-card-body>
 </og-card>
 <script>
     const customDialogButton = document.querySelector('#openCustomDialog');

@@ -1,8 +1,9 @@
 <!--
 og-list
 -->
-<og-card name="List">
-    <div>
+<og-card>
+    <og-card-header>List</og-card-header>
+    <og-card-body>
         <h4>Listitems with pre-selection</h4>
         <og-list id="list1" selected="v2"></og-list>
 
@@ -11,9 +12,7 @@ og-list
 
         <h4>Disabled list</h4>
         <og-list id="list3" selected-key="v2" value-property="value" disabled></og-list>
-    </div>
-    <div slot="footer">
-    </div>
+    </og-card-body>
 </og-card>
 <script type="module">
     const listItems = [

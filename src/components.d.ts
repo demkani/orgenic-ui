@@ -56,12 +56,10 @@ export namespace Components {
     'showCalendarWeek': boolean;
     'year': number;
   }
-  interface OgCard {
-    /**
-    * The title for this card (optional)
-    */
-    'name': string;
-  }
+  interface OgCard {}
+  interface OgCardBody {}
+  interface OgCardFooter {}
+  interface OgCardHeader {}
   interface OgCheckbox {
     /**
     * The value of the checkbox
@@ -563,6 +561,24 @@ declare global {
     new (): HTMLOgCardElement;
   };
 
+  interface HTMLOgCardBodyElement extends Components.OgCardBody, HTMLStencilElement {}
+  var HTMLOgCardBodyElement: {
+    prototype: HTMLOgCardBodyElement;
+    new (): HTMLOgCardBodyElement;
+  };
+
+  interface HTMLOgCardFooterElement extends Components.OgCardFooter, HTMLStencilElement {}
+  var HTMLOgCardFooterElement: {
+    prototype: HTMLOgCardFooterElement;
+    new (): HTMLOgCardFooterElement;
+  };
+
+  interface HTMLOgCardHeaderElement extends Components.OgCardHeader, HTMLStencilElement {}
+  var HTMLOgCardHeaderElement: {
+    prototype: HTMLOgCardHeaderElement;
+    new (): HTMLOgCardHeaderElement;
+  };
+
   interface HTMLOgCheckboxElement extends Components.OgCheckbox, HTMLStencilElement {}
   var HTMLOgCheckboxElement: {
     prototype: HTMLOgCheckboxElement;
@@ -710,6 +726,9 @@ declare global {
     'og-button': HTMLOgButtonElement;
     'og-calendar': HTMLOgCalendarElement;
     'og-card': HTMLOgCardElement;
+    'og-card-body': HTMLOgCardBodyElement;
+    'og-card-footer': HTMLOgCardFooterElement;
+    'og-card-header': HTMLOgCardHeaderElement;
     'og-checkbox': HTMLOgCheckboxElement;
     'og-combobox': HTMLOgComboboxElement;
     'og-combobox-list': HTMLOgComboboxListElement;
@@ -784,12 +803,10 @@ declare namespace LocalJSX {
     'showCalendarWeek'?: boolean;
     'year'?: number;
   }
-  interface OgCard extends JSXBase.HTMLAttributes<HTMLOgCardElement> {
-    /**
-    * The title for this card (optional)
-    */
-    'name'?: string;
-  }
+  interface OgCard extends JSXBase.HTMLAttributes<HTMLOgCardElement> {}
+  interface OgCardBody extends JSXBase.HTMLAttributes<HTMLOgCardBodyElement> {}
+  interface OgCardFooter extends JSXBase.HTMLAttributes<HTMLOgCardFooterElement> {}
+  interface OgCardHeader extends JSXBase.HTMLAttributes<HTMLOgCardHeaderElement> {}
   interface OgCheckbox extends JSXBase.HTMLAttributes<HTMLOgCheckboxElement> {
     /**
     * The value of the checkbox
@@ -1366,6 +1383,9 @@ declare namespace LocalJSX {
     'og-button': OgButton;
     'og-calendar': OgCalendar;
     'og-card': OgCard;
+    'og-card-body': OgCardBody;
+    'og-card-footer': OgCardFooter;
+    'og-card-header': OgCardHeader;
     'og-checkbox': OgCheckbox;
     'og-combobox': OgCombobox;
     'og-combobox-list': OgComboboxList;
