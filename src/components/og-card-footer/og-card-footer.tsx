@@ -4,17 +4,18 @@
  * See LICENSE file at https://github.com/orgenic/orgenic-ui/blob/master/LICENSE
  **/
 
-import { h, Component } from '@stencil/core';
+import { Component, h } from '@stencil/core';
 
 @Component({
-  tag: 'og-card',
-  styleUrl: 'og-card.scss',
+  tag: 'og-card-footer',
+  styleUrl: 'og-card-footer.scss',
   shadow: true
 })
-export class OgCard {
-  public render() {
+export class OgCardFooter {
+
+  render() {
     return (
-      <div class="og-card">
+      <div class="og-card-footer">
         <slot></slot>
       </div>
     );

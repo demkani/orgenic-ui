@@ -1,0 +1,83 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// OG-CARD-HEADER
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// =============================================================================
+// CSS CUSTOM PROPERTIES
+// =============================================================================
+:host {
+    // BASE
+    // ---
+    // Variables that are used in different places inside this component.
+
+    /**
+     * @prop --og-color-main:
+     * Main Color. Used for the colored parts of the Checkbox.
+     * E.g. the Border and Background when the Checkbox is checked.
+     */
+    --og-color-main: var(--OG-COLOR-ONE, #{$og-color-one});
+
+
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    /**
+     * @prop --og-card-header-BorderRadius:
+     * Border Radius of the Card Header.
+     */
+    --og-card-header-BorderRadius: .25rem .25rem 0 0;
+
+
+    --og-title-FontSize: var(--OG-FONT-SIZE--XL, #{$og-font-size--xl});
+
+    --og-sub-Color: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
+    --og-sub-FontSize: var(--OG-FONT-SIZE, #{$og-font-size});
+
+    display: block;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+// -----------------------------------------------------------------------------
+// Base
+// -----------------------------------------------------------------------------
+.og-card-header {
+    padding: 8px 16px;
+    display: flex;
+    border-radius: var(--og-card-header-BorderRadius);
+    min-width: 0;
+    flex: 1;
+    display: flex;
+}
+
+.og-card-header__main {
+    flex: 1;
+    // min-width 'resets' the box-model so children can use 'text-overflow'.
+    min-width: 0;
+}
+
+.og-card-header__title {
+    font-size: var(--og-title-FontSize);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 0.5rem;
+}
+
+.og-card-header__sub {
+    color: var(--og-sub-Color);
+    font-size: var(--og-sub-FontSize);
+
+    .og-card-header__title + & {
+        margin-top: 0.25rem;
+    }
+}
