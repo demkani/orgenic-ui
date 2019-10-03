@@ -121,7 +121,10 @@ export class OgInternalCalendar {
                     return <td
                       class={ this.getClasses(localM) }
                       onClick={ () => this.dateClicked.emit(localM) }>
-                      { localM.date() }
+                      <div class="day__label">
+                        { localM.date() }
+                      </div>
+                      <div class="day__indicator"></div>
                     </td>;
                   })
                 }

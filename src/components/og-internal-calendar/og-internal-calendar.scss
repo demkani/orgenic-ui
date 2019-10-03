@@ -1,15 +1,149 @@
 :host {
-    --og-calendar__day-Background: none;
-    --og-calendar__day-Background--hover: var(--OG-COLOR-PRIMARY--100--15, #{$og-color-primary--100--15});
-    --og-calendar__day-Background--active: var(--OG-COLOR-PRIMARY--100, #{$og-color-primary--100});
-    --og-calendar__day-Background--disabled: none;
 
-    --og-calendar__day-Color: inherit;
-    --og-calendar__day-Color--hover: var(--OG-COLOR-PRIMARY--100--15, #{$og-color-primary--100--15});
-    --og-calendar__day-Color--active: var(--OG-COLOR-SHADE--0, #{$og-color-shade--0});
-    --og-calendar__day-Color--disabled: var(--OG-COLOR-SHADE--100--50, #{$og-color-shade--100--50});
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
 
-    --og-calendar__day__indicator-Background: var(--OG-COLOR-PRIMARY--40, #{$og-color-primary--40});
+    /**
+     * @prop --og-day-Background:
+     * Background of the Day field.
+     */
+    --og-day-Background: none;
+
+    /**
+     * @prop --og-day-Background:
+     * Background of the Day field when it's selected.
+     */
+    --og-day-Background--selected: var(--OG-COLOR-ONE, #{$og-color-one});
+
+    /**
+     * @prop --og-day-Background:
+     * Background of the Day field when it's disabled.
+     */
+    --og-day-Background--disabled: none;
+
+    /**
+     * @prop --og-day-FontWeight:
+     * Font Weight of the Day field.
+     */
+    --og-day-FontWeight: 300;
+
+    /**
+     * @prop --og-day-FontWeight--today:
+     * Font Weight of the Day field when it matches today's date.
+     */
+    --og-day-FontWeight--today: 600;
+
+    /**
+     * @prop --og-day-Opacity:
+     * Opacity of the Day field.
+     */
+    --og-day-Opacity: 1;
+
+    /**
+     * @prop --og-day-Opacity:
+     * Opacity of the Day field when it's disabled.
+     */
+    --og-day-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});;
+
+    /**
+     * @prop --og-day-Color:
+     * Font Color of the Day field.
+     */
+    --og-day-Color: var(--OG-COLOR-FRONT, #{$og-color-front});
+
+    /**
+     * @prop --og-day-Color--selected:
+     * Font Color of the Day field when it's selected.
+     */
+    --og-day-Color--selected: var(--OG-COLOR-ONE--CONTER, #{$og-color-one--conter});
+
+    /**
+     * @prop --og-indicator-Bakground:
+     * Background of the Indicator (small bar below the Day Label).
+     */
+    --og-indicator-Background: none;
+
+    /**
+     * @prop --og-indicator-Bakground--highlight:
+     * Background of the Indicator when the Day field is highlighted.
+     */
+    --og-indicator-Background--highlight: var(--OG-COLOR-ONE, #{$og-color-one});
+
+    /**
+     * @prop --og-indicator-Bakground--selected:
+     * Background of the Indicator when the Day field is highlighted
+     * and selected.
+     */
+    --og-indicator-Background--selected: var(--OG-COLOR-ONE--CONTER, #{$og-color-one--conter});
+
+    /**
+     * @prop --og-indicator Opacity:
+     * Opacity of the Indicator.
+     */
+    --og-indicator-Opacity: .5;
+
+    /**
+     * @prop --og-week-BorderColor:
+     * Border Color of the Week field.
+     */
+    --og-week-BorderColor: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
+
+    /**
+     * @prop --og-week-BorderStyle:
+     * Border Style of the Week field.
+     */
+    --og-week-BorderStyle: dotted;
+
+    /**
+     * @prop --og-week-BorderWidth:
+     * Border Width of the Week field.
+     */
+    --og-week-BorderWidth: 0 1px 0 0;
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the Checkbox.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-Background--selected:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the Checkbox when it's selected.
+     */
+    --og-overlay-Background--selected: var(--OG-COLOR-ONE, #{$og-color-one});
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Overlay Opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay Opacity on :active state of the Checkbox.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay Opacity on :hover state of the Checkbox.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--focus:
+     * Overlay Opacity on :focus state of the Checkbox.
+     */
+    --og-overlay-Opacity--focus: var(--OG-OPACITY--FOCUS, #{$og-opacity--focus});
+
+    /**
+     * @prop --og-overlay-Opacity--selected:
+     * Overlay Opacity when the Checkbox is selected.
+     */
+    --og-overlay-Opacity--selected: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
 }
 
 table {
@@ -27,54 +161,87 @@ th {
 }
 
 .day {
-    background: var(--og-calendar__day-Background);
-    color: var(--og-calendar__day-Color);
-    text-align: center;
+    background: var(--og-day-Background);
     border-radius: 3px;
-    position: relative;
+    color: var(--og-day-Color);
     cursor: pointer;
+    font-weight: var(--og-day-FontWeight);
+    opacity: var(--og-day-Opacity);
     padding: 6px;
-
+    position: relative;
+    text-align: center;
 
     &::after {
+        content: "";
+        background: var(--og-overlay-Background);
+        border-radius: 5px;
+        opacity: var(--og-overlay-Opacity);
         position: absolute;
-        display: block;
-        content: '';
-        height: 2px;
-        top: auto;
-        right: 4px;
-        bottom: 2px;
-        left: 4px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 1;
     }
 
-    &:not(.day--disabled):not(.day--selected):hover {
-        --og-calendar__day-Background: var(--og-calendar__day-Background--hover, none);
+    &:hover {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
     }
+
+    &:active {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--selected);
+    }
+}
+
+.day__label {
+    position: relative;
+    z-index: 2;
+}
+
+
+.day__indicator {
+    background: var(--og-indicator-Background);
+    bottom: 2px;
+    content: '';
+    display: block;
+    height: 2px;
+    left: 4px;
+    opacity: var(--og-indicator-Opacity);
+    position: absolute;
+    right: 4px;
+    top: auto;
+    z-index: 2;
 }
 
 .day--selected {
-    --og-calendar__day-Background: var(--og-calendar__day-Background--active, none);
-    --og-calendar__day-Color: var(--og-calendar__day-Color--active);
+    --og-day-Background: var(--og-day-Background--selected);
+    --og-day-Color: var(--og-day-Color--selected);
 }
 
+.day--disabled {
+    --og-day-Opacity: var(--og-day-Opacity--disabled);
+    cursor: default;
+    pointer-events: none;
+}
+
+.day--today {
+    --og-day-FontWeight: var(--og-day-FontWeight--today);
+}
+
+.day--highlight {
+    --og-indicator-Background: var(--og-indicator-Background--highlight);
+
+    &.day--selected {
+        --og-indicator-Background: var(--og-indicator-Background--selected);
+    }
+}
 
 
 .week {
     padding-right: 8px;
     text-align: right;
-    border-right: 1px solid var(--OG-COLOR-SHADE--100--20);
-}
-
-.day--disabled {
-    --og-calendar__day-Color: var(--og-calendar__day-Color--disabled);
-    --og-calendar__day-Background: var(--og-calendar__day-Background--disabled);
-    cursor: default;
-}
-
-.day--today {
-    font-weight: bold;
-}
-
-.day--highlight::after {
-    background: var(--og-calendar__day__indicator-Background);
+    border-color: var(--og-week-BorderColor);
+    border-style: var(--og-week-BorderStyle);
+    border-Width: var(--og-week-BorderWidth);
 }
