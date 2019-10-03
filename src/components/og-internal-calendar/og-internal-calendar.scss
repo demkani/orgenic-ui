@@ -104,14 +104,14 @@
     /**
      * @prop --og-overlay-Background:
      * Overlay Background used for :hover, :focus and :active state
-     * of the Checkbox.
+     * of the Day field.
      */
     --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
 
     /**
      * @prop --og-overlay-Background--selected:
      * Overlay Background used for :hover, :focus and :active state
-     * of the Checkbox when it's selected.
+     * of the Day field when it's selected.
      */
     --og-overlay-Background--selected: var(--OG-COLOR-ONE, #{$og-color-one});
 
@@ -123,27 +123,27 @@
 
     /**
      * @prop --og-overlay-Opacity--active:
-     * Overlay Opacity on :active state of the Checkbox.
+     * Overlay Opacity on :active state of the Day field.
      */
     --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
 
     /**
      * @prop --og-overlay-Opacity--hover:
-     * Overlay Opacity on :hover state of the Checkbox.
+     * Overlay Opacity on :hover state of the Day field.
      */
     --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
 
     /**
      * @prop --og-overlay-Opacity--focus:
-     * Overlay Opacity on :focus state of the Checkbox.
+     * Overlay Opacity on :focus state of the Day field.
      */
     --og-overlay-Opacity--focus: var(--OG-OPACITY--FOCUS, #{$og-opacity--focus});
 
     /**
-     * @prop --og-overlay-Opacity--selected:
-     * Overlay Opacity when the Checkbox is selected.
+     * @prop --og-overlay-Opacity--active:
+     * Overlay Opacity on :active state of the Day field.
      */
-    --og-overlay-Opacity--selected: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
+    --og-overlay-Opacity--active: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
 }
 
 table {
@@ -190,7 +190,7 @@ th {
     }
 
     &:active {
-        --og-overlay-Opacity: var(--og-overlay-Opacity--selected);
+        --og-overlay-Opacity: var(--og-overlay-Opacity--active);
     }
 }
 
