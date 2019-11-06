@@ -4,8 +4,44 @@
     --og-calendar__header-BorderColor: var(--OG-COLOR-SHADE--100--20, #{$og-color-shade--100--20});
     --og-calendar__header-Border: var(--og-calendar__header-BorderWidth) var(--og-calendar__header-BorderStyle) var(--og-calendar__header-BorderColor);
 
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover, :focus and :active state
+     * of the Day field.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Overlay Opacity.
+     */
+    --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
+
+    /**
+     * @prop --og-overlay-Opacity--hover:
+     * Overlay Opacity on :hover state of the Day field.
+     */
+    --og-overlay-Opacity--hover: var(--OG-OPACITY--HOVER, #{$og-opacity--hover});
+
+    /**
+     * @prop --og-overlay-Opacity--focus:
+     * Overlay Opacity on :focus state of the Day field.
+     */
+    --og-overlay-Opacity--focus: var(--OG-OPACITY--FOCUS, #{$og-opacity--focus});
+
+    /**
+     * @prop --og-overlay-Opacity--active:
+     * Overlay Opacity on :active state of the Day field.
+     */
+    --og-overlay-Opacity--active: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
+
     display: inline-block;
     width: auto;
+}
+
+:host(:focus) {
+    outline: none;
 }
 
 .calendar__container {
@@ -48,6 +84,34 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    outline: none;
+    position: relative;
+
+    &::after {
+        content: "";
+        background: var(--og-overlay-Background);
+        border-radius: 5px;
+        opacity: var(--og-overlay-Opacity);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    &:focus {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--focus);
+    }
+
+    &:hover {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--hover);
+    }
+
+    &:active {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--active);
+    }
 }
 
 .calendar__nav--hidden {

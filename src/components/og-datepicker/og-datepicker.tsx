@@ -12,14 +12,16 @@ import {
   Event,
   State,
   Element,
-  Listen,
+  // Listen,
   Watch,
-  Host
+  Host,
+  Listen
 } from '@stencil/core';
 import { OgCalendarDate, OgDateDecorator } from '../og-internal-calendar/interfaces/og-calendar-date-decorator';
 import { CalendarUtils } from '../og-internal-calendar/utils/utils';
 import moment from 'moment';
 import { loadMomentLocale, getDefaultLocale } from '../../utils/moment-locale-loader';
+import { ElementMeasures } from '../og-combobox/og-combobox.interface';
 
 @Component({
   tag: 'og-datepicker',
@@ -28,22 +30,16 @@ import { loadMomentLocale, getDefaultLocale } from '../../utils/moment-locale-lo
 })
 export class OgDatepicker {
   @Element()
-  public el: HTMLElement;
+  public hostElement: HTMLElement;
 
-  @Prop({ context: 'resourcesUrl' })
-  public resourcesUrl!: string;
+  @State() reopen: boolean;
+  @State() isFocused: boolean;
+  @State() selectMeasures: DOMRect;
+  @State() optionsMeasures: ElementMeasures;
+  @State()
+  private internalValue: OgCalendarDate;
 
-  /**
-   * Optional placeholder if no value is selected.
-   */
-  @Prop()
-  public placeholder?: string;
-
-  /**
-   * Locale for this datepicker (country code in ISO 3166 format)
-   */
-  @Prop()
-  public loc = getDefaultLocale();
+  public optionsElement: HTMLOgDatepickerOptionsElement;
 
   /**
    * The date decorator can be used to highlight special dates like public holidays or meetings.
@@ -58,46 +54,64 @@ export class OgDatepicker {
   public disabled: boolean;
 
   /**
-   * Event is being emitted when selected date changes.
-   */
-  @Event()
-  public dateSelected: EventEmitter<any>;
-
-  /**
-   * Event is being emitted when input gets focus..
-   */
-  @Event()
-  public focusGained: EventEmitter<FocusEvent>;
-
-  /**
-   * Event is being emitted when focus gets lost.
-   */
-  @Event()
-  public focusLost: EventEmitter<FocusEvent>;
-
-  @State()
-  public dropdownActive: boolean = false;
-
-  /**
-   * The selected value of the combobox
-   */
-  @Prop({ mutable: true, reflectToAttr: true })
-  public value: string;
-
-  /**
    * Defines the date string format. The value will be parsed and emitted using this format.
    */
   @Prop()
   public format: string = 'DD.MM.YYYY';
 
-  public indicatorElement: HTMLElement;
+  @Watch('format')
+  public setFormat() {
+    this.setValue(this.value);
+  }
 
-  public flyoutCalendar: HTMLElement;
+  /** Alternate Icon */
+  @Prop()
+  icon?= `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.15 96.15">
+    <path fill="var(--og-combobox__icon-Fill, currentColor)" d="M.56 20.97l45.95 57.6c.76.96 2.37.96 3.13 0l45.96-57.6a2.86 2.86 0 0 0 .22-3.05 2 2 0 0 0-1.76-1.06H2.09a2 2 0 0 0-1.76 1.06 2.87 2.87 0 0 0 .23 3.05z"/>
+  </svg>`;
 
-  @State()
-  private internalValue: OgCalendarDate;
+  /** Optional label text */
+  @Prop() label?: string;
 
-  @Watch('value') public setValue(newValue: string) {
+  /**
+   * Locale for this datepicker (country code in ISO 3166 format)
+   */
+  @Prop()
+  public loc = getDefaultLocale();
+
+  /** Controls the open state of the Option List  */
+  @Prop({ mutable: true, reflectToAttr: true })
+  public optionsOpened: boolean;
+
+  @Watch("optionsOpened")
+  public watchOptionsOpened(newValue: boolean) {
+
+    this.repositionOptionsInDom();
+    if (newValue === true) {
+      this.updateSelectMeasures();
+      this.optionsElement.focus()
+    }
+
+  }
+
+  /**
+   * Optional placeholder if no value is selected.
+   */
+  @Prop()
+  public placeholder?: string;
+
+  @Prop({ context: 'resourcesUrl' })
+  public resourcesUrl!: string;
+
+
+  /**
+   * The selected value of the combobox
+   */
+  @Prop({ mutable: true, reflectToAttr: true })
+  public value?: string;
+
+  @Watch('value')
+  public setValue(newValue: string) {
     if (typeof newValue === 'string') {
       moment.locale(this.loc);
       const lmoment = moment(newValue, this.format);
@@ -105,35 +119,11 @@ export class OgDatepicker {
     }
   }
 
-  @Watch('format') public setFormat() {
-    this.setValue(this.value);
-  }
-
-  @Listen('scroll', { target: 'window' })
-  public handleWindowScroll() {
-    // close flyout on scroll events
-    this.dropdownActive = false;
-    this.focusLost.emit();
-  }
-
-  @Listen('scroll', { target: 'body' })
-  public handleBodyScroll() {
-    // close flyout on scroll events
-    this.dropdownActive = false;
-    this.focusLost.emit();
-  }
-
-  @Listen('click', { target: 'body' })
-  public handleBodyClick(ev: Event) {
-    if (!this.dropdownActive || this.el === ev.target) {
-      return;
-    }
-    if (this.dropdownActive) {
-      this.dropdownActive = false;
-      ev.cancelBubble = true;
-      this.focusLost.emit();
-    }
-  }
+  /**
+   * Event is being emitted when selected date changes.
+   */
+  @Event()
+  public dateSelected: EventEmitter<any>;
 
   public async componentWillLoad() {
     await loadMomentLocale(this.loc, moment);
@@ -142,17 +132,23 @@ export class OgDatepicker {
 
   public componentDidLoad() {
     this.setValue(this.value);
+    this.updateSelectMeasures();
   }
 
-  public buttonClicked() {
-    if (!this.disabled) {
-      this.dropdownActive = !this.dropdownActive;
-      if (this.dropdownActive) {
-        this.focusGained.emit();
-      } else {
-        this.focusLost.emit();
-      }
-    }
+  private generateUid() {
+    return (
+      Math.random()
+        .toString(36)
+        .substring(2, 15) +
+      Math.random()
+        .toString(36)
+        .substring(2, 15)
+    );
+  }
+
+  private handleChange(event) {
+    this.value = event.target.value;
+    this.dateSelected.emit(this.value);
   }
 
   public handleDateClicked(event) {
@@ -161,101 +157,171 @@ export class OgDatepicker {
     if (!this.disabled) {
       const date: OgCalendarDate = event.detail;
 
-      this.dropdownActive = false;
       this.internalValue = date;
       this.value = CalendarUtils.calendarDate2Moment(date, this.loc).format(this.format);
       this.dateSelected.emit(CalendarUtils.calendarDate2Moment(date, this.loc).toDate());
-      this.focusLost.emit();
     }
   }
 
-  private isDropdownActive(): boolean {
-    return this.dropdownActive && !this.disabled;
+  private handleSelectClick() {
+    if (!this.disabled) {
+      this.optionsOpened = !this.optionsOpened;
+    }
+  }
+
+  private handleSelectFocus(focus: boolean) {
+    if (!this.disabled) {
+      this.updateSelectMeasures();
+      this.isFocused = focus;
+    }
+  }
+
+  private handleSelectKeyUp(event: KeyboardEvent) {
+    if ((event.code === "Space") && !this.disabled) {
+      this.optionsOpened = !this.optionsOpened;
+    }
+  }
+
+  private handleSelectKeyDown(event: KeyboardEvent) {
+    if ((event.code === "Space") && !this.disabled) {
+      event.preventDefault();
+    }
   }
 
   /**
-   * behaviour:
-   *   * combobox flyout shows 7 items
-   *   * if it does not fit on screen, scale down flyout
-   *   * if flyout would be smaller than 4 items, show flyout above combobox
+   * Attach the Option List to <body> so it can't be cut off by
+   * overflow:hidden settings in any parent element. And put it back again
+   * afterwards so we don't leave a mess.
    */
-  public getFlyoutCss() {
-    if (!this.indicatorElement) {
-      return {};
+  private repositionOptionsInDom() {
+    const optionsInside = this.hostElement.shadowRoot.querySelector(`[og-data-options="${this.uniqueId}"]`);
+    if (optionsInside) {
+      document.body.appendChild(optionsInside);
+      return;
     }
-
-    let flyoutTop = (this.indicatorElement.getBoundingClientRect().top + this.indicatorElement.offsetHeight);
-
-    this.flyoutCalendar.style.display = 'block';
-    const flyoutHeight = this.flyoutCalendar.getBoundingClientRect().height;
-    this.flyoutCalendar.style.display = '';
-
-    if (flyoutTop + flyoutHeight > window.innerHeight) {
-      flyoutTop = this.el.getBoundingClientRect().top - flyoutHeight;
-    }
-
-    return {
-      top: Math.max(0, flyoutTop) + 'px',
+    const optionsOutside = document.querySelector(`[og-data-options="${this.uniqueId}"]`);
+    if (optionsOutside) {
+      this.hostElement.shadowRoot.appendChild(optionsOutside);
     }
   }
 
+  private get selectButtonElement(): HTMLElement {
+    return this.hostElement.shadowRoot.querySelector("#og-datepicker-select");
+  }
+
+  private updateOptionsVisibility() {
+    /**
+     * If the Select Button is out of view, we hide the opened Options.
+     */
+    if (!!this.optionsOpened) {
+      if (
+        this.selectMeasures.top <= -16 ||
+        this.selectMeasures.top >= window.innerHeight
+      ) {
+        this.optionsOpened = false;
+        this.reopen = true;
+      }
+    }
+
+    /**
+     * If the 'reopen' Property is set we show the Options when the Select Button
+     * returns into the view.
+     */
+    if (!!this.reopen) {
+      if (
+        this.selectMeasures.top > 0 &&
+        this.selectMeasures.top < window.innerHeight
+      ) {
+        this.optionsOpened = true;
+        this.reopen = false;
+      }
+    }
+  }
+
+  private updateSelectMeasures() {
+    this.selectMeasures = this.selectButtonElement.getBoundingClientRect() as DOMRect;
+  }
+
+  private uniqueId = this.generateUid();
+
+  @Listen("resize", { target: "window" })
+  @Listen("scroll", { target: "window" })
+  listenToWindowScroll() {
+    if (!!this.optionsOpened || !!this.reopen) {
+      this.updateSelectMeasures();
+      this.updateOptionsVisibility();
+    }
+  }
+  // @Listen("resize", { target: "window" })
+  // public listenToWindowResize() {
+  //   if (!!this.optionsOpened || !!this.reopen) {
+  //     this.updateSelectMeasures();
+  //     this.updateOptionsVisibility();
+  //   }
+  // }
+
   public render(): HTMLElement {
     return (
-      <Host class={{ 'og-form-item__editor': true, 'is-focused': this.dropdownActive }}>
-        <div
-          class="og-datepicker__header"
-          onClick={() => this.buttonClicked()}
-        >
-          <input
-            type="text"
-            class="og-datepicker__input"
-            readonly="true"
-            value={ !this.internalValue ? '' : CalendarUtils.calendarDate2Moment(this.internalValue, this.loc).format(this.format) }
-            placeholder={this.placeholder}
-            disabled={this.disabled}
-          />
-          <div class="og-datepicker__button">
-            <svg
-              class={
-                'og-datepicker__button__arrow' +
-                              (this.isDropdownActive() ? ' og-datepicker__button__arrow--collapsed' : '')
-              }
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 24 12"
-              preserveAspectRatio="none"
+      <Host
+        class={{
+          "is-focused": this.isFocused,
+          "is-disabled": this.disabled,
+          "is-opened": this.optionsOpened,
+          "has-content": !!this.value
+        }}
+        og-data-select={this.uniqueId}
+      >
+        <div class="og-combobox">
+          <div class="og-combobox__main">
+            <div
+              role="button"
+              tabindex={this.disabled ? "-1" : "0"}
+              id="og-datepicker-select"
+              class="og-combobox__box"
+              onFocus={() => this.handleSelectFocus(true)}
+              onBlur={() => this.handleSelectFocus(false)}
+              onClick={() => this.handleSelectClick()}
+              onKeyUp={event => this.handleSelectKeyUp(event)}
+              onKeyDown={event => this.handleSelectKeyDown(event)}
             >
-              <polyline
-                class="og-datepicker__button__arrow__line"
-                points="0,0 12,12 24,0"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecaps="round"
-                stroke-linejoin="round"
+              {this.label && (
+                <span class="og-combobox__label">{this.label}</span>
+              )}
+              <input
+                type="text"
+                id={this.uniqueId}
+                class="og-combobox__input"
+                value={this.value}
+                disabled={this.disabled}
+                onInput={event => this.handleChange(event)}
+                placeholder={this.placeholder}
+                tabindex="-1"
+                readonly
               />
-            </svg>
+              <div class="og-combobox__indicator"></div>
+              <div class="og-combobox__icon" innerHTML={this.icon}></div>
+            </div>
           </div>
-          <div class="og-datepicker__indicator" ref={(el) => this.indicatorElement = el} />
         </div>
-        <div class="og-datepicker__flyout">
-          <og-calendar
-            class={
-              'og-datepicker__flyout__calendar' +
-                          (this.isDropdownActive() ? ' og-datepicker__flyout__calendar--visible' : '')
-            }
-            style={ this.getFlyoutCss() }
-            ref={(el) => this.flyoutCalendar = el}
-            year={ !this.internalValue ? undefined : this.internalValue.year }
-            month={ !this.internalValue ? undefined : this.internalValue.month }
-            loc={ this.loc }
-            dateDecorator={ this.dateDecorator }
-            selection={ !this.internalValue ? [] : [ this.internalValue ] }
-            selectionType="single"
-            onDateClicked={ (e) => this.handleDateClicked(e) }>
-          </og-calendar>
-        </div>
+        <og-datepicker-options
+          id="og-datepicker-options"
+          og-data-options={this.uniqueId}
+          loc={this.loc}
+          positionSource={this.selectMeasures}
+          dateDecorator={this.dateDecorator}
+          internalValue={this.internalValue}
+          optionsOpened={this.optionsOpened}
+          onDateSelected={(e) => this.handleDateClicked(e)}
+          onOptionsClosed={() => {
+            this.optionsOpened = false;
+            this.reopen = false;
+
+          }}
+          reopen={this.reopen}
+          tabindex="-1"
+          ref={el => this.optionsElement = el}
+        >
+        </og-datepicker-options>
       </Host>
     );
   }

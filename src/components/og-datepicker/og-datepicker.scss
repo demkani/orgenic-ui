@@ -2,112 +2,259 @@
 // CSS CUSTOM PROPERTIES
 // =============================================================================
 
-/**
- * @prop --og-datepicker-Background: Main background color of the datepicker
- * @prop --og-datepicker-BorderColor: Main border color of the datepicker
- * @prop --og-datepicker-BorderWidth: Main border width of the datepicker
- * @prop --og-datepicker-BorderStyle: Main border style of the datepicker
- * @prop --og-datepicker-Color: Text color of the datepicker
- * @prop --og-datepicker-FontSize: Font size of the datepicker label
- * @prop --og-datepicker-Opacity: Overall opacity of the datepicker
- * @prop --og-datepicker-Outline: Outline of the datepicker
- * @prop --og-datepicker__button__arrow-Width: Width of the toggle icon
- * @prop --og-datepicker__button__arrow-Height: Height of the toggle icon
- * @prop --og-datepicker__button__arrow-Padding: Padding of the toggle icon
- * @prop --og-datepicker__flyout-Background: Background color of the datepicker list
- * @prop --og-datepicker__flyout-BoxShadow: Shadow of the datepicker list
- * @prop --og-datepicker__flyout__item-Background: Background color of list item
- * @prop --og-datepicker__flyout__item-Background--active: Background color of list item when clicked
- * @prop --og-datepicker__flyout__item-Background--hover: Background color of list item when hovered
- * @prop --og-datepicker__flyout__item-Color: Text color of the list item
- * @prop --og-datepicker__indicator-Width: Width of the focus indicator
- * @prop --og-datepicker__indicator-Height: Height of the focus indicator
- * @prop --og-datepicker__indicator-Background: Color of the focus indicator
- * @prop --og-datepicker__placeholder-Color: Text color of the placeholder
- */
-
 :host {
-    --og-datepicker-Background:   var(--OG-COLOR-SHADE--80--05, #{$og-color-shade--80--05});
-    --og-datepicker-BorderColor:  var(--OG-COLOR-SHADE--100--20, #{$og-color-shade--100--20}); // --OG-COLOR-SHADE--50
-    --og-datepicker-BorderWidth:  1px;
-    --og-datepicker-BorderStyle:  solid;
 
-    --og-datepicker-Color:        var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
-    --og-datepicker-FontSize:     inherit;
-    --og-datepicker-Outline:      none;
-    --og-datepicker-Opacity:      1;
+    // BASE
+    // ---
+    // Variables that are used on different places inside this component.
 
-    --og-datepicker__flyout-BoxShadow:    0 0 8px rgba(0, 0, 0, .05), 0 2px 4px rgba(0, 0, 0, .2);
-    --og-datepicker__flyout-Background:   var(--OG-COLOR-PRIMARY--0, #{$og-color-primary--0});
+    /**
+     * @prop --og-TransitionDuration:
+     * Overall Transition Duration.
+     */
+    --og-TransitionDuration: 200ms;
 
-    --og-datepicker__flyout__item-Background:         transparent;
-    --og-datepicker__flyout__item-Background--hover:  var(--OG-COLOR-PRIMARY--100--15, #{$og-color-primary--100--15});
-    --og-datepicker__flyout__item-Background--active: var(--OG-COLOR-PRIMARY--100--30, #{$og-color-primary--100--30});
-    --og-datepicker__flyout__item-Color:              var(--OG-COLOR-SHADE--100, #{$og-color-shade--100});
+    /**
+     * @prop --og-color-main:
+     * Main color. Used for the colored parts of the Combobox.
+     * E.g. Label, Icon and Indicator when the Combobox is focused or opened.
+     */
+    --og-color-main: var(--OG-COLOR-ONE, #{$og-color-one});
 
-    --og-datepicker__placeholder-Color:               var(--OG-COLOR-SHADE--50, #{$og-color-shade--50});
+    /**
+     * @prop --og-color-subtle:
+     * Subtle Color. Used for subtle colored parts of the Combobox.
+    * E.g. label and indicator when combobox is inactive.
+     */
+    --og-color-subtle: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
 
-    --og-datepicker__indicator-Width:         0;
-    --og-datepicker__indicator-Height:        2px;
-    --og-datepicker__indicator-Background:    var(--OG-COLOR-PRIMARY--100, #{$og-color-primary--100});
+    /**
+     * @prop --og-color-front:
+     * Front Color. Used for parts colored with the app's Front Color.
+     * E.g. value, and icon when combobox is inactive.
+     */
+    --og-color-front: var(--OG-COLOR-FRONT, #{$og-color-front});
 
-    --og-datepicker__button__arrow-Width:     16px;
-    --og-datepicker__button__arrow-Height:    16px;
-    --og-datepicker__button__arrow-Padding:   22px 2px 0 2px;
 
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    max-width: inherit;
-    max-height: inherit;
-    cursor: pointer;
-    background: var(--og-datepicker-Background);
-    opacity: var(--og-datepicker-Opacity);
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    /**
+     * @prop --og-box-Background:
+     * Background of the Combobox.
+     */
+    --og-box-Background: var(--OG-COLOR-SHADE--100--5, #{$og-color-shade--100--5});
+
+    /**
+     * @prop --og-box-Opacity:
+     * Opacity of the Combobox.
+     */
+    --og-box-Opacity: 1;
+
+    /**
+     * @prop --og-box-Opacity--disabled:
+     * Opacity of the Combobox when it's disabled.
+     */
+    --og-box-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});
+
+    /**
+     * @prop --og-label-Color:
+     * Text Color of the Label.
+     */
+    --og-label-Color: var(--og-color-subtle);
+
+    /**
+     * @prop --og-label-Color--active:
+     * Text Color of the Label.
+     */
+    --og-label-Color--active: var(--og-color-main);
+
+    /**
+     * @prop --og-label-FontSize:
+     * Font Size of the Label.
+     */
+    --og-label-FontSize: var(--OG-FONTSIZE--SUBTITLE-1, #{$og-font-size});
+
+    /**
+     * @prop --og-label-FontSize--active:
+     * Font Size of the Label when the Combobox is focused or opened.
+     */
+    --og-label-FontSize--active: var(--OG-FONTSIZE--CAPTION, #{$og-font-size--2xs});
+
+    /**
+     * @prop --og-label-Top:
+     * Top position of the Label.
+     */
+    --og-label-Top: 1.125rem;
+
+    /**
+     * @prop --og-label-Top--active:
+     * Top position of the Label when the Combobox is focused or opened.
+     */
+    --og-label-Top--active: 0.5rem;
+
+    /**
+     * @prop --og-input-Color:
+     * Text Color of the Input
+     */
+    --og-input-Color: var(--og-color-front);
+
+    /**
+     * @prop --og-input-FontSize:
+     * Font Size of the Input
+     */
+    --og-input-FontSize: var(--OG-FONTSIZE--SUBTITLE-1, #{$og-font-size});
+
+    /**
+     * @prop --og-placeholder-Color:
+     * Text Color of the Input Placeholder.
+     */
+    --og-placeholder-Color: var(--og-color-subtle);
+
+    /**
+     * @prop --og-message-Color:
+     * Text Color of the Message below the Combobox.
+     */
+    --og-message-Color: var(--og-color-subtle);
+
+    /**
+     * @prop --og-message-FontSize:
+     * Font Size of the Message below the Combobox.
+     */
+    --og-message-FontSize: var(--OG-FONTSIZE--CAPTION, #{$og-font-size--xs});
+
+    /**
+     * @prop --og-combobox__icon-Fill:
+     * Fill Color of the toggle Icon.
+     */
+    --og-combobox__icon-Fill: var(--og-color-front);
+
+    /**
+     * @prop --og-combobox__icon-Fill--active:
+     * Fill Color of the toggle Icon when the Combobox is focused or opened.
+     */
+    --og-combobox__icon-Fill--active: var(--og-color-main);
+
+    /**
+     * @prop --og-select__icon-angle:
+     * Angle of the toggle Icon.
+     */
+    --og-select__icon-angle: 0;
+
+    /**
+     * @prop --og-select__icon-angle--active:
+     * Angle of the toggle Icon when the Combobox is focused or opened.
+     */
+    --og-select__icon-angle--active: 180deg;
+
+    /**
+     * @prop --og-icon-Margin:
+     * Margin of the toggle Icon.
+     */
+    --og-icon-Margin: 0 0.75rem 0;
+
+    /**
+     * @prop --og-icon-Width:
+     * Width of the toggle Icon.
+     */
+    --og-icon-Width: 0.75rem;
+
+    /**
+     * @prop --og-indicator-Background:
+     * Background Color of the Indicator Line
+     */
+    --og-indicator-Background: var(--og-color-subtle);
+
+    /**
+     * @prop --og-indicator-overlay-Background:
+     * Background Color of the Indicator Line when the Combobx is focused or
+     * opened.
+     */
+    --og-indicator-overlay-Background: var(--og-color-main);
+
+    /**
+     * @prop --og-indicator-overlay-Width:
+     * Width of the Indicator.
+     */
+    --og-indicator-overlay-Width: 0;
+
+    /**
+     * @prop --og-indicator-overlay-Width--active:
+     * Width of the Indicator when the Combobx is focused or opened.
+     */
+    --og-indicator-overlay-Width--active: 100%;
 
     box-sizing: border-box;
-    *, *::before, *::after { box-sizing: inherit; }
-}
-
-// <og-datepicker> "on focus"
-:host(.is-focused) {
-    --og-datepicker__button__indicator-Width: 100%;
-    --og-datepicker__indicator-Width: 100%;
-}
-
-// <og-datepicker> disabled properties
-:host([disabled]) {
-    cursor: default;
-    --og-datepicker-Opacity: .3;
-}
-
-
-
-// Wrapper for the 'allways visible' part of the 'datepicker'
-.og-datepicker__header {
-    display: flex;
-    position: relative;
-    margin: 4px;
-    outline: var(--og-datepicker-Outline);
-    border-bottom: var(--og-datepicker-BorderWidth) var(--og-datepicker-BorderStyle) var(--og-datepicker-BorderColor);
-}
-
-// Native input element inside 'datepicker' header.
-.og-datepicker__input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    cursor: inherit;
-    outline: none;
-    color: var(--og-datepicker-Color);
-    font-size: var(--og-datepicker-FontSize);
+    display: block;
     user-select: none;
+    position: relative;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+:host(.has-content) {
+    --og-label-FontSize: var(--og-label-FontSize--active);
+    --og-label-Top: var(--og-label-Top--active);
+}
+
+:host(.is-focused),
+:host(.is-opened) {
+    --og-combobox__icon-Fill: var(--og-combobox__icon-Fill--active);
+    --og-indicator-overlay-Width: var(--og-indicator-overlay-Width--active);
+    --og-label-Color: var(--og-label-Color--active);
+    --og-label-FontSize: var(--og-label-FontSize--active);
+    --og-label-Top: var(--og-label-Top--active);
+}
+
+:host(.is-opened) {
+    --og-select__icon-angle: var(--og-select__icon-angle--active);
+}
+
+:host(.is-disabled) {
+    --og-box-Opacity: var(--og-box-Opacity--disabled);
+}
+
+
+.og-combobox {
+    display: flex;
+}
+
+.og-combobox__main {
+    flex: 1;
+    min-height: 5rem;
+}
+
+.og-combobox__box {
+    border-radius: 3px;
+    background: var(--og-box-Background);
+    display: flex;
+    height: 3.5rem;
+    padding: 1.375rem 0 0.625rem;
+    position: relative;
+    opacity: var(--og-box-Opacity);
+    outline: none;
+}
+
+.og-combobox__input {
+    background: none;
+    border: none;
+    color: var(--og-input-Color);
+    flex: 1;
+    font-size: var(--og-input-FontSize);
+    line-height: 1.5;
     margin: 0;
-    padding-top: 25px;
-    padding-bottom: 4px;
+    outline: none;
+    padding: 0 0.75rem;
+    pointer-events: none;
 
     &::placeholder {
-        color: var(--og-datepicker__placeholder-Color);
+        color: var(--og-placeholder-Color);
+        opacity: 1;
     }
 
     // Prevent Text Selection on :focus
@@ -116,65 +263,54 @@
     }
 }
 
-
-.og-datepicker__button {
-    flex: none;
-    width: var(--og-datepicker__button__arrow-Width);
-    height: var(--og-datepicker__button__arrow-Width);
-    padding: var(--og-datepicker__button__arrow-Padding);
-}
-
-.og-datepicker__indicator {
-    display: var(--og-datepicker__indicator-Display);
+.og-combobox__label {
+    color: var(--og-label-Color);
+    font-size: var(--og-label-FontSize);
+    line-height: 1;
     position: absolute;
-    bottom: calc(var(--og-datepicker-BorderWidth) * -1);
-    left: 0;
-    height: var(--og-datepicker__indicator-Height);
-    background: var(--og-datepicker__indicator-Background);
-    width: var(--og-datepicker__indicator-Width);
-    transition: width .2s ease;
+    left: 0.75rem;
+    pointer-events: none;
+    top: var(--og-label-Top);
+    transition: all 100ms ease-in-out;
 }
 
+.og-combobox__indicator {
+    background: var(--og-indicator-Background);
+    bottom: 0.5rem;
+    height: 1px;
+    left: 0.75rem;
+    pointer-events: none;
+    position: absolute;
+    right: 0.75rem;
 
-.og-datepicker__button__arrow {
-    transition: transform 0.1s;
-    overflow: visible;
+    &::before {
+        background: var(--og-indicator-overlay-Background);
+        bottom: 0;
+        content: "";
+        height: 2px;
+        position: absolute;
+        transition: width 100ms ease-in-out;
+        width: var(--og-indicator-overlay-Width);
+    }
 }
 
-.og-datepicker__button__arrow--collapsed {
-    transform: rotate(180deg);
-}
-
-.og-datepicker__button__arrow__line {
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-
-// datepicker FLYOUT
-// -----------------------------------------------------------------------------
-
-// Flyout Wrapper
-.og-datepicker__flyout {
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-    cursor: default;
-}
-
-.og-datepicker__flyout__calendar {
-    margin: 0;
-    margin-top: 4px;
-    padding: 16px;
-    display: none;
-    position: fixed;
-    box-shadow: var(--og-datepicker__flyout-BoxShadow);
-    background: var(--og-datepicker__flyout-Background);
-    z-index: 9999;
-    overflow-y: auto;
-    transform: translateZ(0);
-}
-
-.og-datepicker__flyout__calendar--visible {
+.og-combobox__message {
+    color: var(--og-message-Color);
     display: block;
+    padding-top: 0.25rem;
+    font-size: var(--og-message-FontSize);
+    padding-left: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.og-combobox__icon {
+    width: var(--og-icon-Width);
+    margin: var(--og-icon-Margin);
+    pointer-events: none;
+
+    svg {
+        pointer-events: none;
+        transition: transform var(--og-TransitionDuration) ease;
+        transform: rotate(var(--og-select__icon-angle));
+    }
 }

@@ -11,6 +11,18 @@
     --og-day-Background: none;
 
     /**
+     * @prop --og-day-Background--weekend:
+     * Background of the Day field when it's on a weekend.
+     */
+    --og-day-Background--weekend: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 2px,
+        #{$og-color-shade--100--10} 2px,
+        #{$og-color-shade--100--10} 4px
+    );
+
+    /**
      * @prop --og-day-Background:
      * Background of the Day field when it's selected.
      */
@@ -45,6 +57,18 @@
      * Opacity of the Day field when it's disabled.
      */
     --og-day-Opacity--disabled: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});;
+
+    /**
+     * @prop --og-day-Opacity--prev:
+     * Opacity of the Day field when it's inside the previous month.
+     */
+    --og-day-Opacity--prev: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});;
+
+    /**
+     * @prop --og-day-Opacity--next:
+     * Opacity of the Day field when it's inside the next month.
+     */
+    --og-day-Opacity--next: var(--OG-OPACITY--DISABLED, #{$og-opacity--disabled});;
 
     /**
      * @prop --og-day-Color:
@@ -122,12 +146,6 @@
     --og-overlay-Opacity: var(--OG-OPACITY--OFF, #{$og-opacity--off});
 
     /**
-     * @prop --og-overlay-Opacity--active:
-     * Overlay Opacity on :active state of the Day field.
-     */
-    --og-overlay-Opacity--active: var(--OG-OPACITY--ACTIVE, #{$og-opacity--active});
-
-    /**
      * @prop --og-overlay-Opacity--hover:
      * Overlay Opacity on :hover state of the Day field.
      */
@@ -144,6 +162,10 @@
      * Overlay Opacity on :active state of the Day field.
      */
     --og-overlay-Opacity--active: var(--OG-OPACITY--SELECTED, #{$og-opacity--selected});
+}
+
+:host(:focus) {
+    outline: none;
 }
 
 table {
@@ -166,6 +188,7 @@ th {
     color: var(--og-day-Color);
     cursor: pointer;
     font-weight: var(--og-day-FontWeight);
+    outline: none;
     opacity: var(--og-day-Opacity);
     padding: 6px;
     position: relative;
@@ -183,6 +206,10 @@ th {
         bottom: 0;
         pointer-events: none;
         z-index: 1;
+    }
+
+    &:focus {
+        --og-overlay-Opacity: var(--og-overlay-Opacity--focus);
     }
 
     &:hover {
@@ -214,6 +241,33 @@ th {
     z-index: 2;
 }
 
+.day--today {
+    --og-day-FontWeight: var(--og-day-FontWeight--today);
+}
+
+.day--weekend {
+    background:
+        var(--og-day-Background--weekend),
+        var(--og-day-Background),
+        ;
+}
+
+.day--highlight {
+    --og-indicator-Background: var(--og-indicator-Background--highlight);
+
+    &.day--selected {
+        --og-indicator-Background: var(--og-indicator-Background--selected);
+    }
+}
+
+.day--prev-month {
+    --og-day-Opacity: var(--og-day-Opacity--prev);
+}
+
+.day--next-month {
+    --og-day-Opacity: var(--og-day-Opacity--next);
+}
+
 .day--selected {
     --og-day-Background: var(--og-day-Background--selected);
     --og-day-Color: var(--og-day-Color--selected);
@@ -225,17 +279,6 @@ th {
     pointer-events: none;
 }
 
-.day--today {
-    --og-day-FontWeight: var(--og-day-FontWeight--today);
-}
-
-.day--highlight {
-    --og-indicator-Background: var(--og-indicator-Background--highlight);
-
-    &.day--selected {
-        --og-indicator-Background: var(--og-indicator-Background--selected);
-    }
-}
 
 
 .week {

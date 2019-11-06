@@ -4,22 +4,14 @@ og-datepicker
 <og-card>
     <og-card-header>Datepicker</og-card-header>
     <og-card-body>
-        <og-form-item label="Bitte wählen Sie ein Datum (de)">
-            <og-datepicker loc="de" format="DD. MMM YYYY"></og-datepicker>
-        </og-form-item>
-
-        <og-form-item label="Bitte wählen Sie ein Datum (de)">
-            <og-datepicker value="25. Juni 2019" loc="de" format="DD. MMM YYYY"></og-datepicker>
-        </og-form-item>
-
-        <og-form-item label="Please select a date (en)">
-            <og-datepicker value="06/25/2019" loc="en" format="MM/DD/YYYY"></og-datepicker>
-        </og-form-item>
-
-        <og-form-item label="Пожалуйста, выберите дату (ru)">
-            <og-datepicker value="25.06.2019" loc="ru" format="DD.MM.YYYY"></og-datepicker>
-        </og-form-item>
+        <og-datepicker label="Bitte wählen Sie ein Datum (de)" loc="de" format="DD. MMM YYYY"></og-datepicker>
+        <og-datepicker label="Bitte wählen Sie ein Datum (de)" value="25. Juni 2019" loc="de" format="DD. MMM YYYY"></og-datepicker>
+        <og-datepicker label="Please select a date (en)" value="06/25/2019" loc="en" format="MM/DD/YYYY"></og-datepicker>
+        <og-datepicker label="Пожалуйста, выберите дату (ru)" value="25.06.2019" loc="ru" format="DD.MM.YYYY"></og-datepicker>
     </og-card-body>
+</og-card>
+<og-card style="height: 1200px; display: block">
+    x
 </og-card>
 <script>
     const datepicker = document.querySelector('og-datepicker');

@@ -50,9 +50,6 @@ export class OgComboboxList {
   @Prop()
   public itemValueProperty: string = 'value';
 
-  /**
-   * Set the property for the items to define as value. Default: "value"
-   */
   @Prop()
   public positionSource: DOMRect;
 
@@ -68,7 +65,7 @@ export class OgComboboxList {
   @Event() itemSelected: EventEmitter<string>;
 
   /**
-   * Event is being emitted when value changes.
+   * Event emitted when the Options are being closed.
    */
   @Event() optionsClosed: EventEmitter<boolean>;
 
