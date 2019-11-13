@@ -60,6 +60,9 @@ export class OgCalendar {
   public dateDecorator: OgDateDecorator;
 
   @Prop()
+  public captureFocus: boolean;
+
+  @Prop()
   public selectionType: OgCalendarSelectionType = 'single';
 
   /**
@@ -85,12 +88,6 @@ export class OgCalendar {
   public async componentWillLoad() {
     await loadMomentLocale(this.loc, moment);
     this.internalMoment = moment();
-  }
-
-  public componentDidLoad() {
-  }
-
-  public componentDidUpdate() {
   }
 
   public handleViewChanged(event) {
@@ -134,33 +131,49 @@ export class OgCalendar {
   }
 
   public handleInternalCalendarKeyDown(e: KeyboardEvent, i: number) {
-    console.log('DO WE KNOW THE KEY?', this.navPrevMonth);
+    /**
+     * Prevents focusing the hostelement when Internal Calendar sends
+     * a 'Shift Tab' Event. 'Tab Out' 1/2
+     */
     if (e.shiftKey) {
       this.hostElement.tabIndex = -1;
     }
 
+    /**
+     * - 'Tab' sets focus to the next Internal Calendar if available,
+     *   otherwise to 'Previous Month' Button.
+     * - 'Shift Tab' sets focus to the previous Internal Calendar if available,
+     *   otherwise if in 'Capture Mode', to 'Previous Month' Button.
+     */
     if (e.key === 'Tab') {
-      console.log('AT LEAST TAB??', this.navPrevMonth);
       if (!e.shiftKey) {
-        console.log('SHIFT??', e, this.navPrevMonth);
+        // Tab
         e.preventDefault();
         if (this.ogInternalCalendar[i + 1]) {
           this.ogInternalCalendar[i + 1].focus();
         } else {
-          console.log('WE SHOULD FOCUS THE NAV', this.navPrevMonth);
           this.navPrevMonth[0].focus();
         }
       } else {
-        console.log('AT LEAST TAB ELSE??', this.navPrevMonth, this.ogInternalCalendar[i - 1]);
+        // shift + Tab
         if (this.ogInternalCalendar[i - 1]) {
           e.preventDefault();
           this.ogInternalCalendar[i - 1].focus();
+          return;
+        }
+        if (!!this.captureFocus) {
+          e.preventDefault();
+          this.navNextMonth[this.navNextMonth.length - 1].focus();
         }
       }
     }
   }
 
   public handleInternalCalendarKeyUp(e: KeyboardEvent) {
+    /**
+     * Allows focusing the hostelement after Internal Calendar sends
+     * a 'Shift Tab' Event. 'Tab Out' 2/2
+     */
     if (e.key === 'Shift') {
       this.hostElement.tabIndex = 0;
     }
@@ -168,22 +181,24 @@ export class OgCalendar {
 
   @Listen("focus", { target: this.hostElement })
   public async handleHostFocus() {
-    console.log('OG CALENDAR GOT FOCUS');
-
     this.ogInternalCalendar[0].focus();
-    this.hostElement.tabIndex= -1;
   }
 
   @Listen("blur", { target: this.hostElement })
   public async handleHostBlur() {
-    this.hostElement.tabIndex = 0;
+    if (!!document.hasFocus) {
+      this.hostElement.tabIndex = 0;
+    }
   }
 
   /**
-   * Handles KeyUp Events on Navigation
+   * Handles KeyUp Events on Navigation Buttons.
+   *
+   * - 'Space' on 'Prev' decreases Month
+   * - 'Space' on 'Next' increases Month
    */
   public handleNavKeyUp(direction: 'next' | 'prev', ev: KeyboardEvent) {
-    if (ev.key === ' ') {
+    if (ev.code === 'Space') {
       if (direction === 'prev') {
         this.decreaseMonth();
       }
@@ -194,22 +209,44 @@ export class OgCalendar {
   }
 
   /**
-   * Handles KeyDown Events on Navigation
+   * Handles KeyDown Events on Navigation Buttons.
+   *
+   * - 'Tab' on 'Prev' sets focus to 'Next' Button.
+   * - 'Shift Tab' on 'Prev' sets focus to the Internal Calendar.
+   * - In 'Capture Mode', 'Tab' on 'Next' sets focus to the Internal Calendar,
+   *   otherwise it simply tabs out.
+   * - 'Shift Tab' on 'Next' sets focus to 'Prev' Button.
    */
-  public handleNavKeyDown(direction: 'next' | 'prev', ev: KeyboardEvent) {
+  public handleNavKeyDown(direction: 'prev' | 'next', ev: KeyboardEvent) {
 
     if (ev.key === 'Tab') {
       if (direction === 'prev') {
         ev.preventDefault();
-        this.navNextMonth[this.navNextMonth.length - 1].focus();
+        if (!ev.shiftKey) {
+          this.navNextMonth[this.navNextMonth.length - 1].focus();
+        } else {
+          this.ogInternalCalendar[0].focus();
+        }
       }
       if (direction === 'next') {
+        if (!ev.shiftKey) {
+          if (!!this.captureFocus) {
+            ev.preventDefault();
+            this.ogInternalCalendar[0].focus();
+          }
+        } else {
+          ev.preventDefault();
+          this.navPrevMonth[0].focus();
+        }
+
+
       }
     }
+
     /**
      * Prevents jumping/scrolling when pressing 'Space'
      */
-    if (ev.key === ' ') {
+    if (ev.code === "Space") {
       ev.preventDefault();
     }
   }

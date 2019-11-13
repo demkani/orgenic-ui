@@ -120,7 +120,6 @@ export class OgInternalCalendar {
   @Watch('year')
   @Watch('month')
   public updateDayGrid() {
-    console.log('UPDATE', this.month, this.year);
     this.viewChanged.emit({month: this.month, year: this.year});
   }
 
@@ -302,7 +301,10 @@ export class OgInternalCalendar {
     return target;
   }
 
-  public handleSelect(localM: moment.Moment) {
+  public handleSelect(localM: moment.Moment, event: MouseEvent | KeyboardEvent) {
+    event.preventDefault();
+    this.dayFocused = event.target as HTMLElement;
+    this.dayFocused.focus();
     this.dateClicked.emit(localM);
   }
 
@@ -327,29 +329,21 @@ export class OgInternalCalendar {
    * day inside the current month.
    */
   @Listen("focus", {target: this.hostElement})
-  public handleHostFocus() {
-    console.log('OG INTERNAL CALENDAR GOT FOCUS');
+  public async handleHostFocus() {
     if (!this.dayFocused) {
       this.dayFocused =
         this.hostElement.shadowRoot.querySelector('.day--same-month.day--today:not(.day--disabled)') ||
         this.hostElement.shadowRoot.querySelector('.day--same-month:not(.day--disabled)');
     }
     this.dayFocused && (this.dayFocused.focus(), this.dayFocused.tabIndex = 0);
+    this.dayFocused.focus()
   }
 
   @Listen("blur", { target: this.hostElement })
   public async handleHostBlur() {
-    // this.hostElement.tabIndex = 1;
     if (this.dayFocused) {
       this.dayFocused.tabIndex = -1;
       this.dayFocused = undefined;
-    }
-  }
-
-  @Listen("keyup", {target: this.hostElement})
-  public async handleHostKeyUp(ev: KeyboardEvent) {
-    if (ev.key === 'Shift') {
-      // this.hostElement.tabIndex = 1;
     }
   }
 
@@ -359,13 +353,6 @@ export class OgInternalCalendar {
     this.dayIndex = this.getAllDaysThisMonth().indexOf(this.dayFocused) || 0;
 
     switch (ev.key) {
-
-      /**
-       * Allow to tab backwards and prevent focusing the host element.
-       */
-      case 'Shift':
-        this.hostElement.tabIndex = -1;
-        break;
 
       case 'ArrowUp':
         ev.preventDefault();
@@ -433,11 +420,11 @@ export class OgInternalCalendar {
                       return (
                         <td
                           tabIndex={ -1 }
-                          onClick={ () => this.handleSelect(localM) }
+                          onClick={ (e) => this.handleSelect(localM, e) }
                           ref={(el) => {
                             this.dayGrid = [...this.dayGrid, el];
                           }}
-                          onKeyUp={(e) => e.key === ' ' && this.handleSelect(localM)}
+                          onKeyUp={(e) => e.key === ' ' && this.handleSelect(localM, e)}
                           onKeyDown={(e) => e.key === ' ' && e.preventDefault()}
                           class={ this.getClasses(localM) }
                           >

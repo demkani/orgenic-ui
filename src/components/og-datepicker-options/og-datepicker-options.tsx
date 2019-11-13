@@ -158,13 +158,7 @@ export class OgDatepickerOptions {
 
   public componentDidLoad() {
     this.setValue(this.value);
-    const ogcalendar = this.hostElement.shadowRoot.querySelector("og-calendar");
-    console.log('OGCALENDAR', ogcalendar);
-
-    const ogicalendar = ogcalendar.shadowRoot.querySelector("og-internal-calendar");
-    console.log('OGICALENDAR', ogicalendar);
   }
-
 
   @Listen('click', { target: 'window' })
   listenToWindowClick(event) {
@@ -173,9 +167,8 @@ export class OgDatepickerOptions {
     }
   }
 
-  @Listen('focus', { target: this.hos })
-  handleHostFocus() {
-    console.log('DATEPICKER HOST FOCUS', this.ogCalendarElement);
+  @Listen('focus', { target: this.hostElement })
+  public async handleHostFocus() {
     this.ogCalendarElement.focus();
   }
 
@@ -221,6 +214,7 @@ export class OgDatepickerOptions {
             onDateClicked={(e) => this.handleDateClicked(e)}
             ref={el => this.ogCalendarElement = el}
             tabindex={this.optionsOpened ? "0" : "-1"}
+            captureFocus
           >
           </og-calendar>
         </div>

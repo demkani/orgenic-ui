@@ -47,10 +47,17 @@ export namespace Components {
     'round': boolean;
   }
   interface OgCalendar {
+    'captureFocus': boolean;
     'dateDecorator': OgDateDecorator;
+    /**
+    * Amount of months that should be displayed.
+    */
     'displayedMonths': number;
     'loc': string;
     'month': number;
+    /**
+    * Collection of selected days
+    */
     'selection': OgCalendarDate[];
     'selectionType': OgCalendarSelectionType;
     'showCalendarWeek': boolean;
@@ -149,9 +156,6 @@ export namespace Components {
     * Controls the open state of the options
     */
     'optionsOpened': boolean;
-    /**
-    * Set the property for the items to define as value. Default: "value"
-    */
     'positionSource': DOMRect;
     /**
     * …
@@ -216,15 +220,62 @@ export namespace Components {
     */
     'format': string;
     /**
+    * Alternate Icon
+    */
+    'icon'?: string;
+    /**
+    * Optional label text
+    */
+    'label'?: string;
+    /**
     * Locale for this datepicker (country code in ISO 3166 format)
     */
     'loc': string;
+    /**
+    * Controls the open state of the Option List
+    */
+    'optionsOpened': boolean;
     /**
     * Optional placeholder if no value is selected.
     */
     'placeholder'?: string;
     /**
     * The selected value of the combobox
+    */
+    'value'?: string;
+  }
+  interface OgDatepickerOptions {
+    /**
+    * The date decorator can be used to highlight special dates like public holidays or meetings.
+    */
+    'dateDecorator': OgDateDecorator;
+    /**
+    * Determines, whether the Options are disabled or not.
+    */
+    'disabled': boolean;
+    /**
+    * Defines the date string format. The value will be parsed and emitted using this format.
+    */
+    'format': string;
+    /**
+    * Date Information for internal handling.
+    */
+    'internalValue': OgCalendarDate;
+    /**
+    * Locale for this datepicker (country code in ISO 3166 format).
+    */
+    'loc': string;
+    /**
+    * Determines, whether the Options are opened or not.
+    */
+    'optionsOpened': boolean;
+    /**
+    * Dimensions of the Select Button.
+    */
+    'positionSource': DOMRect;
+    'reopen': boolean;
+    /**
+    * The selected value of the calendar options.
     */
     'value': string;
   }
@@ -615,6 +666,12 @@ declare global {
     new (): HTMLOgDatepickerElement;
   };
 
+  interface HTMLOgDatepickerOptionsElement extends Components.OgDatepickerOptions, HTMLStencilElement {}
+  var HTMLOgDatepickerOptionsElement: {
+    prototype: HTMLOgDatepickerOptionsElement;
+    new (): HTMLOgDatepickerOptionsElement;
+  };
+
   interface HTMLOgDialogElement extends Components.OgDialog, HTMLStencilElement {}
   var HTMLOgDialogElement: {
     prototype: HTMLOgDialogElement;
@@ -735,6 +792,7 @@ declare global {
     'og-confirm-dialog': HTMLOgConfirmDialogElement;
     'og-datatable': HTMLOgDatatableElement;
     'og-datepicker': HTMLOgDatepickerElement;
+    'og-datepicker-options': HTMLOgDatepickerOptionsElement;
     'og-dialog': HTMLOgDialogElement;
     'og-expander': HTMLOgExpanderElement;
     'og-form-item': HTMLOgFormItemElement;
@@ -792,12 +850,25 @@ declare namespace LocalJSX {
     'round'?: boolean;
   }
   interface OgCalendar extends JSXBase.HTMLAttributes<HTMLOgCalendarElement> {
+    'captureFocus'?: boolean;
     'dateDecorator'?: OgDateDecorator;
+    /**
+    * Amount of months that should be displayed.
+    */
     'displayedMonths'?: number;
     'loc'?: string;
     'month'?: number;
+    /**
+    * Emits the currently clicked date when a day is clicked.
+    */
     'onDateClicked'?: (event: CustomEvent<OgCalendarDate>) => void;
+    /**
+    * Emits the current Selection of Dates when it changes.
+    */
     'onSelectionChanged'?: (event: CustomEvent<OgCalendarDate[]>) => void;
+    /**
+    * Collection of selected days
+    */
     'selection'?: OgCalendarDate[];
     'selectionType'?: OgCalendarSelectionType;
     'showCalendarWeek'?: boolean;
@@ -905,16 +976,13 @@ declare namespace LocalJSX {
     */
     'onItemSelected'?: (event: CustomEvent<string>) => void;
     /**
-    * Event is being emitted when value changes.
+    * Event emitted when the Options are being closed.
     */
     'onOptionsClosed'?: (event: CustomEvent<boolean>) => void;
     /**
     * Controls the open state of the options
     */
     'optionsOpened'?: boolean;
-    /**
-    * Set the property for the items to define as value. Default: "value"
-    */
     'positionSource'?: DOMRect;
     /**
     * …
@@ -983,6 +1051,14 @@ declare namespace LocalJSX {
     */
     'format'?: string;
     /**
+    * Alternate Icon
+    */
+    'icon'?: string;
+    /**
+    * Optional label text
+    */
+    'label'?: string;
+    /**
     * Locale for this datepicker (country code in ISO 3166 format)
     */
     'loc'?: string;
@@ -991,19 +1067,58 @@ declare namespace LocalJSX {
     */
     'onDateSelected'?: (event: CustomEvent<any>) => void;
     /**
-    * Event is being emitted when input gets focus..
+    * Controls the open state of the Option List
     */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when focus gets lost.
-    */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
+    'optionsOpened'?: boolean;
     /**
     * Optional placeholder if no value is selected.
     */
     'placeholder'?: string;
     /**
     * The selected value of the combobox
+    */
+    'value'?: string;
+  }
+  interface OgDatepickerOptions extends JSXBase.HTMLAttributes<HTMLOgDatepickerOptionsElement> {
+    /**
+    * The date decorator can be used to highlight special dates like public holidays or meetings.
+    */
+    'dateDecorator'?: OgDateDecorator;
+    /**
+    * Determines, whether the Options are disabled or not.
+    */
+    'disabled'?: boolean;
+    /**
+    * Defines the date string format. The value will be parsed and emitted using this format.
+    */
+    'format'?: string;
+    /**
+    * Date Information for internal handling.
+    */
+    'internalValue'?: OgCalendarDate;
+    /**
+    * Locale for this datepicker (country code in ISO 3166 format).
+    */
+    'loc'?: string;
+    /**
+    * Event emitted when selected date is being changed.
+    */
+    'onDateSelected'?: (event: CustomEvent<OgCalendarDate>) => void;
+    /**
+    * Event emitted when the Options are being closed.
+    */
+    'onOptionsClosed'?: (event: CustomEvent<boolean>) => void;
+    /**
+    * Determines, whether the Options are opened or not.
+    */
+    'optionsOpened'?: boolean;
+    /**
+    * Dimensions of the Select Button.
+    */
+    'positionSource'?: DOMRect;
+    'reopen'?: boolean;
+    /**
+    * The selected value of the calendar options.
     */
     'value'?: string;
   }
@@ -1046,7 +1161,14 @@ declare namespace LocalJSX {
     'dateDecorator'?: OgDateDecorator;
     'loc'?: string;
     'month'?: number;
+    /**
+    * Emits 'moment' Object
+    */
     'onDateClicked'?: (event: CustomEvent<any>) => void;
+    /**
+    * Emits an Object with current 'month' and 'year' value
+    */
+    'onViewChanged'?: (event: CustomEvent<{month: number, year: number}>) => void;
     'selection'?: OgCalendarDate[];
     'showCalendarWeek'?: boolean;
     'year'?: number;
@@ -1392,6 +1514,7 @@ declare namespace LocalJSX {
     'og-confirm-dialog': OgConfirmDialog;
     'og-datatable': OgDatatable;
     'og-datepicker': OgDatepicker;
+    'og-datepicker-options': OgDatepickerOptions;
     'og-dialog': OgDialog;
     'og-expander': OgExpander;
     'og-form-item': OgFormItem;

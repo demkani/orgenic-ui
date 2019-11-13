@@ -40,6 +40,7 @@ export class OgDatepicker {
   private internalValue: OgCalendarDate;
 
   public optionsElement: HTMLOgDatepickerOptionsElement;
+  public selectButtonElement: HTMLElement;
 
   /**
    * The date decorator can be used to highlight special dates like public holidays or meetings.
@@ -89,7 +90,10 @@ export class OgDatepicker {
     this.repositionOptionsInDom();
     if (newValue === true) {
       this.updateSelectMeasures();
-      this.optionsElement.focus()
+    }
+
+    if (newValue === false) {
+      this.selectButtonElement.focus();
     }
 
   }
@@ -176,16 +180,46 @@ export class OgDatepicker {
     }
   }
 
+  @Listen('keydown', { target: 'window' })
+  public async handleHostKeyDown(event: KeyboardEvent) {
+    /**
+     * Pressing 'Escape' closes the opened Options.
+     */
+    if (event.code === "Escape" && this.optionsOpened) {
+      this.optionsOpened = false;
+    }
+  }
+
   private handleSelectKeyUp(event: KeyboardEvent) {
-    if ((event.code === "Space") && !this.disabled) {
+    /**
+     * Pressing 'Space' toggles the Options visibility and applies focus
+     * when visbile.
+     */
+    if (event.code === "Space") {
       this.optionsOpened = !this.optionsOpened;
+      if (this.optionsOpened) {
+        this.optionsElement.focus();
+      }
     }
   }
 
   private handleSelectKeyDown(event: KeyboardEvent) {
-    if ((event.code === "Space") && !this.disabled) {
+    /**
+     * Prevents jumping/scrolling when pressing 'Space'
+     */
+    if (event.code === "Space") {
       event.preventDefault();
     }
+
+    /**
+     * Clicking on the Select Button opens the Options but keeps focus on
+     * the Button. Using the Tab key now closes the options.
+     */
+    if (event.code === "Tab") {
+      this.optionsOpened = false;
+      this.reopen = false;
+    }
+
   }
 
   /**
@@ -203,10 +237,6 @@ export class OgDatepicker {
     if (optionsOutside) {
       this.hostElement.shadowRoot.appendChild(optionsOutside);
     }
-  }
-
-  private get selectButtonElement(): HTMLElement {
-    return this.hostElement.shadowRoot.querySelector("#og-datepicker-select");
   }
 
   private updateOptionsVisibility() {
@@ -252,13 +282,6 @@ export class OgDatepicker {
       this.updateOptionsVisibility();
     }
   }
-  // @Listen("resize", { target: "window" })
-  // public listenToWindowResize() {
-  //   if (!!this.optionsOpened || !!this.reopen) {
-  //     this.updateSelectMeasures();
-  //     this.updateOptionsVisibility();
-  //   }
-  // }
 
   public render(): HTMLElement {
     return (
@@ -283,6 +306,7 @@ export class OgDatepicker {
               onClick={() => this.handleSelectClick()}
               onKeyUp={event => this.handleSelectKeyUp(event)}
               onKeyDown={event => this.handleSelectKeyDown(event)}
+              ref={el => this.selectButtonElement = el}
             >
               {this.label && (
                 <span class="og-combobox__label">{this.label}</span>
