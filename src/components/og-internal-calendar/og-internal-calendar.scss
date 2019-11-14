@@ -108,6 +108,12 @@
     --og-indicator-Opacity: .5;
 
     /**
+     * @prop --og-week-Color:
+     * Font Color of the Week field.
+     */
+    --og-week-Color: var(--OG-COLOR-SUBTLE, #{$og-color-subtle});
+
+    /**
      * @prop --og-week-BorderColor:
      * Border Color of the Week field.
      */
@@ -124,6 +130,12 @@
      * Border Width of the Week field.
      */
     --og-week-BorderWidth: 0 1px 0 0;
+
+    /**
+     * @prop --og-week-Padding:
+     * Padding of the Week field.
+     */
+    --og-week-Padding: 0 .5rem 0 0;
 
     /**
      * @prop --og-overlay-Background:
@@ -169,7 +181,7 @@
 }
 
 table {
-    border-spacing: 2px;
+    border-spacing: 1px;
 }
 
 td {
@@ -177,9 +189,10 @@ td {
 }
 
 th {
+    font-size: .875rem;
     text-align: center;
     text-transform: uppercase;
-
+    padding-bottom: .25rem;
 }
 
 .day {
@@ -190,7 +203,7 @@ th {
     font-weight: var(--og-day-FontWeight);
     outline: none;
     opacity: var(--og-day-Opacity);
-    padding: 6px;
+    padding: .5rem;
     position: relative;
     text-align: center;
 
@@ -279,12 +292,12 @@ th {
     pointer-events: none;
 }
 
-
-
 .week {
-    padding-right: 8px;
+    color: var(--og-week-Color);
+    padding: var(--og-week-Padding);
     text-align: right;
     border-color: var(--og-week-BorderColor);
     border-style: var(--og-week-BorderStyle);
     border-Width: var(--og-week-BorderWidth);
+    min-width: 1.125rem;
 }

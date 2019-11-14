@@ -45,11 +45,11 @@
 }
 
 .calendar__container {
-    vertical-align: top;
     display: inline-block;
+    vertical-align: top;
 
     & + & {
-        margin-left: 32px;
+        margin-left: 2rem;
     }
 }
 
@@ -60,32 +60,33 @@
 }
 
 .calender__header__main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 0 .5rem;
 }
 
 .calender__header__prefix,
 .calender__header__suffix {
-    padding: 4px 8px;
-    min-width: 24px;
+    min-width: 1.5rem;
+    padding: .25rem 0;
 }
 
 .calendar__main {
     display: block;
-    padding-top: 8px;
+    padding-top: .5rem;
 }
 
 .calendar__nav {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
     align-items: center;
     cursor: pointer;
+    display: flex;
+    height: 2rem;
+    justify-content: center;
     outline: none;
     position: relative;
+    width: 2rem;
 
     &::after {
         content: "";
@@ -125,13 +126,12 @@
 .calender__header__month {
     display: inline-block;
     font-size: 14px;
-    padding: 4px;
+    padding: .25rem;
     text-transform: uppercase;
     font-weight: 500;
 }
 
 .calender__header__year {
     display: inline-block;
-    // font-size: 12px;
-    padding: 4px;
+    padding: .25rem;
 }
