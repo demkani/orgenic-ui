@@ -158,8 +158,9 @@ export class OgCombobox {
 
   private handleSelectKeyDown(event: KeyboardEvent) {
     if ((event.code === "Space") && !this.disabled) {
-      event.preventDefault();
       this.optionsOpened = !this.optionsOpened;
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 
