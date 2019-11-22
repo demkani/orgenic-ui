@@ -5,16 +5,13 @@
      * @prop --og-dialog__overlay-Background:
      * Background of the Dialog Overlay.
      */
-    --og-dialog__overlay-Background: var(
-        --OG-COLOR-SECONDARY--100--30,
-        #{$og-color-secondary--100--30}
-    );
+    --og-dialog__overlay-Background: var(--OG-COLOR-MASK, #{$og-color-mask});
 
     /**
-     * @prop --og-dialog__overlay-Background:
+     * @prop --og-dialog__overlay-ZIndex:
      * Z-Index of the Dialog Overlay.
      */
-    --og-dialog__overlay-ZIndex: 10000;
+    --og-dialog__overlay-ZIndex: #{$og-z-dialog};
 
     // Dialog
     // -------------------------------------------------------------------------
@@ -46,7 +43,7 @@
      * @prop --og-dialog-Background:
      * Background of the Dialog
      */
-    --og-dialog-Background: var(--OG-COLOR-SHADE--0, #{$og-color-shade--0});
+    --og-dialog-Background: var(--OG-COLOR-LEVEL--1, #{$og-color-level--1});
 
     /**
      * @prop --og-dialog-BorderRadius:
@@ -59,7 +56,7 @@
      * @prop --og-dialog-BoxShadow:
      * Box Shadow of the Dialog Header
      */
-    --og-dialog-BoxShadow: 0 2px 8px hsla(0, 0%, 0%, 0.2);
+    --og-dialog-BoxShadow: var(--OG-SHADOW, #{$og-shadow--24});
 
 
     // Dialog Header
@@ -122,11 +119,7 @@
      * @prop --og-dialog__header-BorderColor:
      * Border Color of the Dialog Header (all 4 sides)
      */
-    --og-dialog__header-BorderColor: var(
-        --OG-COLOR-SECONDARY--100--20,
-        #{$og-color-secondary--100--20}
-
-    );
+    --og-dialog__header-BorderColor: var(--OG-COLOR-SOFT, #{$og-color-soft});
 
     // Dialog Content
     // -------------------------------------------------------------------------
@@ -248,6 +241,7 @@
     // :host Styling
     // -------------------------------------------------------------------------
     box-sizing: border-box;
+
     *,
     *::before,
     *::after {
@@ -257,31 +251,31 @@
 
 // Variant for a 'success' Dialog
 :host(.og-dialog--success) {
-   --og-dialog__svg-Color: var(--og-dialog--success__svg-Color)
+    --og-dialog__svg-Color: var(--og-dialog--success__svg-Color)
 }
 
 // Variant for a 'warning' Dialog
 :host(.og-dialog--warning) {
-   --og-dialog__svg-Color: var(--og-dialog--warning__svg-Color)
+    --og-dialog__svg-Color: var(--og-dialog--warning__svg-Color)
 }
 
 // Variant for a 'error' Dialog
 :host(.og-dialog--error) {
-   --og-dialog__svg-Color: var(--og-dialog--error__svg-Color)
+    --og-dialog__svg-Color: var(--og-dialog--error__svg-Color)
 }
 
 // Variant for a 'info' Dialog
 :host(.og-dialog--info) {
-   --og-dialog__svg-Color: var(--og-dialog--info__svg-Color)
+    --og-dialog__svg-Color: var(--og-dialog--info__svg-Color)
 }
 
 // Background for the Dialog
 .og-dialog__container {
     position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     display: none;
     z-index: var(--og-dialog__overlay-ZIndex);
 }
@@ -295,6 +289,7 @@
 .og-dialog__overlay {
     background: var(--og-dialog__overlay-Background);
     user-select: none;
+    opacity: var(--og-dialog__overlay-Opacity);
     position: absolute;
     top: 0;
     right: 0;

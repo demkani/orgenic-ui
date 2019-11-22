@@ -4,7 +4,7 @@
  * See LICENSE file at https://github.com/orgenic/orgenic-ui/blob/master/LICENSE
  **/
 
-import { h, Component, Prop, Listen } from '@stencil/core';
+import { h, Component, Element, Prop, Listen } from '@stencil/core';
 import { ScrollHandler } from '../../utils/scroll-handler';
 
 @Component({
@@ -13,6 +13,10 @@ import { ScrollHandler } from '../../utils/scroll-handler';
   shadow: true
 })
 export class OgDialog {
+
+  @Element()
+  public hostElement: HTMLElement;
+
   /**
    * The title for this modal dialog.
    */
@@ -30,6 +34,11 @@ export class OgDialog {
    */
   @Prop({ mutable: true, reflectToAttr: true })
   public visible: boolean = false;
+
+  componentWillLoad() {
+    document.body.appendChild(this.hostElement);
+  }
+
 
   @Listen('wheel', { passive: false, target: 'window' }) // standard
   public handleWheel(ev) {

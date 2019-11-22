@@ -64,7 +64,7 @@ export class OgConfirmDialog {
       <og-dialog class="og-dialog--info" name={ this.name } svg-icon={ this.svgIcon } visible={ this.visible }>
         <slot></slot>
         <div slot="footer">
-          <og-button label={ this.cancelLabel } onClicked={ () => this.handleCancel() }></og-button>{' '}
+          <og-button outline label={ this.cancelLabel } onClicked={ () => this.handleCancel() }></og-button>{' '}
           <og-button data-context="workflow" label={ this.confirmLabel } onClicked={ () => this.handleConfirm() }></og-button>
         </div>
       </og-dialog>
