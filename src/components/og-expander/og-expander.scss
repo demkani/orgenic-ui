@@ -1,48 +1,132 @@
-/**
- * @prop --og-expander-BackgroundColor: Overall background color of the card
- * @prop --og-expander-BorderColor: Border color of the expanders border
- * @prop --og-expander-BorderRadius: Border radius of the expanders border
- * @prop --og-expander-BorderWidth: Border width of the expanders border
- * @prop --og-expander-Margin: Margin around the card
- * @prop --og-expander__header-BorderColor: Border color of the expanders header border
- * @prop --og-expander__header-BorderStyle: Border style of the expanders header border
- * @prop --og-expander__header-BorderWidth: Border width of the expanders header border
- * @prop --og-expander__header-FontSize: Font size of the expanders header
- * @prop --og-expander__header-FontWeight: Font weight of the expanders header
- * @prop --og-expander__header-TextTransform: Text transformation of the expanders header
- * @prop --og-expander__header-Margin: Margin of the expanders header
- * @prop --og-expander__header-Padding: Padding of the expanders header
- * @prop --og-expander__content-Padding: Padding of the expanders content
- * @prop --og-expander__button__arrow-Width: Width of the Button Arrow
- * @prop --og-expander__button__arrow-Padding: Padding of the Button Arrow
- */
-
 :host {
     // Expander
-    --og-expander-BackgroundColor: var( --OG-COLOR-SHADE--0--30, #{$og-color-shade--0--30} );
+
+    /**
+     * @prop --og-expander-BackgroundColor:
+     * Overall background color of the card.
+     */
+    --og-expander-BackgroundColor:
+        var(--OG-COLOR-LEVEL--2, #{$og-color-level--2});
+
+    /**
+     * @prop --og-expander-BorderColor:
+     * Color of the expanders border
+     */
     --og-expander-BorderColor: transparent;
+
+    /**
+     * @prop --og-expander-BorderRadius:
+     * Radius of the expanders border
+     */
     --og-expander-BorderRadius: var(--OG-BORDER-RADIUS, #{$og-border-radius});
+
+    /**
+     * @prop --og-expander-BorderWidth:
+     * Width of the expanders border
+     */
     --og-expander-BorderWidth: var(--OG-BORDER-WIDTH, #{$og-border-width});
+
+    /**
+     * @prop --og-expander-BoxShadow:
+     * Shadow of the Expander.
+     */
+    --og-expander-BoxShadow: var(--OG-SHADOW, #{$og-shadow});
+
+
+    /**
+     * @prop --og-expander-Margin:
+     * Margin around the Expander
+     */
     --og-expander-Margin: 0 0 8px 0;
 
     // Header
+
+    /**
+     * @prop --og-expander__header-BorderColor:
+     * Color of the expanders header border
+     */
     --og-expander__header-BorderColor: transparent;
+
+    /**
+     * @prop --og-expander__header-BorderStyle:
+     * Style of the expanders header border
+     */
     --og-expander__header-BorderStyle: solid;
+
+    /**
+     * @prop --og-expander__header-BorderWidth:
+     * Width of the expanders header border
+     */
     --og-expander__header-BorderWidth: 0;
 
+    /**
+     * @prop --og-expander__header-FontSize:
+     * Font size of the expanders header
+     */
     --og-expander__header-FontSize: 1rem;
-    --og-expander__header-FontWeight: var(--OG-FONT-WEIGHT--MEDIUM, 500);
-    --og-expander__header-TextTransform: uppercase;
 
+    /**
+     * @prop --og-expander__header-FontWeight:
+     * Font weight of the expanders header
+     */
+    --og-expander__header-FontWeight: var(--OG-FONT-WEIGHT--MEDIUM, 500);
+
+    /**
+     * @prop --og-expander__header-Margin:
+     * Margin of the expanders header
+     */
     --og-expander__header-Margin: 0;
+
+    /**
+     * @prop --og-expander__header-MinHeight:
+     * Minimum Height of the Expander Header.
+     */
+    --og-expander__header-MinHeight: 56px;
+
+
+    /**
+     * @prop --og-expander__header-Padding:
+     * Padding of the expanders header
+     */
     --og-expander__header-Padding: 16px;
 
-    // Content
-    --og-expander__content-Padding: 0 16px 16px;
+    /**
+     * @prop --og-expander__header-TextTransform:
+     * Text transformation of the expanders header
+     */
+    --og-expander__header-TextTransform: uppercase;
 
-    --og-expander__button__arrow-Width: 20px;
+    // Content
+
+    /**
+     * @prop --og-expander__body-Padding:
+     * Padding of the expanders content
+     */
+    --og-expander__body-Padding: 0 16px 16px;
+
+
+    /**
+     * @prop --og-expander__button__arrow-Width:
+     * Width of the Button Arrow
+     */
+    --og-expander__button__arrow-Width: 22px;
+
+    /**
+     * @prop --og-expander__button__arrow-Padding:
+     * Padding of the Button Arrow
+     */
     --og-expander__button__arrow-Padding: 0px 4px 4px 4px;
 
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+.og-expander {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -54,19 +138,13 @@
     border-width: var(--og-expander-BorderWidth);
     border-radius: var(--og-expander-BorderRadius);
 
-    box-shadow: 0 0 4px rgba(0, 0, 0, .2);
-    box-sizing: border-box;
-    *,
-    *::before,
-    *::after {
-        box-sizing: inherit;
-    }
+    box-shadow: var(--og-expander-BoxShadow);
 }
 
 .og-expander__header {
     display: flex;
     flex-direction: row;
-    min-height: 56px;
+    min-height: var(--og-expander__header-MinHeight);
     align-items: center;
     border-color: var(--og-expander__header-BorderColor);
     border-style: var(--og-expander__header-BorderStyle);
@@ -86,12 +164,15 @@
     flex: 1;
 }
 
-.og-expander__content {
-    padding: var(--og-expander__content-Padding);
+
+.og-expander__body {
+    height: 0;
+    overflow: hidden;
+    transition: height 150ms ease-out;
 }
 
-.og-expander__content:not([data-expanded]) {
-    display: none;
+.og-expander__content {
+    padding: var(--og-expander__body-Padding);
 }
 
 .og-expander__button {
@@ -101,7 +182,7 @@
 }
 
 .og-expander__button__arrow {
-    transition: transform 0.1s;
+    transition: transform 150ms;
     overflow: visible;
 }
 
