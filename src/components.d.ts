@@ -556,11 +556,15 @@ export namespace Components {
     'label': string;
     'selected': boolean;
   }
-  interface OgTabContainer {
+  interface OgTabs {
     /**
     * Determines, whether the control is disabled or not
     */
     'disabled': boolean;
+    /**
+    * Determines, whether the tabs strech to full width when poissible or not.
+    */
+    'grow': boolean;
     'openTab': (index: number) => Promise<HTMLElement>;
   }
   interface OgTextInput {
@@ -764,10 +768,10 @@ declare global {
     new (): HTMLOgTabElement;
   };
 
-  interface HTMLOgTabContainerElement extends Components.OgTabContainer, HTMLStencilElement {}
-  var HTMLOgTabContainerElement: {
-    prototype: HTMLOgTabContainerElement;
-    new (): HTMLOgTabContainerElement;
+  interface HTMLOgTabsElement extends Components.OgTabs, HTMLStencilElement {}
+  var HTMLOgTabsElement: {
+    prototype: HTMLOgTabsElement;
+    new (): HTMLOgTabsElement;
   };
 
   interface HTMLOgTextInputElement extends Components.OgTextInput, HTMLStencilElement {}
@@ -815,7 +819,7 @@ declare global {
     'og-radio-button': HTMLOgRadioButtonElement;
     'og-radio-button-group': HTMLOgRadioButtonGroupElement;
     'og-tab': HTMLOgTabElement;
-    'og-tab-container': HTMLOgTabContainerElement;
+    'og-tabs': HTMLOgTabsElement;
     'og-text-input': HTMLOgTextInputElement;
     'og-textarea': HTMLOgTextareaElement;
     'og-toggle-switch': HTMLOgToggleSwitchElement;
@@ -1444,11 +1448,15 @@ declare namespace LocalJSX {
     'label'?: string;
     'selected'?: boolean;
   }
-  interface OgTabContainer extends JSXBase.HTMLAttributes<HTMLOgTabContainerElement> {
+  interface OgTabs extends JSXBase.HTMLAttributes<HTMLOgTabsElement> {
     /**
     * Determines, whether the control is disabled or not
     */
     'disabled'?: boolean;
+    /**
+    * Determines, whether the tabs strech to full width when poissible or not.
+    */
+    'grow'?: boolean;
     /**
     * Event is being emitted when value changes.
     */
@@ -1545,7 +1553,7 @@ declare namespace LocalJSX {
     'og-radio-button': OgRadioButton;
     'og-radio-button-group': OgRadioButtonGroup;
     'og-tab': OgTab;
-    'og-tab-container': OgTabContainer;
+    'og-tabs': OgTabs;
     'og-text-input': OgTextInput;
     'og-textarea': OgTextarea;
     'og-toggle-switch': OgToggleSwitch;

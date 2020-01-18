@@ -1,0 +1,256 @@
+:host {
+
+    // BASE
+    // ---
+    // Variables that are used in different places inside this component.
+
+    /**
+     * @prop --og-color-primary:
+     * Primary color. Used for the colored parts of the Tabs.
+     * E.g. used for Text Color when active, and the indicator.
+     */
+    --og-color-primary: var(--OG-COLOR-ONE, #{$og-color-one});
+
+
+    // PROPERTIES
+    // ---
+    // Variables that match themable Properties
+
+    // Tabs Variables
+
+    /**
+     * @prop --og-tabs__list-Border:
+     * Bottom border of the tab list (shorthand)
+     */
+    --og-tabs__list-Border: 1px solid var(--OG-COLOR-SOFT, #{$og-color-soft});
+
+    /**
+     * @prop --og-tabs__tab-Color:
+     * Font Color of a Tab.
+     */
+    --og-tabs__tab-Color: var(--OG-COLOR-DIMMED, #{$og-color-dimmed});
+
+    /**
+     * @prop --og-tabs__tab-Color--selected:
+     * Font Color of a Tab when it's selected.
+     */
+    --og-tabs__tab-Color--selected: var(--og-color-primary);
+
+    /**
+     * @prop --og-tabs-Cursor:
+     * Cursor appearance of a Tab.
+     */
+    --og-tabs__tab-Cursor: pointer;
+
+    /**
+     * @prop --og-tabs__tab-Flex:
+     * Fley behaviour of a Tab.
+     */
+    --og-tabs__tab-Flex: none;
+
+    /**
+     * @prop --og-tabs__tab-FontSize:
+     * Font Size of a Tab.
+     */
+    --og-tabs__tab-FontSize: inherit;
+
+    /**
+     * @prop --og-tabs__tab-Opacity:
+     * Opacity of a Tab.
+     */
+    --og-tabs__tab-Opacity: 1;
+
+    /**
+     * @prop --og-tabs__tab-Opacity:
+     * Opacity of a Tab when it's disabled.
+     */
+    --og-tabs__tab-Opacity--disabled: .5;
+
+    /**
+     * @prop --og-tabs__tab-Padding:
+     * Inner Space of Tab. Affects Tab measures.
+     */
+    --og-tabs__tab-Padding: 0 1.25rem;
+
+    /**
+     * @prop --og-tabs__tab-PointerEvents:
+     * Pointer Events of a Tab.
+     */
+    --og-tabs__tab-PointerEvents: all;
+
+    /**
+     * @prop --og-tabs__tab-PointerEvents--disabled:
+     * Pointer Events of a Tab when it's disabled.
+     */
+    --og-tabs__tab-PointerEvents--disabled: none;
+
+    /**
+     * @prop --og-tabs__tab-TextTransform:
+     * Text Transformation of a Tab.
+     */
+    --og-tabs__tab-TextTransform: normal;
+
+
+    /**
+     * @prop --og-tabs__indicator-Background:
+     * Background Color of the Control Indicator (line below the active Tab).
+     */
+    --og-tabs__indicator-Background: var(--og-color-primary);
+
+    /**
+     * @prop --og-tabs__indicator-Height:
+     * Height of the Control Indicator (line below the active Tab).
+     */
+    --og-tabs__indicator-Height: 3px;
+
+    /**
+     * @prop --og-tabs__indicator-Opacity:
+     * Opacity of the Control Indicator (line below the active Tab).
+     */
+    --og-tabs__indicator-Opacity: 1;
+
+    /**
+     * @prop --og-tabs__indicator-Opacity--disabled:
+     * Opacity of the Control Indicator (line below the active Tab) when the
+     * Tab is disabled.
+     */
+    --og-tabs__indicator-Opacity--disabled: .5;
+
+
+    /**
+     * @prop --og-overlay-Background:
+     * Overlay Background used for :hover, :focus and :active state
+     * of a Tab.
+     */
+    --og-overlay-Background: var(--OG-COLOR-ONE--BOOST, #{$og-color-one--boost});
+
+    /**
+     * @prop --og-overlay-Background--selected:
+     * Overlay Background used for :hover, :focus and :active state
+     * of a Tab when it's selected.
+     */
+    --og-overlay-Background--selected: var(--og-color-primary);
+
+    /**
+     * @prop --og-overlay-Opacity:
+     * Overlay Opacity.
+     */
+    --og-overlay-Opacity: 0;
+
+
+    display: block;
+}
+
+:host([disabled]) {
+    --og-tabs__tab-Opacity: var(--og-tabs__tab-Opacity--disabled);
+    --og-tabs__indicator-Opacity: var(--og-tabs__indicator-Opacity--disabled);
+    --og-tabs__tab-Cursor: default;
+    --og-tabs__tab-PointerEvents: none;
+}
+
+:host([grow]) {
+    --og-tabs__tab-Flex: auto;
+}
+
+// Wrapper inside the component
+.og-tabs {
+    width: 100%;
+}
+
+// Navigation Waapper
+.og-tabs__nav {
+    overflow: auto;
+    position: relative;
+}
+
+// Navigation List
+.og-tabs__list {
+    list-style-type: none;
+    justify-items: stretch;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    border-bottom: var(--og-tabs__list-Border);
+}
+
+// Navigation List Item
+.og-tabs__list-item {
+    flex: var(--og-tabs__tab-Flex);
+    // flex: 1;
+    opacity: var(--og-tabs__tab-Opacity);
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+}
+
+// Navigation List Item
+// Selected variant
+.og-tabs__list-item--selected {
+    --og-tabs__tab-Color: var(--og-tabs__tab-Color--selected);
+    --og-overlay-Background: var(--og-overlay-Background--selected);
+}
+
+// Navigation List Item
+// Disabled variant
+.og-tabs__list-item--disabled {
+    --og-tabs__tab-Opacity: var(--og-tabs__tab-Opacity--disabled);
+    --og-tabs__tab-PointerEvents: var(--og-tabs__tab-PointerEvents--disabled);
+}
+
+// Navigation Tab (Button) inside a List Item
+.og-tabs__tab {
+    background: transparent;
+    border: none;
+    color: var(--og-tabs__tab-Color);
+    cursor: var(--og-tabs__tab-Cursor);
+    font-size: var(--og-tabs__tab-FontSize);
+    font-weight: 400;
+    min-height: 2.25rem;
+    line-height: 1;
+    margin: 0;
+    outline: 0;
+    padding: var(--og-tabs__tab-Padding);
+    pointer-events: var(--og-tabs__tab-PointerEvents);
+    position: relative;
+    text-transform: var(--og-tabs__tab-TextTransform);
+    width: 100%;
+    height: 100%;
+
+    // Tab FX Overlay
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: var(--og-overlay-Opacity);
+        background: var(--og-overlay-Background);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    &:hover {
+        --og-overlay-Opacity: 0.08;
+    }
+
+    &:active {
+        --og-overlay-Opacity: 0.24;
+    }
+}
+
+// Line below the active Tab
+.og-tabs__indicator {
+    background: var(--og-tabs__indicator-Background);
+    bottom: 0;
+    height: var(--og-tabs__indicator-Height);
+    opacity: var(--og-tabs__indicator-Opacity);
+    position: absolute;
+    transition: width 200ms ease-in-out, left 200ms ease-in-out;
+}
+
+// Content Wrapper
+.og-tabs__content {
+    padding: 1.5rem 0 1rem;
+}
+

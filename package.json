@@ -44,7 +44,9 @@
   "pre-commit": [
     "check-licenseheader"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "resize-observer-polyfill": "^1.5.1"
+  },
   "devDependencies": {
     "@stencil/core": "^1.0.3",
     "@stencil/sass": "^1.0.0",

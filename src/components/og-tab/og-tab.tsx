@@ -29,7 +29,7 @@ export class OgTab {
 
   public render(): HTMLElement {
     return (
-      <div class="og-tab" data-selected={ this.selected }>
+      <div class="og-tab">
         <slot></slot>
       </div>
     );

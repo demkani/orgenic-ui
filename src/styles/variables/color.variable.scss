@@ -39,7 +39,12 @@ $og-color-subtle: hsla(200, 8%, 7%, $og-opacity--subtle);
 $og-color-soft: hsla(200, 8%, 7%, $og-opacity--soft);
 
 // Mask Color
+// E.g. for dialog background
 $og-color-mask: hsla(200, 8%, 7%, $og-opacity--mask);
+
+// Dimmed Color
+// E.g. slightly lighter text in controls
+$og-color-dimmed: hsla(200, 8%, 7%, $og-opacity--dimmed);
 
 // LEVEL COLORS
 // Colors used for elevated Elements
