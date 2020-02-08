@@ -318,6 +318,49 @@ export namespace Components {
     */
     'label': string;
   }
+  interface OgInput {
+    /**
+    * Determines, whether the control is disabled or not.
+    */
+    'disabled': boolean;
+    /**
+    * Id of the input. If none is privide a unique hash will be generated.
+    */
+    'id': string;
+    /**
+    * Optional label text
+    */
+    'label'?: string;
+    /**
+    * Type 'number specific. Maximum value for this component.
+    */
+    'max': number;
+    /**
+    * Type 'number specific. Minimum value for this component.
+    */
+    'min': number;
+    /**
+    * Optional placeholder text if input is empty.
+    */
+    'placeholder'?: string;
+    /**
+    * Type 'password' specific. Define, whether a switch should be visible, to show the password in plain text.
+    */
+    'showTogglePasswordVisibility': boolean;
+    /**
+    * Type 'number specific. Increment or decrement steps for the value.
+    */
+    'step': number;
+    'togglePasswordVisibility': () => Promise<void>;
+    /**
+    * Type of the input. Default 'text'
+    */
+    'type': string;
+    /**
+    * The initial value. Can be updated at runtime.
+    */
+    'value': string | number;
+  }
   interface OgInternalCalendar {
     'dateDecorator': OgDateDecorator;
     'loc': string;
@@ -702,6 +745,12 @@ declare global {
     new (): HTMLOgFormItemElement;
   };
 
+  interface HTMLOgInputElement extends Components.OgInput, HTMLStencilElement {}
+  var HTMLOgInputElement: {
+    prototype: HTMLOgInputElement;
+    new (): HTMLOgInputElement;
+  };
+
   interface HTMLOgInternalCalendarElement extends Components.OgInternalCalendar, HTMLStencilElement {}
   var HTMLOgInternalCalendarElement: {
     prototype: HTMLOgInternalCalendarElement;
@@ -808,6 +857,7 @@ declare global {
     'og-dialog': HTMLOgDialogElement;
     'og-expander': HTMLOgExpanderElement;
     'og-form-item': HTMLOgFormItemElement;
+    'og-input': HTMLOgInputElement;
     'og-internal-calendar': HTMLOgInternalCalendarElement;
     'og-layout-child': HTMLOgLayoutChildElement;
     'og-layout-container': HTMLOgLayoutContainerElement;
@@ -1168,6 +1218,52 @@ declare namespace LocalJSX {
     * The label for the form item
     */
     'label'?: string;
+  }
+  interface OgInput extends JSXBase.HTMLAttributes<HTMLOgInputElement> {
+    /**
+    * Determines, whether the control is disabled or not.
+    */
+    'disabled'?: boolean;
+    /**
+    * Id of the input. If none is privide a unique hash will be generated.
+    */
+    'id'?: string;
+    /**
+    * Optional label text
+    */
+    'label'?: string;
+    /**
+    * Type 'number specific. Maximum value for this component.
+    */
+    'max'?: number;
+    /**
+    * Type 'number specific. Minimum value for this component.
+    */
+    'min'?: number;
+    /**
+    * Event is being emitted when value changes.
+    */
+    'onValueChanged'?: (event: CustomEvent<string | number>) => void;
+    /**
+    * Optional placeholder text if input is empty.
+    */
+    'placeholder'?: string;
+    /**
+    * Type 'password' specific. Define, whether a switch should be visible, to show the password in plain text.
+    */
+    'showTogglePasswordVisibility'?: boolean;
+    /**
+    * Type 'number specific. Increment or decrement steps for the value.
+    */
+    'step'?: number;
+    /**
+    * Type of the input. Default 'text'
+    */
+    'type'?: string;
+    /**
+    * The initial value. Can be updated at runtime.
+    */
+    'value'?: string | number;
   }
   interface OgInternalCalendar extends JSXBase.HTMLAttributes<HTMLOgInternalCalendarElement> {
     'dateDecorator'?: OgDateDecorator;
@@ -1542,6 +1638,7 @@ declare namespace LocalJSX {
     'og-dialog': OgDialog;
     'og-expander': OgExpander;
     'og-form-item': OgFormItem;
+    'og-input': OgInput;
     'og-internal-calendar': OgInternalCalendar;
     'og-layout-child': OgLayoutChild;
     'og-layout-container': OgLayoutContainer;
