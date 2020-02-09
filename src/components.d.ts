@@ -499,51 +499,6 @@ export namespace Components {
     */
     'visible': boolean;
   }
-  interface OgNumberInput {
-    /**
-    * Determines, whether the control is disabled or not.
-    */
-    'disabled': boolean;
-    /**
-    * Maximum value for this component.
-    */
-    'max': number;
-    /**
-    * Minimum value for this component.
-    */
-    'min': number;
-    /**
-    * Optional placeholder text if input is empty.
-    */
-    'placeholder'?: string;
-    /**
-    * Increment or decrement steps for the value.
-    */
-    'step': number;
-    /**
-    * The initial value. Can be updated at runtime.
-    */
-    'value': number;
-  }
-  interface OgPasswordInput {
-    /**
-    * Determines, whether the control is disabled or not.
-    */
-    'disabled': boolean;
-    /**
-    * Optional placeholder text if input is empty.
-    */
-    'placeholder'?: string;
-    /**
-    * Define, whether a switch should be visible, to show the password in plain text.
-    */
-    'showTogglePasswordVisibility': boolean;
-    'togglePasswordVisibility': () => Promise<void>;
-    /**
-    * The initial value. Can be updated at runtime.
-    */
-    'value': string;
-  }
   interface OgRadioButton {
     /**
     * Determines, whether the radio button is checked or not
@@ -609,20 +564,6 @@ export namespace Components {
     */
     'grow': boolean;
     'openTab': (index: number) => Promise<HTMLElement>;
-  }
-  interface OgTextInput {
-    /**
-    * Determines, whether the control is disabled or not.
-    */
-    'disabled': boolean;
-    /**
-    * Optional placeholder text if input is empty.
-    */
-    'placeholder'?: string;
-    /**
-    * The initial value. Can be updated at runtime.
-    */
-    'value': string;
   }
   interface OgTextarea {
     /**
@@ -787,18 +728,6 @@ declare global {
     new (): HTMLOgMessageDialogElement;
   };
 
-  interface HTMLOgNumberInputElement extends Components.OgNumberInput, HTMLStencilElement {}
-  var HTMLOgNumberInputElement: {
-    prototype: HTMLOgNumberInputElement;
-    new (): HTMLOgNumberInputElement;
-  };
-
-  interface HTMLOgPasswordInputElement extends Components.OgPasswordInput, HTMLStencilElement {}
-  var HTMLOgPasswordInputElement: {
-    prototype: HTMLOgPasswordInputElement;
-    new (): HTMLOgPasswordInputElement;
-  };
-
   interface HTMLOgRadioButtonElement extends Components.OgRadioButton, HTMLStencilElement {}
   var HTMLOgRadioButtonElement: {
     prototype: HTMLOgRadioButtonElement;
@@ -821,12 +750,6 @@ declare global {
   var HTMLOgTabsElement: {
     prototype: HTMLOgTabsElement;
     new (): HTMLOgTabsElement;
-  };
-
-  interface HTMLOgTextInputElement extends Components.OgTextInput, HTMLStencilElement {}
-  var HTMLOgTextInputElement: {
-    prototype: HTMLOgTextInputElement;
-    new (): HTMLOgTextInputElement;
   };
 
   interface HTMLOgTextareaElement extends Components.OgTextarea, HTMLStencilElement {}
@@ -864,13 +787,10 @@ declare global {
     'og-list': HTMLOgListElement;
     'og-list-item': HTMLOgListItemElement;
     'og-message-dialog': HTMLOgMessageDialogElement;
-    'og-number-input': HTMLOgNumberInputElement;
-    'og-password-input': HTMLOgPasswordInputElement;
     'og-radio-button': HTMLOgRadioButtonElement;
     'og-radio-button-group': HTMLOgRadioButtonGroupElement;
     'og-tab': HTMLOgTabElement;
     'og-tabs': HTMLOgTabsElement;
-    'og-text-input': HTMLOgTextInputElement;
     'og-textarea': HTMLOgTextareaElement;
     'og-toggle-switch': HTMLOgToggleSwitchElement;
   }
@@ -1419,74 +1339,6 @@ declare namespace LocalJSX {
     */
     'visible'?: boolean;
   }
-  interface OgNumberInput extends JSXBase.HTMLAttributes<HTMLOgNumberInputElement> {
-    /**
-    * Determines, whether the control is disabled or not.
-    */
-    'disabled'?: boolean;
-    /**
-    * Maximum value for this component.
-    */
-    'max'?: number;
-    /**
-    * Minimum value for this component.
-    */
-    'min'?: number;
-    /**
-    * Event is being emitted when input gets focus..
-    */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when focus gets lost.
-    */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when value changes.
-    */
-    'onValueChanged'?: (event: CustomEvent<number>) => void;
-    /**
-    * Optional placeholder text if input is empty.
-    */
-    'placeholder'?: string;
-    /**
-    * Increment or decrement steps for the value.
-    */
-    'step'?: number;
-    /**
-    * The initial value. Can be updated at runtime.
-    */
-    'value'?: number;
-  }
-  interface OgPasswordInput extends JSXBase.HTMLAttributes<HTMLOgPasswordInputElement> {
-    /**
-    * Determines, whether the control is disabled or not.
-    */
-    'disabled'?: boolean;
-    /**
-    * Event is being emitted when input gets focus..
-    */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when focus gets lost.
-    */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when value changes.
-    */
-    'onValueChanged'?: (event: CustomEvent<string>) => void;
-    /**
-    * Optional placeholder text if input is empty.
-    */
-    'placeholder'?: string;
-    /**
-    * Define, whether a switch should be visible, to show the password in plain text.
-    */
-    'showTogglePasswordVisibility'?: boolean;
-    /**
-    * The initial value. Can be updated at runtime.
-    */
-    'value'?: string;
-  }
   interface OgRadioButton extends JSXBase.HTMLAttributes<HTMLOgRadioButtonElement> {
     /**
     * Determines, whether the radio button is checked or not
@@ -1558,32 +1410,6 @@ declare namespace LocalJSX {
     */
     'onTabSelected'?: (event: CustomEvent<number>) => void;
   }
-  interface OgTextInput extends JSXBase.HTMLAttributes<HTMLOgTextInputElement> {
-    /**
-    * Determines, whether the control is disabled or not.
-    */
-    'disabled'?: boolean;
-    /**
-    * Event is being emitted when input gets focus..
-    */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when focus gets lost.
-    */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
-    /**
-    * Event is being emitted when value changes.
-    */
-    'onValueChanged'?: (event: CustomEvent<string>) => void;
-    /**
-    * Optional placeholder text if input is empty.
-    */
-    'placeholder'?: string;
-    /**
-    * The initial value. Can be updated at runtime.
-    */
-    'value'?: string;
-  }
   interface OgTextarea extends JSXBase.HTMLAttributes<HTMLOgTextareaElement> {
     /**
     * Determines, whether the control is disabled or not.
@@ -1645,13 +1471,10 @@ declare namespace LocalJSX {
     'og-list': OgList;
     'og-list-item': OgListItem;
     'og-message-dialog': OgMessageDialog;
-    'og-number-input': OgNumberInput;
-    'og-password-input': OgPasswordInput;
     'og-radio-button': OgRadioButton;
     'og-radio-button-group': OgRadioButtonGroup;
     'og-tab': OgTab;
     'og-tabs': OgTabs;
-    'og-text-input': OgTextInput;
     'og-textarea': OgTextarea;
     'og-toggle-switch': OgToggleSwitch;
   }

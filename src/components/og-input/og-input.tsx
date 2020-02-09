@@ -133,7 +133,8 @@ export class OgInput {
         class={{
           "is-focused": this.isFocused,
           "is-disabled": this.disabled,
-          "has-content": this.value && this.value.toString().length > 0,
+          "has-content": (this.value && this.value.toString().length > 0)
+            || (this.placeholder && this.placeholder.length > 0),
             // && typeof this.value === 'number' ? this.value.toString().length > 0 : (this.value as string).length > 0,
         }}
       >

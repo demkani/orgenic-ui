@@ -1,0 +1,80 @@
+<!--
+og-form-item
+-->
+<og-card>
+    <og-card-header>Input</og-card-header>
+    <og-card-body>
+        <h5>Text Input</h5>
+        <p>Simple Text Input</p>
+        <og-input id="inputText"></og-input>
+        <p>Simple Text Input with Label</p>
+        <og-input label="Text Input"></og-input>
+        <p>Simple Text Input with Placeholder</p>
+        <og-input placeholder="Placeholder"></og-input>
+        <p>Simple Text Input with Label and Placeholder</p>
+        <og-input label="Text Input" placeholder="Placeholder"></og-input>
+        <p>Simple Text Input with a prefilled value</p>
+        <og-input label="Text Input" value="Some value"></og-input>
+        <p>Simple Text Input disabled</p>
+        <og-input label="Text Input" disabled ></og-input>
+        <p>Simple Text Input disabled with a value</p>
+        <og-input label="Text Input" disabled value="Some value"></og-input>
+        <hr>
+        <h5>Type Number</h5>
+        <p>Number Input</p>
+        <og-input type="number" id="inputNumber"></og-input>
+        <p>Number Input with Label</p>
+        <og-input type="number" label="Number Input"></og-input>
+        <p>Number Input with Placeholder</p>
+        <og-input type="number" placeholder="Placeholder"></og-input>
+        <p>Number Input with Label and  Placeholder</p>
+        <og-input type="number" label="Number Input" placeholder="Placeholder"></og-input>
+        <p>Number Input with a Value</p>
+        <og-input type="number" label="Number Input" value="123"></og-input>
+        <p>Number Input with min, max and step</p>
+        <og-input type="number" label="Number Input" min="5" max="30" step="5"></og-input>
+        <hr>
+        <h5>Type Password</h5>
+        <p>Password Input</p>
+        <og-input type="password" id="inputPassword"></og-input>
+        <p>Password Input with Label</p>
+        <og-input type="password" label="Password Input"></og-input>
+        <p>Password Input with a Value</p>
+        <og-input type="password" label="Password Input" value="123"></og-input>
+        <p>Password Input with a Toggler</p>
+        <og-input type="password" label="Password Input" show-toggle-password-visibility></og-input>
+        <hr>
+        <h5>Next to other elements</h5>
+        <og-layout-container>
+            <og-layout-child>
+                <og-combobox id="inputCombobox" label="Default Combobox" value="3"></og-combobox>
+            </og-layout-child>
+            <og-layout-child>
+                <og-input label="Text Input"></og-input>
+            </og-layout-child>
+            <og-layout-child>
+                <og-button label="Button"></og-button>
+            </og-layout-child>
+        </og-layout-container>
+    </og-card-body>
+</og-card>
+<script>
+    const fiComboboxValues = [
+        { label: 'Value 1', value: '1' },
+        { label: 'Value 2', value: '2' },
+        { label: 'Value 3', value: '3' },
+    ];
+
+    const fiCombobox = document.querySelector('#inputCombobox');
+    fiCombobox.items = fiComboboxValues;
+
+    const inputText = document.querySelector('#inputText');
+    inputText.addEventListener('valueChanged', e => console.log('Text Input value changed', e));
+
+    const inputNumber = document.querySelector('#inputNumber');
+    inputNumber.addEventListener('valueChanged', e => console.log('Number Input value changed', e));
+
+    const inputPassword = document.querySelector('#inputPassword');
+    inputPassword.addEventListener('valueChanged', e => console.log('Password Input value changed', e));
+
+</script>
