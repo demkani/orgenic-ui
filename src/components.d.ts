@@ -571,6 +571,18 @@ export namespace Components {
     */
     'disabled': boolean;
     /**
+    * Id of the control. If none is privide a unique hash will be generated.
+    */
+    'id': string;
+    /**
+    * Optional label text
+    */
+    'label'?: string;
+    /**
+    * Optional placeholder text if control is empty.
+    */
+    'placeholder'?: string;
+    /**
     * The initial value. Can be updated at runtime.
     */
     'value': string;
@@ -1416,17 +1428,21 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
-    * Event is being emitted when input gets focus.
+    * Id of the control. If none is privide a unique hash will be generated.
     */
-    'onFocusGained'?: (event: CustomEvent<FocusEvent>) => void;
+    'id'?: string;
     /**
-    * Event is being emitted when focus gets lost.
+    * Optional label text
     */
-    'onFocusLost'?: (event: CustomEvent<FocusEvent>) => void;
+    'label'?: string;
     /**
     * Event is being emitted when value changes.
     */
     'onValueChanged'?: (event: CustomEvent<string>) => void;
+    /**
+    * Optional placeholder text if control is empty.
+    */
+    'placeholder'?: string;
     /**
     * The initial value. Can be updated at runtime.
     */

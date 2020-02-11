@@ -4,14 +4,15 @@ og-textarea
 <og-card>
     <og-card-header>Textarea</og-card-header>
     <og-card-body>
-        <div>
-            <label for="textarea1">Default Textarea</label>
-            <og-textarea id="textarea1"></og-textarea>
-        </div>
+        <og-textarea id="textarea1"></og-textarea>
         <br>
-        <og-form-item label="Textarea with a label">
-            <og-textarea id="textarea2"></og-textarea>
-        </og-form-item>
+        <og-textarea id="textarea2" label="Textarea with a Label"></og-textarea>
+        <br>
+        <og-textarea id="textarea3" placeholder="Textarea with a Placeholder"></og-textarea>
+        <br>
+        <og-textarea id="textarea4" label="Textarea" placeholder="Textarea with a Label and a Placeholder"></og-textarea>
+        <br>
+        <og-textarea id="textarea4" disabled label="Textarea" placeholder="Textarea with a Label and a Placeholder"></og-textarea>
     </og-card-body>
 </og-card>
 <script>
